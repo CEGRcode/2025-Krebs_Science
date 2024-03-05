@@ -3,8 +3,8 @@
 #SBATCH --mem=14gb
 #SBATCH -t 01:00:00
 #SBATCH -A open
-#SBATCH -o logs/1_align_data.log.out
-#SBATCH -e logs/1_align_data.log.err
+#SBATCH -o logs/1_align_data.log.out-%a
+#SBATCH -e logs/1_align_data.log.err-%a
 #SBATCH --array 1-NSAMPLES
 
 # Script to align samples according to our Galaxy Workflow

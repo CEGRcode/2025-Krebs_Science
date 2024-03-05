@@ -3,8 +3,8 @@
 #SBATCH --mem=14gb
 #SBATCH -t 00:10:00
 #SBATCH -A open
-#SBATCH -o logs/3_normalize_samples.log.out
-#SBATCH -e logs/3_normalize_samples.log.err
+#SBATCH -o logs/3_normalize_samples.log.out-%a
+#SBATCH -e logs/3_normalize_samples.log.err-%a
 #SBATCH --array 1-NSAMPLES
 
 # Calculate normalization factors and get fragment distribution for every *.bam file in a directory
@@ -24,7 +24,7 @@ BAMDIR=$WRK/../data/BAM
 BEDDIR=$WRK/../data/BED
 NDIR=$WRK/../data/BAM/NormalizationFactors
 FDIR=$WRK/../data/BAM/FragmentDistributions
-BLACKLIST=$WRK/../data/GENOME/hg19_exclude.bed
+BLACKLIST=$WRK/../data/hg19_files/hg19_exclude.bed
 
 # Setup ScriptManager for job array
 ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.14.jar
