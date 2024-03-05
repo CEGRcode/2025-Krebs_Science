@@ -3,15 +3,15 @@
 #SBATCH --mem=14gb
 #SBATCH -t 20:00:00
 #SBATCH -A open
-#SBATCH -o logs/2_FIMO_Motifs_from_Genome.log.out
-#SBATCH -e logs/2_FIMO_Motifs_from_Genome.log.err
-#SBATCH --array 1-NSAMPLES
+#SBATCH -o logs/2_FIMO_Motifs_from_Genome.log.out-%a
+#SBATCH -e logs/2_FIMO_Motifs_from_Genome.log.err-%a
+#SBATCH --array 1-8
 
 # FIMO the reference genome for each motif in the PWM directory
 
 ### CHANGE ME
 EXCLUSION=100
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/02_Call_RefPT
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
 ###
 
 # Dependencies
@@ -35,8 +35,7 @@ cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 PWM=`ls PWM/*.meme.txt | head -n $SLURM_ARRAY_TASK_ID | tail -1`
 
 # Parse TF from PWM filename
-TF=$(basename "$PWM" .meme.txt)
-TF_DIR="$WRK/FIMO/$TF"
+TF=`basename $PWM ".meme.txt"`
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
@@ -46,16 +45,19 @@ TF_DIR="$WRK/FIMO/$TF"
 echo "($SLURM_ARRAY_TASK_ID) $TF"
 
 # Run FIMO to scan genome for motif occurrences
-fimo --verbosity 1 --thresh 1.0E-4 --oc "$TF_DIR" "$PWM" "$GENOME"
+# fimo --verbosity 1 --thresh 1.0E-4 --oc FIMO/$TF $PWM $GENOME
 
 # Extract motif-1 predictions using grep
-grep 'ID=1-MEME' "$TF_DIR/fimo.gff" > "$TF_DIR/fimo.$TF.motif1.unsorted.noproximity.unfiltered.gff"
+#ALIAS='ID=1-MEME'
+ALIAS='Alias=MEME-1;'
+[[ $TF == "scrambled"* ]] && ALIAS='Alias=MEME;'
+grep $ALIAS FIMO/$TF/fimo.gff > FIMO/$TF/fimo.$TF.motif1.unsorted.noproximity.unfiltered.gff
 
 # Convert GFF to BED format
-java -jar $SCRIPTMANAGER coordinate-manipulation gff-to-bed "FIMO/$TF/fimo.$TF.motif1.unsorted.noproximity.unfiltered.gff" -o FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation gff-to-bed FIMO/$TF/fimo.$TF.motif1.unsorted.noproximity.unfiltered.gff -o FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed
 
 # Filter out motifs that overlap with blacklist regions
-bedtools intersect -v -a FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed -b $BLACKLIST > FIMO/$TF/motif1_unsorted_noproximity.bed
+awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$1"_"$2"_"$3,$5,$6}' FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed | bedtools intersect -v -a - -b $BLACKLIST > FIMO/$TF/motif1_unsorted_noproximity.bed
 
 # Apply proximity filter
 java -jar $SCRIPTMANAGER peak-analysis filter-bed  FIMO/$TF/motif1_unsorted_noproximity.bed -o FIMO/$TF/motif1_unsorted

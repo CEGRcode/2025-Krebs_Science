@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Break NFIA sorted by nucleosome position into three parts
+# Break NFIA sorted by nucleosome position into UPSTREAM, OVERLAP, and DOWNSTREAM distance filter groups
 
 ### CHANGE ME
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/02_Call_RefPT
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
 ###
 
 # Dependencies
@@ -14,10 +14,13 @@ set -exo
 
 # Inputs and outputs
 MOTIF=$WRK/../data/RefPT-Motif
-BEDFILE="$MOTIF/1bp/NFIA_NucSort_1bp.bed"
+BEDFILE=$MOTIF/1bp/NFIA_NucSort_1bp.bed
+
+[ -d $MOTIF/100bp ] || mkdir $MOTIF/100bp
+[ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
 
 # Script shortcuts
-SCRIPTMANAGER="$WRK/bin/ScriptManager-v0.14.jar"
+SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.14.jar
 
 # Split by sorted distance
 awk '{

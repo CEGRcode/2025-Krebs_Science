@@ -3,7 +3,7 @@
 # Get TOP, MIDDLE, and BOTTOM thirds of CTCF sites by occupancy
 
 ### CHANGE ME
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/02_Call_RefPT
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
 ###
 
 set -exo

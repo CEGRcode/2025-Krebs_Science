@@ -3,15 +3,15 @@
 #SBATCH --mem=14gb
 #SBATCH -t 1:00:00
 #SBATCH -A open
-#SBATCH -o logs/3_Filter_and_Sort_by_occupancy.log.out
-#SBATCH -e logs/3_Filter_and_Sort_by_occupancy.log.err
-#SBATCH --array 1-NSAMPLES
+#SBATCH -o logs/3_Filter_and_Sort_by_occupancy.log.out-%a
+#SBATCH -e logs/3_Filter_and_Sort_by_occupancy.log.err-%a
+#SBATCH --array 1-8
 
 # Sort filtered Motif BED Files by the first BX rep1 BAM file occupancy for each TF target (skip scrambled)
 
 ### CHANGE ME
 WINDOW=100
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/02_Call_RefPT
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
 ###
 
 # Dependencies
@@ -22,6 +22,7 @@ WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/02_Call_RefPT
 set -exo
 module load anaconda3
 module load bedtools
+module load samtools
 source activate bx
 
 # Script shortcuts
@@ -35,7 +36,7 @@ MOTIF=$WRK/../data/RefPT-Motif
 
 # Parse TF from PWM filename
 PWM=`ls PWM/*.meme.txt | head -n $SLURM_ARRAY_TASK_ID | tail -1`;
-TF=$(basename "$PWM" .meme.txt)
+TF=`basename $PWM ".meme.txt"`
 
 # Skip if scrambled
 [[ $TF == "scrambled"* ]] && exit
@@ -60,7 +61,7 @@ java -jar $SCRIPTMANAGER coordinate-manipulation sort-bed -c $WINDOW FIMO/$TF/$T
 java -jar $SCRIPTMANAGER figure-generation heatmap --black -r 1 -l 2 -p .95 FIMO/$TF/$TF\_MOTIF1_sorted.cdt -o FIMO/$TF/$TF\_MOTIF1_sorted.png
 
 # Clean-up
-rm  FIMO/$TF/MOTIF1_unsorted_$WINDOW\bp_$BAM\_combined.cdt FIMO/$TF/$TF\_MOTIF1_unsorted_$WINDOW\bp.bed
+rm FIMO/$TF/$TF\_MOTIF1_unsorted_$WINDOW\bp_$BAM\_combined.cdt FIMO/$TF/$TF\_MOTIF1_unsorted_$WINDOW\bp.bed
 
 
 ## Calculate occupancy and sort by inflection point

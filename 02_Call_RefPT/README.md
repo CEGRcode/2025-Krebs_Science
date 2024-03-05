@@ -7,37 +7,37 @@ bash 1_Get_PWM.sh
 ```
 copies motif PWM files into the `PWM` directory with `<NAME>.meme.txt` format.
 
-### 2_FIMO_Motifs_from_Genome.pbs
-Call motifs (K562-BX and scrambled) in genome from PWM and get filtered bed coordinate. 
+### 2_FIMO_Motifs_from_Genome.sbatch
+Call motifs (K562-BX and scrambled) in genome from PWM and get blacklist filtered & exlusion zone filtered bed coordinates.
 ```
 # Update submission info (e.g. replace NSAMPLES with integer)
 sbatch 2_FIMO_Motifs_from_Genome.sbatch
 ```
-Generates filtered, BED-formatted motif files under `FIMO/<TF>_motif1_unsorted.bed` to be proccessed further (see `3_Filter_and_Sort_by_occupancy.sbatch` and `4_scrambled_top10K.sh`). 
 
 ### 3_Filter_and_Sort_by_occupancy.sbatch
-Filter motifs to include "bound" sets and sort by occupancy (K562-BX-rep1).
+Filter motifs to include "bound" sets and sort by occupancy (K562, BX).
 ```
 # Update submission info (e.g. replace NSAMPLES with integer)
-qsub 4_Filter_and_Sort_by_occupancy.pbs
+sbatch 3_Filter_and_Sort_by_occupancy.sbatch
 ```
-For every TF of interest, the above scripts should make
+For every TF of interest, the above script should make:
 ```
-../data/RefPT-Motif/<TF>_Occupancy.bed
-../data/RefPT-Motif/1000bp/<TF>_Occupancy_1000bp.bed
-../data/RefPT-Motif/1bp/<TF>_Occupancy_1bp.bed
+../data/RefPT-Motif/TF_Occupancy.bed
+../data/RefPT-Motif/1bp/TF_Occupancy_1bp.bed
+../data/RefPT-Motif/1000bp/TF_Occupancy_1000bp.bed
 ```
 
-### 4_scrambled_top10K.sh
-take top 10K scrambled sites based on fimo score
+### 4_scrambled_top10k.sbatch
+Filter scrambled motifs to keep top 10k motif matches based on MEME score (K562, BX).
 ```
-bash 4_scrambled_top10K.sh
+# Update submission info (e.g. replace NSAMPLES with integer)
+sh 4_scrambled_top10k.sh
 ```
-For each scrambled motif, the above scripts should make
-``` 
-../data/RefPT-Motif/1000bp/scrambled<TF>_top10K_1000bp.bed
-../data/RefPT-Motif/1bp/scrambled<TF>_top10K_1bp.bed
-../data/RefPT-Motif/scrambled<TF>_top10K.bed
+For every scrambledTF of interest, the above script should make:
+```
+../data/RefPT-Motif/scrambledTF_Occupancy.bed
+../data/RefPT-Motif/1bp/scrambledTF_Occupancy_1bp.bed
+../data/RefPT-Motif/1000bp/scrambledTF_Occupancy_1000bp.bed
 ```
 
 ### 5_WDR5TSS_sort.sh
@@ -46,7 +46,7 @@ specific cutouff for WDR5 binding motif or TSS
 # Update submission info (e.g. determine the location of tss_all_k562.bed from Core et all and WDR5_MOTIF1_sorted.bed)
 sh 5_WDR5TSS_sort.sh
 ```
-the above scripts should make
+The above script should make:
 ```
 ../data/BED/TSS95_WDR5_sort_1000bp.bed
 ../data/BED/TSS_WDR5_same_1000bp.bed
@@ -59,35 +59,37 @@ the above scripts should make
 ```
 
 ### 6_CTCF_ThirdsByOccupancy.sh
-break CTCF sites into 3 class based on occypancy level
+Split CTCF sites into thirds based on occupancy (TOP, MIDDLE, BOTTOM).
 ```
+# Update submission info (e.g. confirm location of CTCF_Occupancy_1000bp.bed )
 sh 6_CTCF_ThirdsByOccupancy.sh
 ```
-the above script should make thre new RefPTs
-``` 
+The above script should make:
+```
 ../data/RefPT-Motif/1000bp/CTCF_Occupancy_TOP_1000bp.bed
 ../data/RefPT-Motif/1000bp/CTCF_Occupancy_MIDDLE_1000bp.bed
 ../data/RefPT-Motif/1000bp/CTCF_Occupancy_BOTTOM_1000bp.bed
 ```
 
 ### 7_Motif_Sort_by_Nucleosome.sbatch
-Have all the RefPT_1bp.bed resorted by their distance to the nearest nucleosome
+For each `TF.meme.txt` in `PWM/`, make a RefPT file sorted by distance to closes Nucleosome coordinates (`../data/RefPT-Other/1bp/hg19_K562_Nucleosome_1bp_SORT-genomic_nostrand.bed`)
 ```
+# Update submission info (e.g. replace NSAMPLES with integer)
 sbatch 7_Motif_Sort_by_Nucleosome.sbatch
 ```
-For every TF of interest, the above scripts should make
+For every PWM, the above script should make:
 ```
-../data/RefPT-Motif/1bp/<TF>_NucSort_1bp.bed
-../data/RefPT-Motif/1000bp/<TF>_NucSort_1000bp.bed
+../data/RefPT-Motif/1bp/TF_NucSort_1bp.bed
+../data/RefPT-Motif/1000bp/TF_NucSort_1000bp.bed
 ```
 
 ### 8_NFIA_ThirdsByNucPosition.sh
-Break NFIA into 3 classes based on their relative location to neareast nucleosome
+Split Nucleosome distance-sorted NFIA motifs (`NFIA_NucSort_1bp.bed`) into three sections by how far upstream, downstream, or whether the nucleosome is overlapping the motif or not. (-73 <= overlap <= 73)
 ```
-# Update submission info (e.g. determin location of NFIA_Occupancy_1bp_Nuc_sort.bed)
-bash 8_NFIA_ThirdsByNucPosition.sh
+# Update submission info (e.g. confirm location of NFIA_NucSort_1bp.bed)
+sh 8_NFIA_ThirdsByNucPosition.sh
 ```
-For NFIA motif sites, the above scripts should make
+The above script should make:
 ```
 ../data/RefPT-Motif/1000bp/NFIA_NucSort-DOWNSTREAM_1000bp.bed
 ../data/RefPT-Motif/1000bp/NFIA_NucSort-OVERLAP_1000bp.bed
@@ -99,4 +101,3 @@ For NFIA motif sites, the above scripts should make
 ../data/RefPT-Motif/1bp/NFIA_NucSort-OVERLAP_1bp.bed
 ../data/RefPT-Motif/1bp/NFIA_NucSort-UPSTREAM_1bp.bed
 ```
-
