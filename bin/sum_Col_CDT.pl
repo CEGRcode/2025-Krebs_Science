@@ -20,7 +20,7 @@ while(<IN>) {
 	}
 	if($NCOL!=$#temparray){
 		print "Error!!! Inconsistent CDT window size\n";
-		print "(Num Columns=",$#temparray,")",join("\t",@temparray);
+		print "(Num Columns=",$#temparray,")\n",join("\t",@temparray),"\n";
 		exit;
 	}
 	for($x = 2; $x <= $#temparray; $x++) {
