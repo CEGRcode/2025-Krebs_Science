@@ -24,9 +24,13 @@ BLACKLIST=$WRK/../data/hg19_files/hg19_exclude.bed
 MOTIF=$WRK/../data/RefPT-Motif
 
 # find top 100 sites of WDR5_M1
-head -n 100 FIMO/WDR5/WDR5_MOTIF1_sorted.bed | awk '{OFS="\t"} {print $1,$2,$3,$1"_"$2"_"$3,$6,$7}' >  $MOTIF/WDR5_Occupancy.bed
-# expand 1bp and sort
+head -n 100 FIMO/WDR5/WDR5_MOTIF1_sorted.bed | awk '{OFS="\t"}{print $1,$2,$3,$1"_"$2"_"$3,$6,$7}' > $MOTIF/WDR5_Occupancy.bed
+
+# Expand 1000bp and 1bp
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $MOTIF/WDR5_Occupancy.bed -o $MOTIF/1bp/WDR5_Occupancy_1bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/WDR5_Occupancy.bed -o $MOTIF/1000bp/WDR5_Occupancy_1000bp.bed
+
+# Genomic sort for bedtools
 bedtools sort -i $MOTIF/1bp/WDR5_Occupancy_1bp.bed > $MOTIF/1bp/WDR5_Occupancy_1bp_sort.bed
 # find Annotated TSS or GRO-cap defined all TSS close to WDR5_M1 
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $WRK/data/RefPT-Other/tss_all_k562.bed -o $WRK/data/RefPT-Other/tss_all_k562_1bp.bed
@@ -38,7 +42,6 @@ bedtool sort -i $WRK/data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1bp.be
 rm $MOTIF/1bp/WDR5_Occupancy_1bp_sort.bed
 
 # expand all WDR5 and related TSS
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/WDR5_Occupancy.bed -o $MOTIF/1000bp/WDR5_Occupancy_1000bp.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 ../data/RefPT-Other/TSS94_WDR5_sort.bed -o ../data/RefPT-Other/TSS94_WDR5_sort_1000bp.bed
 
 # find WDR5 orientation
