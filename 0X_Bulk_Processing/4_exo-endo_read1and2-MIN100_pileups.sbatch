@@ -9,6 +9,7 @@
 
 # Pileup read1 and read2 (exo & endo cut sites) for custom combinations of BAM x BED files
 # that are filtered by fragment read size (>100bp). Just composites with scaling.
+# Read2 sense/anti flipped for plotting.
 
 ### CHANGE ME
 WRK=/path/to/2024-Chen_Nature/0X_Bulk_Processing
@@ -82,8 +83,10 @@ java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE --cpu 4 -5 -
 java -jar $SCRIPTMANAGER read-analysis scale-matrix $DIR/CDT/$BASE\_anti.cdt  -s $FACTOR -o $DIR/CDT/$BASE\_anti_Normalized.cdt
 java -jar $SCRIPTMANAGER read-analysis scale-matrix $DIR/CDT/$BASE\_sense.cdt -s $FACTOR -o $DIR/CDT/$BASE\_sense_Normalized.cdt
 
-# Make stranded composites
+# Make stranded composites (need to swap sense/anti labels for locus plotter if read2)
 perl $COMPOSITE $DIR/CDT/$BASE\_anti_Normalized.cdt $DIR/CDT/$BASE\_ANTI
 perl $COMPOSITE $DIR/CDT/$BASE\_sense_Normalized.cdt $DIR/CDT/$BASE\_SENSE
-cat $DIR/CDT/$BASE\_ANTI <(tail -1 $DIR/CDT/$BASE\_SENSE) > $DIR/Composites/$BASE\_Normalized.out
+head -1 $DIR/CDT/$BASE\_ANTI > $DIR/Composites/$BASE\_Normalized.out
+paste <(echo $BASE\_Normalized_sense_RESTRANDED.cdt ) <(tail -1 $DIR/CDT/$BASE\_ANTI | cut -f2-10010 ) >> $DIR/Composites/$BASE\_Normalized.out
+paste <(echo $BASE\_Normalized_anti_RESTRANDED.cdt ) <(tail -1 $DIR/CDT/$BASE\_SENSE | cut -f2-10010 ) >> $DIR/Composites/$BASE\_Normalized.out
 rm $DIR/CDT/$BASE\_SENSE $DIR/CDT/$BASE\_ANTI

@@ -12,6 +12,7 @@
 #  - data/BAM/K562_-_BI_rep1_hg19.bam
 #  - data/BAM/K562_H3K27ac_BX_rep1_hg19.bam
 #  - data/BAM/K562_H3K4me3_BX_rep1_hg19.bam
+# Read2 sense/anti flipped for plotting.
 
 ### CHANGE ME
 WRK=/path/to/2024-Chen_Nature/0X_Bulk_Processing
@@ -75,11 +76,12 @@ echo "Run Nucleosome endo cut sites (read2) pileup"
 BASE=$BAM\_$BED\_read2
 
 # Pileup (endo)
-java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE --cpu 4 -5 -a -o $DIR/Composites/$BASE.out
+java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE --cpu 4 -5 -2 -M $DIR/CDT/$BASE
 
-# Two-color heatmap
-java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --black $DIR/CDT/$BASE\_combined.cdt -o $DIR/PNG/$BASE\_combined_treeview.png
-
-# Label heatmap
-java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/$BASE\_combined_treeview.png \
-	-f 20 -l -500 -m 0 -r 500 -o $DIR/SVG/$BASE\_combined_treeview_label.svg
+# Make stranded composites (need to swap sense/anti labels for locus plotter if read2)
+perl $COMPOSITE $DIR/CDT/$BASE\_anti_Normalized.cdt $DIR/CDT/$BASE\_ANTI
+perl $COMPOSITE $DIR/CDT/$BASE\_sense_Normalized.cdt $DIR/CDT/$BASE\_SENSE
+head -1 $DIR/CDT/$BASE\_ANTI > $DIR/Composites/$BASE\_Normalized.out
+paste <(echo $BASE\_Normalized_sense_RESTRANDED.cdt ) <(tail -1 $DIR/CDT/$BASE\_ANTI | cut -f2-10010 ) >> $DIR/Composites/$BASE\_Normalized.out
+paste <(echo $BASE\_Normalized_anti_RESTRANDED.cdt ) <(tail -1 $DIR/CDT/$BASE\_SENSE | cut -f2-10010 ) >> $DIR/Composites/$BASE\_Normalized.out
+rm $DIR/CDT/$BASE\_SENSE $DIR/CDT/$BASE\_ANTI
