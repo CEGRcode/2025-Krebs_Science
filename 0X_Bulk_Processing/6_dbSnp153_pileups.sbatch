@@ -3,9 +3,9 @@
 #SBATCH --mem=14gb
 #SBATCH -t 02:00:00
 #SBATCH -A open
-#SBATCH -o logs/6_conservation_and_SNP_pileups.log.out-%a
-#SBATCH -e logs/6_conservation_and_SNP_pileups.log.err-%a
-#SBATCH --array 1-12
+#SBATCH -o logs/6_dbSnp153_pileups.log.out-%a
+#SBATCH -e logs/6_dbSnp153_pileups.log.err-%a
+#SBATCH --array 1-17
 
 # Pileup read1 and read2 (exo & endo cut sites) for custom combinations of BAM x BED files
 # that are filtered by fragment read size (>100bp). Just composites with scaling.
@@ -61,6 +61,12 @@ BED_LIST=(
 	"$MOTIF/scrambledCTCF_NucSort_1000bp.bed"
 	"$MOTIF/scrambledNFIA_NucSort_1000bp.bed"
 	"$MOTIF/scrambledWDR5_NucSort_1000bp.bed"
+	"$MOTIF/CTCF_Occupancy-TOP_1000bp.bed"
+	"$MOTIF/CTCF_Occupancy-MIDDLE_1000bp.bed"
+	"$MOTIF/CTCF_Occupancy-BOTTOM_1000bp.bed"
+	"$MOTIF/NFIA_NucSort-DOWNSTREAM_1000bp.bed"
+	"$MOTIF/NFIA_NucSort-OVERLAP_1000bp.bed"
+	"$MOTIF/NFIA_NucSort-UPSTREAM_1000bp.bed"
 	"$MOTIF/NFIA_Occupancy-TOP_1000bp.bed"
 	"$MOTIF/NFIA_Occupancy-MIDDLE_1000bp.bed"
 	"$MOTIF/NFIA_Occupancy-BOTTOM_1000bp.bed"
@@ -70,13 +76,16 @@ BED_LIST=(
 INDEX=$(($SLURM_ARRAY_TASK_ID-1))
 BEDFILE=${BED_LIST[$INDEX]}
 BED=`basename $BEDFILE ".bed"`
-[ $OUTDIR/$BED/CDT ] || mkdir -p $OUTDIR/$BED/CDT
 
+[ -d $OUTDIR/$BED ] || mkdir $OUTDIR/$BED
+[ -d $OUTDIR/$BED/CDT ] || mkdir $OUTDIR/$BED/CDT
+[ -d $OUTDIR/$BED/Composites ] || mkdir $OUTDIR/$BED/Composites
+[ -d $OUTDIR/$BED/PNG/Strand ] || mkdir -p $OUTDIR/$BED/PNG/Strand
+[ -d $OUTDIR/$BED/SVG ] || mkdir $OUTDIR/$BED/SVG
 
 # Pileup SNPs
 #for DBSNP in "$CDIR/mini/dbSnp153_delins.bed" "$CDIR/mini/dbSnp153_ins.bed" "$CDIR/mini/dbSnp153_mnv.bed" "$CDIR/mini/dbSnp153_refA.bed" "$CDIR/mini/dbSnp153_refC.bed" "$CDIR/mini/dbSnp153_refG.bed" "$CDIR/mini/dbSnp153_refT.bed" "$CDIR/mini/dbSnp153_snv_alt-A.bed" "$CDIR/mini/dbSnp153_snv_alt-C.bed" "$CDIR/mini/dbSnp153_snv_alt-G.bed" "$CDIR/mini/dbSnp153_snv_alt-T.bed" "$CDIR/mini/dbSnp153_snv_type-commonAll.bed" "$CDIR/mini/dbSnp153_snv_type-commonSome.bed" "$CDIR/mini/dbSnp153_snv_type-diffMajor.bed" "$CDIR/mini/dbSnp153_snv_type-overlapDiffClass.bed" "$CDIR/mini/dbSnp153_snv_type-overlapSameClass.bed" "$CDIR/mini/dbSnp153_snv_type-rareAll.bed" "$CDIR/mini/dbSnp153_snv_type-rareSome.bed" "$CDIR/mini/dbSnp153_snv_type-rareAll.bed" "$CDIR/mini/dbSnp153_snv_type-refIsMinor.bed" "$CDIR/mini/dbSnp153_snv_type-refIsRare.bed" "$CDIR/mini/dbSnp153_snv_type-revStrand" "$CDIR/mini/dbSnp153_snv_type-clinvar";
-
-for DBSNP in $CDIR/mini/dbSnp153_snv_*.bw;
+for DBSNP in $CDIR/dbSnp153_snv*.bw;
 do
 	SNP=`basename $DBSNP ".bw"`
 	[[ "$SNP" == "dbSnp153" ]] && continue
@@ -84,14 +93,16 @@ do
 	echo $BED x $SNP
 
 	python $PILEUPBW -i $DBSNP -r $BEDFILE -o $OUTDIR/$BED/CDT/$SNP\_$BED.cdt
-	python $SPILEUPBW -i $DBSNP -r $BEDFILE -o $OUTDIR/$BED/CDT/$SNP\_$BED
 	perl $COMPOSITE $OUTDIR/$BED/CDT/$SNP\_$BED.cdt $OUTDIR/$BED/Composites/$SNP\_$BED.out
-	gzip $OUTDIR/$BED/CDT/$SNP\_$BED.cdt
+	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED.cdt.gz
 
 	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/$SNP\_$BED.cdt.gz -o $OUTDIR/$BED/PNG/$SNP\_$BED.png
 	java -jar $SCRIPTMANAGER figure-generation label-heatmap $OUTDIR/$BED/PNG/$SNP\_$BED.png \
 		-f 20 -l -500 -m 0 -r 500 -o $OUTDIR/$BED/SVG/$SNP\_$BED.svg
 
+	python $SPILEUPBW -i $DBSNP -r $BEDFILE -o $OUTDIR/$BED/CDT/$SNP\_$BED
+	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED\_same.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED\_same.cdt.gz
+	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED\_opposite.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED\_opposite.cdt.gz
 done
 
 # Merge alt with strand correction

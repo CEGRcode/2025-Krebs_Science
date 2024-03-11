@@ -3,9 +3,9 @@
 #SBATCH --mem=14gb
 #SBATCH -t 02:00:00
 #SBATCH -A open
-#SBATCH -o logs/6_conservation_and_SNP_pileups.log.out-%a
-#SBATCH -e logs/6_conservation_and_SNP_pileups.log.err-%a
-#SBATCH --array 1-12
+#SBATCH -o logs/5_Conservation-phylo_pileups.log.out-%a
+#SBATCH -e logs/5_Conservation-phylo_pileups.log.err-%a
+#SBATCH --array 1-17
 
 # Pileup read1 and read2 (exo & endo cut sites) for custom combinations of BAM x BED files
 # that are filtered by fragment read size (>100bp). Just composites with scaling.
@@ -57,6 +57,12 @@ BED_LIST=(
 	"$MOTIF/scrambledCTCF_NucSort_1000bp.bed"
 	"$MOTIF/scrambledNFIA_NucSort_1000bp.bed"
 	"$MOTIF/scrambledWDR5_NucSort_1000bp.bed"
+	"$MOTIF/CTCF_Occupancy-TOP_1000bp.bed"
+	"$MOTIF/CTCF_Occupancy-MIDDLE_1000bp.bed"
+	"$MOTIF/CTCF_Occupancy-BOTTOM_1000bp.bed"
+	"$MOTIF/NFIA_NucSort-DOWNSTREAM_1000bp.bed"
+	"$MOTIF/NFIA_NucSort-OVERLAP_1000bp.bed"
+	"$MOTIF/NFIA_NucSort-UPSTREAM_1000bp.bed"
 	"$MOTIF/NFIA_Occupancy-TOP_1000bp.bed"
 	"$MOTIF/NFIA_Occupancy-MIDDLE_1000bp.bed"
 	"$MOTIF/NFIA_Occupancy-BOTTOM_1000bp.bed"
@@ -66,7 +72,12 @@ BED_LIST=(
 INDEX=$(($SLURM_ARRAY_TASK_ID-1))
 BEDFILE=${BED_LIST[$INDEX]}
 BED=`basename $BEDFILE ".bed"`
-[ $OUTDIR/$BED/CDT ] || mkdir -p $OUTDIR/$BED/CDT
+
+[ -d $OUTDIR/$BED ] || mkdir $OUTDIR/$BED
+[ -d $OUTDIR/$BED/CDT ] || mkdir $OUTDIR/$BED/CDT
+[ -d $OUTDIR/$BED/Composites ] || mkdir $OUTDIR/$BED/Composites
+[ -d $OUTDIR/$BED/PNG ] || mkdir $OUTDIR/$BED/PNG
+[ -d $OUTDIR/$BED/SVG ] || mkdir $OUTDIR/$BED/SVG
 
 # Pileup conservation scores
 for CONSERVATION in "$CDIR/placentalMammals.phyloP46way.bw" "$CDIR/primates.phyloP46way.bw" "$CDIR/vertebrate.phyloP46way.bw";
@@ -76,14 +87,15 @@ do
 	echo $BED x $CONS
 
 	# Pileup BigWig
-	python $PILEUPBW -i $CONSERVATION -r $BEDFILE -o $OUTDIR/$BED/CDT/Conservation_$CONS\_$BED.cdt
-
+	python $PILEUPBW -i $CONSERVATION -r $BEDFILE -o $OUTDIR/$BED/CDT/$CONS\_$BED.cdt
 	# Make composite
-	perl $COMPOSITE $OUTDIR/$BED/CDT/Conservation_$CONS\_$BED.cdt $OUTDIR/$BED/Composites/Conservation_$CONS\_$BED.out
+	perl $COMPOSITE $OUTDIR/$BED/CDT/$CONS\_$BED.cdt $OUTDIR/$BED/Composites/$CONS\_$BED.out
+	# Clean-up
+	gzip -c $OUTDIR/$BED/CDT/$CONS\_$BED.cdt > $OUTDIR/$BED/CDT/$CONS\_$BED.cdt.gz
 
 	# Two-color heatmap
-	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/Conservation_$CONS\_$BED.cdt.gz -o $OUTDIR/$BED/PNG/Conservation_$CONS\_$BED.png
-	java -jar $SCRIPTMANAGER figure-generation label-heatmap $OUTDIR/$BED/PNG/Conservation_$CONS\_$BED.png \
-		-f 20 -l -500 -m 0 -r 500 -o $OUTDIR/$BED/SVG/Conservation_$CONS\_$BED.svg
+	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/$CONS\_$BED.cdt.gz -o $OUTDIR/$BED/PNG/$CONS\_$BED.png
+	java -jar $SCRIPTMANAGER figure-generation label-heatmap $OUTDIR/$BED/PNG/$CONS\_$BED.png \
+		-f 20 -l -500 -m 0 -r 500 -o $OUTDIR/$BED/SVG/$CONS\_$BED.svg
 done
 
