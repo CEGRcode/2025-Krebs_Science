@@ -13,6 +13,7 @@
 ../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-UPSTREAM_1000bp.bed
 ../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
 ../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledNFIA_NucSort_1000bp.bed
+../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-BOTTOM_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-MIDDLE_1000bp.bed
@@ -28,6 +29,7 @@
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-UPSTREAM_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledNFIA_NucSort_1000bp.bed
+../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-BOTTOM_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-MIDDLE_1000bp.bed
@@ -43,7 +45,4 @@
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-UPSTREAM_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledNFIA_NucSort_1000bp.bed
-
-../data/RefPT-Other/TSS94_WDR5_sort_1000bp.bed
-../data/RefPT-Other/TSS_WDR5_same_1000bp.bed
-../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
+../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed

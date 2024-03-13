@@ -5,7 +5,7 @@
 #PBS -A open
 #PBS -o logs/4_exo-endo_read1and2-MIN100_pileups.log.out-%a
 #PBS -e logs/4_exo-endo_read1and2-MIN100_pileups.log.err-%a
-#PBS -t 1-20
+#PBS -t 1-22
 
 # Pileup read1 and read2 (exo & endo cut sites) for custom combinations of BAM x BED files
 # that are filtered by fragment read size (>100bp). Just composites with scaling.

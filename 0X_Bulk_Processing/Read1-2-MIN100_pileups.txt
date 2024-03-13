@@ -18,3 +18,5 @@
 ../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-MIDDLE_1000bp.bed
 ../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-BOTTOM_1000bp.bed
 ../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
+../data/BAM/K562_RAD21_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
+../data/BAM/K562_SMC3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
