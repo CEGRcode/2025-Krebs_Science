@@ -75,6 +75,7 @@ do
 
     # Add SVG label
     java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/FourColor/$BED\_32bp_RESIZE.png -o $DIR/FourColor/$BED\_32bp.svg \
-        -x $BED -l "-15" -m "0" -r "+15" \
-        -y "$BED Motif occurences (${NSITES} sites)"
+        -l "-15" -m "0" -r "+15" -w 1 -f 20 \
+        -x $BED -y "$BED Motif occurences (${NSITES} sites)"
+
 done

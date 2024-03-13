@@ -77,6 +77,9 @@ INDEX=$(($SLURM_ARRAY_TASK_ID-1))
 BEDFILE=${BED_LIST[$INDEX]}
 BED=`basename $BEDFILE ".bed"`
 
+# Count sites
+NSITES=`wc -l $BEDFILE | awk '{print $1-1}'`
+
 [ -d $OUTDIR/$BED ] || mkdir $OUTDIR/$BED
 [ -d $OUTDIR/$BED/CDT ] || mkdir $OUTDIR/$BED/CDT
 [ -d $OUTDIR/$BED/Composites ] || mkdir $OUTDIR/$BED/Composites
@@ -96,9 +99,13 @@ do
 	perl $COMPOSITE $OUTDIR/$BED/CDT/$SNP\_$BED.cdt $OUTDIR/$BED/Composites/$SNP\_$BED.out
 	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED.cdt.gz
 
+
+	# Two-color heatmap
 	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/$SNP\_$BED.cdt.gz -o $OUTDIR/$BED/PNG/$SNP\_$BED.png
 	java -jar $SCRIPTMANAGER figure-generation label-heatmap $OUTDIR/$BED/PNG/$SNP\_$BED.png \
-		-f 20 -l -500 -m 0 -r 500 -o $OUTDIR/$BED/SVG/$SNP\_$BED.svg
+		-l "-500" -m "0" -r "+500" -w 1 -f 20 \
+		-x $BED -y "$BED occurences (${NSITES} sites)" \
+		-o $OUTDIR/$BED/SVG/$SNP\_$BED.svg
 
 	python $SPILEUPBW -i $DBSNP -r $BEDFILE -o $OUTDIR/$BED/CDT/$SNP\_$BED
 	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED\_same.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED\_same.cdt.gz
@@ -122,7 +129,9 @@ do
 	BASE=`basename $CDT ".cdt"`
 	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $CDT -o $OUTDIR/$BED/PNG/$BASE.png
 	java -jar $SCRIPTMANAGER figure-generation label-heatmap $OUTDIR/$BED/PNG/$BASE.png \
-		-f 20 -l -500 -m 0 -r 500 -o $OUTDIR/$BED/SVG/$BASE.svg
+		-l "-500" -m "0" -r "+500" -w 1 -f 20 \
+		-x $BED -y "$BED occurences (${NSITES} sites)" \
+		-o $OUTDIR/$BED/SVG/$BASE.svg
 done
 
 perl $COMPOSITE $OUTDIR/$BED/CDT/dbSnp153_snv_alt-A_$BED\_merged.cdt $OUTDIR/$BED/Composites/dbSnp153_snv_alt-A_$BED\_merged.out

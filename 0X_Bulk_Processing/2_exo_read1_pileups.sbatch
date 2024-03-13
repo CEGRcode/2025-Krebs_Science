@@ -79,8 +79,9 @@ NSITES=`wc -l $BEDFILE | awk '{print $1-1}'`
 
 # Label heatmap
 java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/$BASE\_Normalized_merge.png \
-	-f 20 -l -500 -m 0 -r 500 -o $DIR/SVG/$BASE\_Normalized_merge_label.svg \
-	-y "$BED occurences (${NSITES} sites)"
+	-l "-500" -m "0" -r "+500" -w 1 -f 20 \
+	-x $BED -y "$BED occurences (${NSITES} sites)" \
+	-o $DIR/SVG/$BASE\_Normalized_merge_label.svg
 
 # Make stranded composites
 perl $COMPOSITE $DIR/CDT/$BASE\_anti_Normalized.cdt $DIR/CDT/$BASE\_ANTI

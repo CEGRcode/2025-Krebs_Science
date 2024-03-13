@@ -68,9 +68,14 @@ java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE --cpu 4 -m -
 # Two-color heatmap
 java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --black $DIR/CDT/$BASE\_combined.cdt -o $DIR/PNG/$BASE\_combined_treeview.png
 
+# Count sites
+NSITES=`wc -l $BEDFILE | awk '{print $1-1}'`
+
 # Label heatmap
 java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/$BASE\_combined_treeview.png \
-	-f 20 -l -500 -m 0 -r 500 -o $DIR/SVG/$BASE\_combined_treeview_label.svg
+	-l "-500" -m "0" -r "+500" -w 1 -f 20 \
+	-x $BED -y "$BED occurences (${NSITES} sites)" \
+	-o $DIR/SVG/$BASE\_combined_treeview_label.svg
 
 echo "Run Nucleosome endo cut sites (read2) pileup"
 BASE=$BAM\_$BED\_read2
