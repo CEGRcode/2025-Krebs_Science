@@ -90,14 +90,12 @@ do
 	python $PILEUPBW -i $CONSERVATION -r $BEDFILE -o $OUTDIR/$BED/CDT/$CONS\_$BED.cdt
 	# Make composite
 	perl $COMPOSITE $OUTDIR/$BED/CDT/$CONS\_$BED.cdt $OUTDIR/$BED/Composites/$CONS\_$BED.out
-	# Clean-up
-	gzip -c $OUTDIR/$BED/CDT/$CONS\_$BED.cdt > $OUTDIR/$BED/CDT/$CONS\_$BED.cdt.gz
 
 	# Count sites
 	NSITES=`wc -l $BEDFILE | awk '{print $1-1}'`
 
 	# Two-color heatmap
-	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/$CONS\_$BED.cdt.gz -o $OUTDIR/$BED/PNG/$CONS\_$BED.png
+	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/$CONS\_$BED.cdt -o $OUTDIR/$BED/PNG/$CONS\_$BED.png
 	java -jar $SCRIPTMANAGER figure-generation label-heatmap $OUTDIR/$BED/PNG/$CONS\_$BED.png \
 		-l "-500" -m "0" -r "+500" -w 1 -f 20 \
 		-x $BED -y "$BED occurences (${NSITES} sites)" \

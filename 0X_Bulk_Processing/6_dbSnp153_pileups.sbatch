@@ -97,19 +97,15 @@ do
 
 	python $PILEUPBW -i $DBSNP -r $BEDFILE -o $OUTDIR/$BED/CDT/$SNP\_$BED.cdt
 	perl $COMPOSITE $OUTDIR/$BED/CDT/$SNP\_$BED.cdt $OUTDIR/$BED/Composites/$SNP\_$BED.out
-	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED.cdt.gz
-
 
 	# Two-color heatmap
-	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/$SNP\_$BED.cdt.gz -o $OUTDIR/$BED/PNG/$SNP\_$BED.png
+	java -jar $SCRIPTMANAGER figure-generation heatmap -p 0.95 --black $OUTDIR/$BED/CDT/$SNP\_$BED.cdt -o $OUTDIR/$BED/PNG/$SNP\_$BED.png
 	java -jar $SCRIPTMANAGER figure-generation label-heatmap $OUTDIR/$BED/PNG/$SNP\_$BED.png \
 		-l "-500" -m "0" -r "+500" -w 1 -f 20 \
 		-x $BED -y "$BED occurences (${NSITES} sites)" \
 		-o $OUTDIR/$BED/SVG/$SNP\_$BED.svg
 
 	python $SPILEUPBW -i $DBSNP -r $BEDFILE -o $OUTDIR/$BED/CDT/$SNP\_$BED
-	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED\_same.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED\_same.cdt.gz
-	gzip -c $OUTDIR/$BED/CDT/$SNP\_$BED\_opposite.cdt > $OUTDIR/$BED/CDT/$SNP\_$BED\_opposite.cdt.gz
 done
 
 # Merge alt with strand correction
