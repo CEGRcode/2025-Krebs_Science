@@ -64,18 +64,24 @@ do
     [ -d $DIR ] || mkdir $DIR
     [ -d $DIR/FourColor ] || mkdir $DIR/FourColor
 
-    # Expand, extract, and generate four-color plot
+    # Expand 32bp
     java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 32 $BEDFILE -o $DIR/FourColor/$BED\_32bp.bed
-    java -jar $SCRIPTMANAGER sequence-analysis fasta-extract $GENOME $DIR/FourColor/$BED\_32bp.bed -o $DIR/FourColor/$BED\_32bp.fa
-    java -jar $SCRIPTMANAGER figure-generation four-color $DIR/FourColor/$BED\_32bp.fa -o $DIR/FourColor/$BED\_32bp.png
-    python $RESIZE -r 600 -c 200 -i $DIR/FourColor/$BED\_32bp.png -o $DIR/FourColor/$BED\_32bp_RESIZE.png
+    # Take off 1bp (since all motifs are odd-lengthed, we can take 1bp off to center 0bp label on motif center)
+    awk '{OFS="\t"}{if($6=="-") print $1,$2+1,$3,$4,$5,$6; else print $1,$2,$3-1,$4,$5,$6}' $DIR/FourColor/$BED\_32bp.bed > $DIR/FourColor/$BED\_31bp.bed
+    # Extract sequence
+    java -jar $SCRIPTMANAGER sequence-analysis fasta-extract $GENOME $DIR/FourColor/$BED\_31bp.bed -o $DIR/FourColor/$BED\_31bp.fa
+    # Generate four-color plot from sequence
+    java -jar $SCRIPTMANAGER figure-generation four-color $DIR/FourColor/$BED\_31bp.fa -o $DIR/FourColor/$BED\_31bp.png
+    # Resize PNG to standard px dimensions
+    python $RESIZE -r 600 -c 200 -i $DIR/FourColor/$BED\_31bp.png -o $DIR/FourColor/$BED\_31bp_RESIZE.png
 
     # Count sites
     NSITES=`wc -l $BEDFILE | awk '{print $1}'`
 
     # Add SVG label
-    java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/FourColor/$BED\_32bp_RESIZE.png -o $DIR/FourColor/$BED\_32bp.svg \
+    java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/FourColor/$BED\_31bp_RESIZE.png \
         -l "-15" -m "0" -r "+15" -w 1 -f 20 \
-        -x $BED -y "$BED Motif occurences (${NSITES} sites)"
+        -x $BED -y "$BED Motif occurences (${NSITES} sites)" \
+        -o $DIR/FourColor/$BED\_31bp.svg
 
 done
