@@ -98,3 +98,4 @@
 ../data/BAM/K562_WDR5_BX_rep2_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
 ../data/BAM/K562_Pol2_BX_rep1_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
 ../data/BAM/K562_Pol2_BX_rep2_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
+../data/BAM/K562_IgG_BX_merge_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed

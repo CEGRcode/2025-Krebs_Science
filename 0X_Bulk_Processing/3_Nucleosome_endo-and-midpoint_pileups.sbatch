@@ -87,8 +87,8 @@ BASE=$BAM\_$BED\_read2
 java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE --cpu 4 -5 -2 -M $DIR/CDT/$BASE
 
 # Make stranded composites (need to swap sense/anti labels for locus plotter if read2)
-perl $COMPOSITE $DIR/CDT/$BASE\_anti_Normalized.cdt $DIR/CDT/$BASE\_ANTI
-perl $COMPOSITE $DIR/CDT/$BASE\_sense_Normalized.cdt $DIR/CDT/$BASE\_SENSE
+perl $COMPOSITE $DIR/CDT/$BASE\_anti.cdt $DIR/CDT/$BASE\_ANTI
+perl $COMPOSITE $DIR/CDT/$BASE\_sense.cdt $DIR/CDT/$BASE\_SENSE
 head -1 $DIR/CDT/$BASE\_ANTI > $DIR/Composites/$BASE.out
 paste <(echo $BASE\_sense_RESTRANDED.cdt ) <(tail -1 $DIR/CDT/$BASE\_ANTI | cut -f2-10010 ) >> $DIR/Composites/$BASE.out
 paste <(echo $BASE\_anti_RESTRANDED.cdt ) <(tail -1 $DIR/CDT/$BASE\_SENSE | cut -f2-10010 ) >> $DIR/Composites/$BASE.out

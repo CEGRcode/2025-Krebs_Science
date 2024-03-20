@@ -59,4 +59,4 @@ cp GROcap_DistWDR5_Filter-closest.bed $OTHER/TSS_DistWDR5.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $OTHER/TSS_DistWDR5.bed -o $OTHER/TSS_DistWDR5_1000bp.bed
 
 # Make same-strand filtered TSS RefPTs
-awk '{OFS="\t"}{if ($6 == $12) print $1,$2,$3,$4,$5,$6}' $OTHER/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
+awk '{OFS="\t"}{if ($6 == $12) print $1,$2,$3,$4,$5,$6}' $OTHER/TSS_DistWDR5_1000bp.bed > $OTHER/TSS_DistWDR5_Filter-SameStrand_1000bp.bed

@@ -42,6 +42,9 @@ bedtools sort -i $OTHER/TSS_DistWDR5.bed | awk '{OFS="\t"}{FS="\t"}{print $1,$2,
 
 # Get closest downstream RefSeq annotation gene id (no more than 500bp downstream)
 bedtools closest -a TSS.bed -b RefSeq.bed -iu -d -D a -t first \
-	| awk '{OFS="\t"}{FS="\t"}{if($13>-500 && $13<500) print $10}' \
+	| awk '{OFS="\t"}{FS="\t"}{if($13>-500 && $13<500) print}' \
 	> Genes.bed
-paste <(awk -F"\"" '{print $2}' Genes.bed) Genes.bed | sort -k1,1 > Genes.txt
+paste <(awk -F"\"" '{print $2}' Genes.bed) Genes.bed | sort -k1,1 > S3/b/Genes.txt
+
+# Clean-up
+rm Genes.bed TSS.bed RefSeq.bed

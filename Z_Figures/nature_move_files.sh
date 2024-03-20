@@ -109,11 +109,11 @@ cp $LIBRARY/WebLogos/WDR5_logo.eps F4/a/
 # make bar plots
 
 [ -d F4/c ] || mkdir F4/c
-# cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_PolII_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out F4/c/1_K562_PolII_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out
-# cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_RBBP5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out F4/c/2_K562_RBBP5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out
-# cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_WDR5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out F4/c/3_K562_WDR5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out
+cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_Pol2_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out F4/c/1_K562_Pol2_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out
+cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_RBBP5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out F4/c/2_K562_RBBP5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out
+cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_WDR5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out F4/c/3_K562_WDR5_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out
 # cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_IgG_BX_merge_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out F4/c/4_K562_IgG_BX_merge_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_read1.out
-# cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_H3K4me3_BX_merge_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_midpoint.out F4/c/5_K562_H3K4me3_BX_merge_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_midpoint.out
+cp $LIBRARY/TSS_DistWDR5_Filter-SameStrand_1000bp/Composites/K562_H3K4me3_BX_rep1_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_midpoint.out F4/c/5_K562_H3K4me3_BX_repq_hg19_TSS_DistWDR5_Filter-SameStrand_1000bp_midpoint.out
 
 [ -d F4/d ] || mkdir F4/d
 cp $LIBRARY/WDR5_Occupancy_1000bp/Composites/K562_-_BI_rep1_hg19_WDR5_Occupancy_1000bp_read2.out F4/d/1_K562_-_BI_rep1_hg19_WDR5_Occupancy_1000bp_read2.out
@@ -237,10 +237,10 @@ cp $LIBRARY/scrambledCTCF_NucSort_1000bp/Composites/K562_-_BI_rep1_hg19_scramble
 [ -d S3 ] || mkdir S3
 
 [ -d S3/a ] || mkdir S3/a
-cp $LIBRARY/WDR5_NucSort_1000bp/FourColor/WDR5_NucSort_1000bp_31bp.svg S3/a/
-cp $LIBRARY/WDR5_NucSort_1000bp/SVG/K562_WDR5_BX_rep1_hg19_WDR5_NucSort_1000bp_read1_Normalized_merge_label.svg S3/a/
-cp $LIBRARY/WDR5_NucSort_1000bp/SVG/K562_RBBP5_BX_rep1_hg19_WDR5_NucSort_1000bp_read1_Normalized_merge_label.svg S3/a/
-cp $LIBRARY/WDR5_NucSort_1000bp/SVG/K562_IgG_BX_merge_hg19_WDR5_NucSort_1000bp_read1_Normalized_merge_label.svg S3/a/
+cp $LIBRARY/WDR5_Occupancy_1000bp/FourColor/WDR5_Occupancy_1000bp_31bp.svg S3/a/
+cp $LIBRARY/WDR5_Occupancy_1000bp/SVG/K562_WDR5_BX_rep1_hg19_WDR5_Occupancy_1000bp_read1_Normalized_merge_label.svg S3/a/
+cp $LIBRARY/WDR5_Occupancy_1000bp/SVG/K562_RBBP5_BX_rep1_hg19_WDR5_Occupancy_1000bp_read1_Normalized_merge_label.svg S3/a/
+cp $LIBRARY/WDR5_Occupancy_1000bp/SVG/K562_IgG_BX_merge_hg19_WDR5_Occupancy_1000bp_read1_Normalized_merge_label.svg S3/a/
 
 
 [ -d S3/b ] || mkdir S3/b
@@ -254,21 +254,20 @@ cp $LIBRARY/WDR5_Occupancy_1000bp/Composites/dbSnp153_snv_WDR5_Occupancy_1000bp.
 
 # ===============================================================================================================================
 
-[ -d S5 ] || mkdir S5
+[ -d S4 ] || mkdir S4
 
-[ -d S5/a ] || mkdir S5/a
-cp $LIBRARY/WebLogos/GABPA_logo.eps S5/a/
+[ -d S4/a ] || mkdir S4/a
+cp $LIBRARY/WebLogos/GABPA_logo.eps S4/a/
 
-[ -d S5/b ] || mkdir S5/b/
-cp $LIBRARY/GABPA_Occupancy_1000bp/FourColor/GABPA_Occupancy_1000bp_31bp.svg S5/b/
-cp $LIBRARY/GABPA_Occupancy_1000bp/SVG/K562_GABPA_BX_rep1_hg19_GABPA_Occupancy_1000bp_read1_Normalized_merge_label.svg S5/b/
-cp $LIBRARY/GABPA_Occupancy_1000bp/SVG/K562_IgG_BX_merge_hg19_GABPA_Occupancy_1000bp_read1_Normalized_merge_label.svg S5/b/
+[ -d S4/b ] || mkdir S4/b/
+cp $LIBRARY/GABPA_Occupancy_1000bp/FourColor/GABPA_Occupancy_1000bp_31bp.svg S4/b/
+cp $LIBRARY/GABPA_Occupancy_1000bp/SVG/K562_GABPA_BX_rep1_hg19_GABPA_Occupancy_1000bp_read1_Normalized_merge_label.svg S4/b/
+cp $LIBRARY/GABPA_Occupancy_1000bp/SVG/K562_IgG_BX_merge_hg19_GABPA_Occupancy_1000bp_read1_Normalized_merge_label.svg S4/b/
 
+[ -d S4/c ] || mkdir S4/c
+cp $LIBRARY/WebLogos/SP1_logo.eps S4/c/
 
-[ -d S5/c ] || mkdir S5/c
-cp $LIBRARY/WebLogos/SP1_logo.eps S5/c/
-
-[ -d S5/d ] || mkdir S5/d
-cp $LIBRARY/SP1_Occupancy_1000bp/FourColor/SP1_Occupancy_1000bp_31bp.svg S5/d/
-cp $LIBRARY/SP1_Occupancy_1000bp/SVG/K562_SP1_BX_rep1_hg19_SP1_Occupancy_1000bp_read1_Normalized_merge_label.svg S5/d/
-cp $LIBRARY/SP1_Occupancy_1000bp/SVG/K562_IgG_BX_merge_hg19_SP1_Occupancy_1000bp_read1_Normalized_merge_label.svg S5/d/
+[ -d S4/d ] || mkdir S4/d
+cp $LIBRARY/SP1_Occupancy_1000bp/FourColor/SP1_Occupancy_1000bp_31bp.svg S4/d/
+cp $LIBRARY/SP1_Occupancy_1000bp/SVG/K562_SP1_BX_rep1_hg19_SP1_Occupancy_1000bp_read1_Normalized_merge_label.svg S4/d/
+cp $LIBRARY/SP1_Occupancy_1000bp/SVG/K562_IgG_BX_merge_hg19_SP1_Occupancy_1000bp_read1_Normalized_merge_label.svg S4/d/

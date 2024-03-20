@@ -5,9 +5,9 @@ import pyBigWig
 def getParams():
     '''Parse parameters from the command line'''
     parser = argparse.ArgumentParser(description='''
-This script will pileup BedGraph scores.
+This script will pileup BigWig scores.
 
-Example: python reorder_byIDCol.py -i INPUT -r REF.tab -c 4 -o OUTPUT''')
+Example: python pileup_BigWig_on_RefPT.py -i INPUT.bw -r REF.bed -o OUTPUT''')
     parser.add_argument('-i','--input', metavar='bigwig_fn', required=True, help='a BigWig file of signal to pileup')
     parser.add_argument('-r','--reference', metavar='bed_fn', required=True, help='a BED file of distance calculated to')
     parser.add_argument('-o','--output', metavar='bed_fn', required=True, help='a BED file with the distance scores')
@@ -25,11 +25,11 @@ def loadBedGraph(bg_fn):
         coord2score.setdefault(tokens[0], {})
         for i in range(int(tokens[1]), int(tokens[2])):
             coord2score[tokens[0]].update({i:float(tokens[3])})
-        reader.close()
-        return(coord2score)
+    reader.close()
+    return(coord2score)
 
 if __name__ == "__main__":
-    '''Calls max signal within CDT pileup and returns BED-formatted coordinates for the max signal positions.'''
+	'''Gets per-bp BigWig signal within BED coordinate regions to build CDT pileup (separating same and opposite strands).'''
 
     # Load reference BED coordinates
     args = getParams()

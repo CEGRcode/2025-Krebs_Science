@@ -6,7 +6,7 @@ def getParams():
 	parser = argparse.ArgumentParser(description='''
 This script will pileup BedGraph scores.
 
-Example: python reorder_byIDCol.py -i INPUT -r REF.tab -c 4 -o OUTPUT''')
+Example: python pileup_BedGraph_on_RefPT.py -i INPUT.bg -r REF.bed -o OUTPUT''')
 	parser.add_argument('-i','--input', metavar='bedgraph_fn', required=True, help='a BedGraph file of signal to pileup')
 	parser.add_argument('-r','--reference', metavar='bed_fn', required=True, help='a BED file of distance calculated to')
 	parser.add_argument('-o','--output', metavar='bed_fn', required=True, help='a BED file with the distance scores')
@@ -30,7 +30,7 @@ def loadBedGraph(bg_fn):
 	return(coord2score)
 
 if __name__ == "__main__":
-	'''Calls max signal within CDT pileup and returns BED-formatted coordinates for the max signal positions.'''
+	'''Gets per-bp BedGraph signal within BED coordinate regions to build CDT pileup.'''
 
 	# Load reference BED coordinates
 	args = getParams()

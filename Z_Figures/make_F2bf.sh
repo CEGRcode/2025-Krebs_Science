@@ -33,10 +33,10 @@ NSITES=`wc -l $CDTBASE\_sense.cdt | awk '{print $1-1}'`
 
 # Heatmap match and mismatch (different colors)
 java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --blue $CDTBASE\_sense.cdt -o SENSE.png
-java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --red  $CDTFILE\_anti.cdt  -o ANTI.png
+java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --red  $CDTBASE\_anti.cdt  -o ANTI.png
 java -jar $SCRIPTMANAGER figure-generation merge-heatmap SENSE.png ANTI.png -o $CDT\_merge.png
 java -jar $SCRIPTMANAGER figure-generation label-heatmap $CDT\_merge.png \
-    -l "-500" -m "0" -r "+500" -x $BED -w 1 -f 20 \
+    -l "-500" -m "0" -r "+500" -w 1 -f 20 \
     -x "NFIA_Occupancy_1000bp" -y "NFIA_Occupancy_1000bp (${NSITES} sites)" \
     -o F2/b/$CDT\_merge_label.svg
 
@@ -47,10 +47,10 @@ NSITES=`wc -l $CDTBASE\_sense.cdt | awk '{print $1-1}'`
 
 # Heatmap match and mismatch (different colors)
 java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --blue $CDTBASE\_sense.cdt -o SENSE.png
-java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --red  $CDTFILE\_anti.cdt  -o ANTI.png
+java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --red  $CDTBASE\_anti.cdt  -o ANTI.png
 java -jar $SCRIPTMANAGER figure-generation merge-heatmap SENSE.png ANTI.png -o $CDT\_merge.png
 java -jar $SCRIPTMANAGER figure-generation label-heatmap $CDT\_merge.png \
-    -l "-500" -m "0" -r "+500" -x $BED -w 1 -f 20 \
+    -l "-500" -m "0" -r "+500" -w 1 -f 20 \
     -x "NFIA_Occupancy_1000bp" -y "NFIA_Occupancy_1000bp (${NSITES} sites)" \
     -o F2/b/$CDT\_merge_label.svg
 
@@ -58,16 +58,16 @@ java -jar $SCRIPTMANAGER figure-generation label-heatmap $CDT\_merge.png \
 [ -d F2/f ] || mkdir F2/f
 
 # NFIA pileup on NFIA_NucSort_1000bp
-CDTBASE="$LIBRARY/NFIA_NucSort_1000bp/CDT/K562_NFIA_BX_merge_hg19_NFIA_NucSort_1000bp_read1";
+CDTBASE="$LIBRARY/NFIA_NucSort_1000bp/CDT/K562_NFIA_BX_rep1_hg19_NFIA_NucSort_1000bp_read1";
 CDT=`basename $CDTBASE`
 NSITES=`wc -l $CDTBASE\_sense.cdt | awk '{print $1-1}'`
 
 # Heatmap match and mismatch (different colors)
 java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --blue $CDTBASE\_sense.cdt -o SENSE.png
-java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --red  $CDTFILE\_anti.cdt  -o ANTI.png
+java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 --red  $CDTBASE\_anti.cdt  -o ANTI.png
 java -jar $SCRIPTMANAGER figure-generation merge-heatmap SENSE.png ANTI.png -o $CDT\_merge.png
 java -jar $SCRIPTMANAGER figure-generation label-heatmap $CDT\_merge.png \
-    -l "-500" -m "0" -r "+500" -x $BED -w 1 -f 20 \
+    -l "-500" -m "0" -r "+500" -w 1 -f 20 \
     -x "NFIA_NucSort_1000bp" -y "NFIA_NucSort_1000bp (${NSITES} sites)" \
     -o F2/f/$CDT\_merge_label.svg
 
