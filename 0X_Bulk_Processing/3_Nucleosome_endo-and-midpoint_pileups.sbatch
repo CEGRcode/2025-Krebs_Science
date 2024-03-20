@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/3_Nucleosome_endo-and-midpoint_pileups.log.out-%a
 #SBATCH -e logs/3_Nucleosome_endo-and-midpoint_pileups.log.err-%a
-#SBATCH --array 1-48
+#SBATCH --array 1-51
 
 # Pileup midpoint (heatmaps) and composites (endo cut sites) for a custom
 # combination of BAM x BED files (primarily nucleosome BAM). No scaling.

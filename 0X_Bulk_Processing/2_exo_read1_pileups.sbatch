@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/2_exo_read_pileups.log.out-%a
 #SBATCH -e logs/2_exo_read_pileups.log.err-%a
-#SBATCH --array 1-94
+#SBATCH --array 1-100
 
 # Pileup read1 (exo cut sites) for a custom combinations of BAM x BED files.
 # Heatmaps included and all with scaling. Read2 sense/anti flipped for plotting.

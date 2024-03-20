@@ -92,3 +92,9 @@
 ../data/BAM/K562_TBP_BX_rep2_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
 ../data/BAM/K562_Pol2_BX_rep1_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
 ../data/BAM/K562_Pol2_BX_rep2_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
+../data/BAM/K562_RBBP5_BX_rep1_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
+../data/BAM/K562_RBBP5_BX_rep2_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
+../data/BAM/K562_WDR5_BX_rep1_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
+../data/BAM/K562_WDR5_BX_rep2_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
+../data/BAM/K562_Pol2_BX_rep1_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
+../data/BAM/K562_Pol2_BX_rep2_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed

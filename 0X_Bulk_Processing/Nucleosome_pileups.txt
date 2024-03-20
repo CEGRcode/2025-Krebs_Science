@@ -14,6 +14,7 @@
 ../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
 ../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledNFIA_NucSort_1000bp.bed
 ../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
+../data/BAM/K562_-_BI_rep1_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-BOTTOM_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-MIDDLE_1000bp.bed
@@ -30,6 +31,7 @@
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledNFIA_NucSort_1000bp.bed
 ../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
+../data/BAM/K562_H3K27ac_BX_rep1_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-BOTTOM_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-MIDDLE_1000bp.bed
@@ -46,3 +48,4 @@
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledNFIA_NucSort_1000bp.bed
 ../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Other/K562_CoPRO-expressed_Gene-refSeqTSS_1000bp.bed
+../data/BAM/K562_H3K4me3_BX_rep1_hg19.bam	../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
