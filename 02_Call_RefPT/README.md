@@ -20,7 +20,7 @@ Filter motifs to include "bound" sets and sort by occupancy (K562, BX).
 # Update submission info (e.g. replace NSAMPLES with integer)
 sbatch 3_Filter_and_Sort_by_occupancy.sbatch
 ```
-For every TF of interest, the above script should make:
+For every TF of interest (except WDR5), the above script should make:
 ```
 ../data/RefPT-Motif/TF_Occupancy.bed
 ../data/RefPT-Motif/1bp/TF_Occupancy_1bp.bed
@@ -30,7 +30,7 @@ For every TF of interest, the above script should make:
 ### 4_scrambled_top10k.sbatch
 Filter scrambled motifs to keep top 10k motif matches based on MEME score (K562, BX).
 ```
-# Update submission info (e.g. replace NSAMPLES with integer)
+# Update submission info (e.g. add WRK path)
 sh 4_scrambled_top10k.sh
 ```
 For every scrambledTF of interest, the above script should make:
@@ -40,28 +40,26 @@ For every scrambledTF of interest, the above script should make:
 ../data/RefPT-Motif/1000bp/scrambledTF_Occupancy_1000bp.bed
 ```
 
-### 5_WDR5TSS_sort.sh
-specific cutouff for WDR5 binding motif or TSS
+### 5_WDR5_and_TSS-sort.sh
+Call both WDR5_Occupancy and TSS sorted by distance to WDR5 reference points.
 ```
-# Update submission info (e.g. determine the location of tss_all_k562.bed from Core et all and WDR5_MOTIF1_sorted.bed)
+# Update submission info (e.g. add WRK path)
 sh 5_WDR5TSS_sort.sh
 ```
 The above script should make:
 ```
-../data/BED/TSS95_WDR5_sort_1000bp.bed
-../data/BED/TSS_WDR5_same_1000bp.bed
-../data/RefPT-Motif/1000bp/WDR5_Occupancy_1000bp.bed
-../data/RefPT-Motif/1000bp/WDR5_TSS_oppo_1000bp.bed
-../data/RefPT-Motif/1bp/WDR5_Occupancy_1bp.bed
 ../data/RefPT-Motif/WDR5_Occupancy.bed
-../data/RefPT-Motif/WDR5_TSS_same_32bp.bed
-../data/RefPT-Motif/WDR5_TSS_oppo_32bp.bed
+../data/RefPT-Motif/1bp/WDR5_Occupancy_1bp.bed
+../data/RefPT-Motif/1000bp/WDR5_Occupancy_1000bp.bed
+../data/RefPT-Other/TSS_DistWDR5.bed
+../data/RefPT-Other/TSS_DistWDR5_1000bp.bed
+../data/RefPT-Other/TSS_DistWDR5_Filter-SameStrand_1000bp.bed
 ```
 
 ### 6_CTCF_ThirdsByOccupancy.sh
 Split CTCF sites into thirds based on occupancy (TOP, MIDDLE, BOTTOM).
 ```
-# Update submission info (e.g. confirm location of CTCF_Occupancy_1000bp.bed )
+# Update submission info (e.g. add WRK path)
 sh 6_CTCF_ThirdsByOccupancy.sh
 ```
 The above script should make:
@@ -86,7 +84,7 @@ For every PWM, the above script should make:
 ### 8_NFIA_ThirdsByNucPosition.sh
 Split Nucleosome distance-sorted NFIA motifs (`NFIA_NucSort_1bp.bed`) into three sections by how far upstream, downstream, or whether the nucleosome is overlapping the motif or not. (-73 <= overlap <= 73)
 ```
-# Update submission info (e.g. confirm location of NFIA_NucSort_1bp.bed)
+# Update submission info (e.g. add WRK path)
 sh 8_NFIA_ThirdsByNucPosition.sh
 ```
 The above script should make:

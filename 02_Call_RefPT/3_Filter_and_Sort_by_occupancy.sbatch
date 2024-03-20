@@ -63,6 +63,8 @@ java -jar $SCRIPTMANAGER figure-generation heatmap --black -r 1 -l 2 -p .95 FIMO
 # Clean-up
 rm FIMO/$TF/$TF\_MOTIF1_unsorted_$WINDOW\bp_$BAM\_combined.cdt FIMO/$TF/$TF\_MOTIF1_unsorted_$WINDOW\bp.bed
 
+# Skip inflection point calulcation. We just need the sort by occupancy (make WDR5_Occupancy_1000bp in script 5)
+[[ $TF == "WDR5" ]] && exit
 
 ## Calculate occupancy and sort by inflection point
 

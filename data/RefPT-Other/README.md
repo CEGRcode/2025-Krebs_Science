@@ -16,3 +16,7 @@ bedtools sort -i 1bp/hg19_K562_Nucleosome_1bp.bed \
 rm 1bp/hg19_K562_Nucleosome_1bp.bed
 ```
 
+# RefSeq annotations
+```
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/genes/hg19.refGene.gtf.gz
+```
