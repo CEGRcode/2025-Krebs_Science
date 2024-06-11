@@ -40,14 +40,21 @@ COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
 [ -d logs ] || mkdir logs
 [ -d $OUTDIR ] || mkdir $OUTDIR
 
-# Determine BAM file for the current job array index
+# Determine BAM file for the current job array index and process each line of METADATA 
 BAMFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
 BAM=`basename $BAMFILE ".bam"`
 [ -f $BAMFILE.bai ] || samtools index $BAMFILE
+	while read line; do
+  		echo "$line"
+	done <$METADATA
 
 # Determine BED file for the current job array index
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
-BED=`basename $BEDFILE ".bed"`
+BED= basename $BEDFILE ".bam"`
+	
+	while read line; do
+  		echo "$line"
+	done <$METADATA
 
 echo "(${SLURM_ARRAY_TASK_ID}) ${BEDFILE} "x" ${BAMFILE} "
 
@@ -57,9 +64,6 @@ DIR=$OUTDIR/$BED
 [[ -d $DIR/Composites ]] || mkdir $DIR/Composites
 [[ -d $DIR/PNG/Strand ]] || mkdir -p $DIR/PNG/Strand
 [[ -d $DIR/SVG ]] || mkdir $DIR/SVG
-
-# Get scaling factor
-FACTOR=`grep 'Scaling factor' $BAMDIR/NormalizationFactors/$BAM\_NCISb_ScalingFactors.out | awk -F" " '{print $3}'`
 
 echo "Run Custom read1 pileup"
 BASE=$BAM\_$BED\_read1
