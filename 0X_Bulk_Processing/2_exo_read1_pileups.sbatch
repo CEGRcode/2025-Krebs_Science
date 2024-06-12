@@ -40,21 +40,21 @@ COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
 [ -d logs ] || mkdir logs
 [ -d $OUTDIR ] || mkdir $OUTDIR
 
-# Determine BAM file for the current job array index and process each line of METADATA 
-BAMFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
-BAM=`basename $BAMFILE ".bam"`
-[ -f $BAMFILE.bai ] || samtools index $BAMFILE
-	while read line; do
-  		echo "$line"
-	done <$METADATA
-
-# Determine BED file for the current job array index
-BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
-BED= basename $BEDFILE ".bam"`
+# Process each line of METADATA and determine BAM file for the current job array index
+while read line; do
+	BAMFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
+	BAM=`basename $BAMFILE ".bam"`
+	[ -f $BAMFILE.bai ] || samtools index $BAMFILE
+	echo "Processing BAM: $BAMFILE"
+done <$METADATA
 	
-	while read line; do
-  		echo "$line"
-	done <$METADATA
+
+# Process each line of METADATA and Determine BED file for the current job array index
+while read line; do	
+	BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
+	BED= `basename $BEDFILE ".bam"`
+	echo "Processing BED: $BEDFILE"
+done <$METADATA
 
 echo "(${SLURM_ARRAY_TASK_ID}) ${BEDFILE} "x" ${BAMFILE} "
 
