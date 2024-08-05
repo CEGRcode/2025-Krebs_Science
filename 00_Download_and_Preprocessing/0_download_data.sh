@@ -4,7 +4,7 @@
 # This will need to be updated to run off of SRR samples before manuscript submission.
 
 ### CHANGE ME
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/00_Download_and_Preprocessing
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/00_Download_and_Preprocessing
 ###
 
 # Dependencies

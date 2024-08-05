@@ -1,9 +1,7 @@
 #!/bin/bash
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
-WRK=`pwd`
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/00_Download_and_Preprocessing
 ###
 
 BWTOBG=../bin/bigWigToBedGraph
