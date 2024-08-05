@@ -1,22 +1,12 @@
-../data/BAM/K562_NFIA_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_Occupancy_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-UPSTREAM_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-OVERLAP_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-DOWNSTREAM_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_Occupancy_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-UPSTREAM_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-OVERLAP_1000bp.bed
-../data/BAM/K562_NFIA_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/NFIA_NucSort-DOWNSTREAM_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-TOP_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-MIDDLE_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-BOTTOM_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-TOP_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-MIDDLE_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy-BOTTOM_1000bp.bed
-../data/BAM/K562_CTCF_BX_rep2_hg19.bam	../data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed
-../data/BAM/K562_RAD21_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
-../data/BAM/K562_SMC3_BX_rep1_hg19.bam	../data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
+$BAMDIR/BAM/K562_FoxA3_BX_rep1_hg19.bam	$WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FoxA1_K562_NucSort-OVERLAP_1000bp.bed
+$BAMDIR/BAM/K562_FoxA3_BX_rep1_hg19.bam	$WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FoxA1_K562_NucSort-NFR_1000bp.bed
+
+$BAMDIR/K562_CTCF_BX_rep1_hg19.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
+$BAMDIR/K562_SMC3_BX_rep1_hg19.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
+$BAMDIR/K562_RAD21_BX_rep1_hg19.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed
+
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg19.bam $WRK/data/RefPT-Motif/1000bp/NFIA_NucSort-UPSTREAM_1000bp.bed
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg19.bam $WRK/data/RefPT-Motif/1000bp/NFIA_NucSort-OVERLAP_1000bp.bed
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg19.bam $WRK/data/RefPT-Motif/1000bp/NFIA_NucSort-DOWNSTREAM_1000bp.bed
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg19.bam $WRK/data/RefPT-Motif/1000bp/NFIA_engagedNuc_downstream_lessorientated_1000bp.bed
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg19.bam $WRK/data/RefPT-Motif/1000bp/NFIA_engagedNuc_downstream_moreorientated_1000bp.bed
