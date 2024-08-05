@@ -23,10 +23,10 @@ module load anaconda
 # Define the source files as LIST
 LIST=(
     "$WRK/Fox_NFIA_CTCF/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed"
-    "$WRK/Fox_NFIA_CTCF/data/RefPT-Motif/1000bp/NFIA_engagedNuc_updown_1000bp.bed"
     "$WRK/Fox_NFIA_CTCF/data/RefPT-Motif/1000bp/scrambledCTCF_NucSort_1000bp.bed"
     "$WRK/Fox_NFIA_CTCF/data/RefPT-Motif/1000bp/scrambledNFIA_NucSort_1000bp.bed"
     "$WRK/Fox_NFIA_CTCF/data/RefPT-Motif/1000bp/FoxA1_all_1000bp.bed"
+    "$WRK/Fox_NFIA_CTCF/data/RefPT-Motif/1000bp/NFIA_engagedNuc_downstream_upNuc_sort_1000bp.bed"
 )
 
 # Script shortcuts
