@@ -5,16 +5,16 @@
 #SBATCH -A open
 #SBATCH -o logs/2_FIMO_Motifs_from_Genome.log.out-%a
 #SBATCH -e logs/2_FIMO_Motifs_from_Genome.log.err-%a
-#SBATCH --array 1-4
+#SBATCH --array 1-5
 
 # FIMO the reference genome for each motif in the PWM directory
 
 ### CHANGE ME
 EXCLUSION=100
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/
-02_Call_RefPT=$WRK/Fox_NFIA_CTCF/02_Call_RefPT/
-cd 02_Call_RefPT
-###
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+CALL_RefPT_hg38=$WRK/02_Call_RefPT/
+cd $CALL_RefPT_hg38
+
 
 # Dependencies
 # - bedtools
@@ -23,21 +23,22 @@ cd 02_Call_RefPT
 
 set -exo
 module load anaconda3
-#source activate meme
+source activate meme
 source activate bioinfo
 
 # Inputs and outputs
-GENOME=$WRK/2023_Chen_PIC3/hg19_files/hg19.fa
-BLACKLIST=$WRK/2023_Chen_PIC3/hg19_files/hg19_exclude.bed
-ORIGINAL_SCRIPTMANAGER=$WRK/2023_Chen_PIC3/bin/ScriptManager-v0.14.jar
-SCRIPTMANAGER=$WRK/2023_Chen_PIC3/bin/ScriptManager-v0.14-$SLURM_ARRAY_TASK_ID.jar
+GENOME=$WRK/data/hg38_files/hg38.fa
+BLACKLIST=$WRK/data/hg38_files/hg38-blacklist.bed
+ORIGINAL_SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Define PWM file path based on SLURM_ARRAY_TASK_ID index
-PWM=`ls PWM/{CTCF.meme.txt,NFIA.meme.txt,scrambledCTCF.meme.txt,scrambledNFIA.meme.txt}  | head -n $SLURM_ARRAY_TASK_ID | tail -1`
+PWM=$(ls PWM/{CTCF_M1.meme.txt,NFIA_M1.meme.txt,FOXA2_M1.meme.txt} | head -n $SLURM_ARRAY_TASK_ID | tail -n 1)
 
 # Parse TF from PWM filename
-TF=`basename $PWM ".meme.txt"`
+TF=$(basename "$PWM" "_M1.meme.txt")
+
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
@@ -48,17 +49,14 @@ echo "($SLURM_ARRAY_TASK_ID) $TF"
 
 # Run FIMO to scan genome for motif occurrences
  fimo --verbosity 1 --thresh 1.0E-4 --oc FIMO/$TF $PWM $GENOME
-# Extract motif-1 predictions using grep
-#ALIAS='ID=1-MEME'
-ALIAS='Alias=MEME-1;'
-[[ $TF == "scrambled"* ]] && ALIAS='Alias=MEME;'
+
 grep $ALIAS FIMO/$TF/fimo.gff > FIMO/$TF/fimo.$TF.motif1.unsorted.noproximity.unfiltered.gff
 
 # Convert GFF to BED format
-java -jar $SCRIPTMANAGER coordinate-manipulation gff-to-bed FIMO/$TF/fimo.$TF.motif1.unsorted.noproximity.unfiltered.gff -o FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation gff-to-bed FIMO/$TF/fimo.gff -o FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed
 
 # Filter out motifs that overlap with blacklist regions
-awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$1"_"$2"_"$3,$5,$6}' FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed | bedtools intersect -v -a - -b $BLACKLIST | \
+ tail -n +2 FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed | awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$1"_"$2"_"$3,$5,$6}' - | bedtools intersect -v -a - -b $BLACKLIST | \
 awk -v TF="${TF}" '{if ($6 == "+") print $0 > "FIMO/" TF "/motif1_unsorted_noproximity+.bed"; else print $0 > "FIMO/" TF "/motif1_unsorted_noproximity-.bed"}' 
 bedtools intersect -v -a FIMO/$TF/motif1_unsorted_noproximity-.bed -b FIMO/$TF/motif1_unsorted_noproximity+.bed | cat FIMO/$TF/motif1_unsorted_noproximity+.bed - > FIMO/$TF/motif1_unsorted_noproximity.bed
 rm  FIMO/$TF/motif1_unsorted_noproximity-.bed FIMO/$TF/motif1_unsorted_noproximity+.bed 
