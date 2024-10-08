@@ -5,18 +5,20 @@
 #SBATCH -A open
 #SBATCH -o logs/run_strainid.log.out
 #SBATCH -e logs/run_strainid.log.err
+#SBATCH --array 1-20
 
 module load samtools
 module load anaconda3
 source activate genopipe # load conda environment with GenoPipe dependencies
 
 ### CHANGE ME
-STRAINID=/path/to/GenoPipe/StrainID
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/00_Download_and_Preprocessing
-GENOME=$WRK/../data/hg19_files/hg19.fa
+
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+STRAINID=$WRK/bin/StrainID
+GENOME=$WRK/hg38_files/hg38.fa
 ###
 
-INPUTBAM=$WRK/data/sample-BAM
+INPUTBAM=$WRK/data/BAM
 OUTPUT=$WRK/01_Run_GenoPipe/strainid
 
 cd $WRK
@@ -24,4 +26,4 @@ cd $WRK
 [ -d $OUTPUT ] || mkdir $OUTPUT
 
 cd $STRAINID
-bash identify-Strain.sh -i $INPUTBAM -v $STRAINID/sacCer3_VCF/ -g $GENOME -o $OUTPUT
+bash identify-Strain.sh -i $INPUTBAM -v $STRAINID/hg38_VCF/ -g $GENOME -o $OUTPUT
