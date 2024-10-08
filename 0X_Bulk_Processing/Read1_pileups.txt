@@ -1,0 +1,28 @@
+$BAMDIR/K562_CTCF_BX_rep1_hg38.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed                         	 a                 5
+$BAMDIR/K562_CTCF_BX_rep2_hg38.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed                          	 a                 5
+$BAMDIR/K562_SMC3_BX_rep1_hg38.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed                          	 a                 5
+$BAMDIR/K562_RAD21_BX_rep1_hg38.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed                          	 a                 5
+$BAMDIR/K562_SMC3_BX_rep2_hg38.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed                          	 a                 5
+$BAMDIR/K562_RAD21_BX_rep2_hg38.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed                          	 a                 5
+$BAMDIR/K562_IgG_BX_merge_hg38.bam	$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed                          	 a                 5
+
+$BAMDIR/BAM/K562_FOXA1_BX_rep1_hg38.bam	$WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_all_1000bp.bed                  	 a                 1
+$BAMDIR/BAM/K562_FOXA2_BX_rep1_hg38.bam	$WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_all_1000bp.bed                  	 a                 1
+$BAMDIR/BAM/HepG2_FOXA1_BX_rep1_hg38.bam  $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_all_1000bp.bed                  	 a                 1
+$BAMDIR/BAM/HepG2_FOXA2_BX_rep1_hg38.bam  $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_all_1000bp.bed                  	 a                 1
+$BAMDIR/BAM/K562_IgG_BX_merge_hg38.bam    $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_all_1000bp.bed                  	 a                 1
+$BAMDIR/BAM/HepG2_IgG_BX_merge_hg38.bam   $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_all_1000bp.bed                  	 a                 1
+$BAMDIR/BAM/K562_FOXA1_BX_rep1_hg38.bam   $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_K562_NucSort-OVERLAP_1000bp.bed	 a                 1
+$BAMDIR/BAM/K562_FOXA1_BX_rep1_hg38.bam   $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_K562_NucSort-NFR_1000bp.bed           a                 1
+$BAMDIR/BAM/K562_FOXA2_BX_rep1_hg38.bam   $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_K562_NucSort-OVERLAP_1000bp.bed       a                 1
+$BAMDIR/BAM/K562_FOXA2_BX_rep1_hg38.bam   $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_K562_NucSort-NFR_1000bp.bed           a                 1
+$BAMDIR/BAM/K562_FOXA1_BX_rep1_hg38.bam   $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_K562_NucengageSort_500bp.bed      	 a                 1
+$BAMDIR/BAM/HepG2_FOXA1_BX_rep1_hg38.bam  $WRK/data/RefPT-Motif/1000bp/$MOTIF/1000bp/FOXA_uniq_HepG2_NucengageSort_500bp.bed    a                 1
+
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_downNuc_500bp.bed					 a                 1
+$BAMDIR/BAM/K562_IgG_BX_merge_hg38.bam   $WRK/data/RefPT-Motif/1000bp/NFIA_downNuc_500bp.bed					 a                 1
+$BAMDIR/BAM/K562_NFIA_BX_rep2_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_downNuc_500bp.bed				        	 a                 1
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_downNuc_500bp.bed			                	 a                 1
+$BAMDIR/BAM/K562_NFIA_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_engageNucdown_NucSort_1000bp.bed                    a                 1
+
+
