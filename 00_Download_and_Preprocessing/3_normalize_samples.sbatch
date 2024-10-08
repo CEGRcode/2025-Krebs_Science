@@ -5,12 +5,12 @@
 #SBATCH -A open
 #SBATCH -o logs/3_normalize_samples.log.out-%a
 #SBATCH -e logs/3_normalize_samples.log.err-%a
-#SBATCH --array 1-NSAMPLES
+#SBATCH --array 1-20
 
 # Calculate normalization factors and get fragment distribution for every *.bam file in a directory
 
 ### CHANGE ME
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/00_Download_and_Preprocessing
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
 ###
 
 # Dependencies
@@ -20,15 +20,14 @@ WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/00_Download_and_Preprocessing
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/../data/BAM
-BEDDIR=$WRK/../data/BED
-NDIR=$WRK/../data/BAM/NormalizationFactors
-FDIR=$WRK/../data/BAM/FragmentDistributions
-BLACKLIST=$WRK/../data/hg19_files/hg19_exclude.bed
+BAMDIR=$WRK/data/hg38_BAM
+NDIR=$WRK/data/NormalizationFactors
+FDIR=$WRK/data/FragmentDistributions
+BLACKLIST=$WRK/data/hg38_files/hg38-blacklist.bed
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.14.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.14-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER="$WRK/bin/ScriptManager-v0.15.jar"
+SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
@@ -40,23 +39,20 @@ cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 [ -d $FDIR ] || mkdir $FDIR
 
 # Determine BAM file for the current job array index
-BAMFILE=`ls $BAMDIR/*.bam | head -n $SLURM_ARRAY_TASK_ID | tail -1`;
-BAM=`basename $BAMFILE ".bam"`
-[ -f $BAMFILE.bai ] || samtools index $BAMFILE
+BAMFILE=`ls $BAMDIR/*hg38.bam | head -n $SLURM_ARRAY_TASK_ID | tail -1`
+BAMFILENEME=`basename $BAMFILE ".bam"`
+[ -f $BAMFILENEME.bai ] || samtools index $BAMFILE
+STRAIN=`basename $BAMFILE ".bam" | cut -d "_" -f 1`
+Target=`basename $BAMFILE ".bam" | cut -d "_" -f 2`
+ASSAY=`basename $BAMFILE ".bam" | cut -d "_" -f 3`
 
-# Parse out sample info
-CLINE=`echo $BAM | awk -F"_" '{print $1}'`
-ASSAY=`echo $BAM | awk -F"_" '{print $3}'`
-
-# Build control filename based on sample info
-CONTROL=$BAMDIR/$CLINE\_IgG_$ASSAY\_merge_hg19.bam
-
-# Calculate fragment size distribution
-java -jar $SCRIPTMANAGER bam-statistics pe-stat -x 500 -s $BAMFILE -o $FDIR/$BAM
-
-# Use different normalization method depending on target/assay
-echo "Calculate Total Tag normalization factors"
-java -jar $SCRIPTMANAGER read-analysis scaling-factor $BAMFILE -o $NDIR/$BAM\_TotalTag
 [ "$ASSAY" == "BI" ] && exit
 echo "Calculate classic TF NCIS normalization factors w/ blacklist"
-java -jar $SCRIPTMANAGER read-analysis scaling-factor $BAMFILE --ncis -c $CONTROL -f $BLACKLIST -w 100 -o $NDIR/$BAM\_NCISb  # Do we want to add a custom window?
+java -jar $SCRIPTMANAGER read-analysis scaling-factor $BAMFILE -f $BLACKLIST --ncis -c $BAMDIR/${STRAIN}_IgG_*_hg38.bam -w 500 -o $NDIR/$BAMFILENEME\_NCISb
+
+
+# Calculate fragment size distribution
+java -jar $SCRIPTMANAGER bam-statistics pe-stat -x 500 -s $BAMFILE -o $FDIR/$BAMFILENEME
+
+ 
+rm $SCRIPTMANAGER

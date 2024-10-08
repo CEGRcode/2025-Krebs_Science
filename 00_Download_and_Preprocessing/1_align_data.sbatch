@@ -21,9 +21,9 @@ WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/00_Download_and
 # - MEME
 # - samtools
 
-GENOME=../data/hg19_files/hg19.fa
+GENOME=../data/hg38_files/hg38.fa
 PICARD=../bin/picard.jar
-SCRIPTMANAGER=../bin/ScriptManager_v0.14.jar
+SCRIPTMANAGER=../bin/ScriptManager_v0.15.jar
 
 FASTQ1=`ls ../data/FASTQ/*_R1.fastq.gz | head -n $SLURM_ARRAY_TASK_ID | tail -1`
 SAMPLE=`basename $FASTQ1 "R1.fastq.gz"`

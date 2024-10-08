@@ -27,9 +27,9 @@ pug-fastq $MYSAMPLES
 mv *.fastq.gz $FDIR
 
 # Download Filtered BAM
-# pug-bam $MYSAMPLES -b hg19
-# mv *.bam $BDIR
+ pug-bam $MYSAMPLES -b hg38
+ mv *.bam $BDIR
 
 # Download MEME files
-pug-meme $MEMESAMPLES -b hg19
+pug-meme $MEMESAMPLES -b hg38
 mv *.meme.txt $MDIR
