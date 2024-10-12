@@ -11,8 +11,8 @@
 # Heatmaps included and all with scaling. Read2 sense/anti flipped for plotting.
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/
-METADATA=$WRK/Fox_NFIA_CTCF/0X_Bulk_Processing/Read2_pileups.txt
+WRK=/Path/to/Title
+METADATA=$WRK/0X_Bulk_Processing/Read2_pileups.txt
 ###
 
 # Dependencies
@@ -24,13 +24,13 @@ set -exo
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/Fox_NFIA_CTCF/data/BAM
-OUTDIR=$WRK/Fox_NFIA_CTCF/Library
+BAMDIR=$WRK/data/BAM
+OUTDIR=$WRK/Library
 
 # Setup ScriptManager for job array
 
-ORIGINAL_SCRIPTMANAGER=$WRK/Fox_NFIA_CTCF/bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/Fox_NFIA_CTCF/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
