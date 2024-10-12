@@ -3,7 +3,7 @@
 # Script to hardcode the merging/renaming of PEGR BAM & MEME files into a standard file naming system
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/00_Download_and_Preprocessing
+WRK=/Path/to/Title/00_Download_and_Preprocessing
 ###
 
 module load samtools
@@ -71,6 +71,7 @@ cp  38479_FOXA2_ab256493_K562_-_IMDM_-_BX.bam K562_FOXA2_BX_rep2_hg38.bam
 
 cd $WRK/../data
 mv sample-BAM/K562_*.bam BAM/
+mv sample-BAM/HepG2_*.bam BAM/
 
 # Index set of BAM files
 for FILE in BAM/*.bam;
