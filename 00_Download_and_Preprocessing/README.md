@@ -39,7 +39,7 @@ bash 2_Merge_Replicates.sh
 ```
 
 ### 3_normalize_samples.sbatch
-Both TotalTag and NCIS normalization factors are calculated for each `data/BAM/SAMPLE.bam` and saved to `data/BAM/NormalizationFactors/` with the name `SAMPLE_TotalTag.out` or `SAMPLE_NCISb.out`. For the NCIS, a blacklist reference and IgG control BAMs that are cell-line and assay-specific are input based on the standard BAM filename structure (parse `_` delimited tokens for assay and cell line info).
+Both TotalTag and NCIS normalization factors are calculated for each `data/BAM/SAMPLE.bam` and saved to `data/BAM/NormalizationFactors/` with the name `SAMPLE_NCISb.out`. For the NCIS, a blacklist reference and IgG control BAMs that are cell-line and assay-specific are input based on the standard BAM filename structure (parse `_` delimited tokens for assay and cell line info).
 
 ```
 # ^change the number of BAM files samples (SBATCH --array)
@@ -48,4 +48,10 @@ sbatch 3_normalize_samples.sbatch
 ##
 # To check status, type
 sbatch -u <myusername> -t
+```
+### 4_download_conservation-snp.sh
+Download conservation and SNPs from USCS browser.
+make sure proper scripts in bin
+```
+bash 4_download_conservation-snp.sh
 ```
