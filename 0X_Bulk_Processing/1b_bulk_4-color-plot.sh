@@ -9,7 +9,7 @@
 # Re-expand each BED file in LIST to 32bp and generate a 4-color plot
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF
+WRK=/Path/to/Title
 ###
 
 # Dependencies
