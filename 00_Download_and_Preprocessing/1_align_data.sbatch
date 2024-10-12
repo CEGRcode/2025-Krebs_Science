@@ -10,7 +10,7 @@
 # Script to align samples according to our Galaxy Workflow
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/00_Download_and_Preprocessing
+WRK=/Path/to/Title/00_Download_and_Preprocessing
 ###
 
 # Dependencies
