@@ -4,7 +4,7 @@ This directory includes the GenoPipe results and the scripts for generating and 
 
 Update the two paths before running:
 ```
-WRK=/path/to/20XX-LastName_Journal/
+WRK=/path/to/Title/
 MODULEID=/path/to/GenoPipe/ModuleID
 ```
 
