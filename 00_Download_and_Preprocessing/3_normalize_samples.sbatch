@@ -10,7 +10,7 @@
 # Calculate normalization factors and get fragment distribution for every *.bam file in a directory
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+WRK=/Path/to/Title/
 ###
 
 # Dependencies
@@ -20,7 +20,7 @@ WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/data/hg38_BAM
+BAMDIR=$WRK/data/BAM
 NDIR=$WRK/data/NormalizationFactors
 FDIR=$WRK/data/FragmentDistributions
 BLACKLIST=$WRK/data/hg38_files/hg38-blacklist.bed
