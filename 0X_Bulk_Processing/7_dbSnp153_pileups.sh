@@ -1,8 +1,7 @@
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+WRK=/Path/to/Title
 OUTDIR=$WRK/Library
-#WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/0X_Bulk_Processing
 ###
 
 # Dependencies
@@ -48,7 +47,6 @@ BED=`basename $BEDFILE ".bed"`
 #[ -d $OUTDIR/$BED/SVG ] || mkdir $OUTDIR/$BED/SVG
 
 # Pileup SNPs
-#for DBSNP in "$CDIR/mini/dbSnp153_delins.bed" "$CDIR/mini/dbSnp153_ins.bed" "$CDIR/mini/dbSnp153_mnv.bed" "$CDIR/mini/dbSnp153_refA.bed" "$CDIR/mini/dbSnp153_refC.bed" "$CDIR/mini/dbSnp153_refG.bed" "$CDIR/mini/dbSnp153_refT.bed" "$CDIR/mini/dbSnp153_snv_alt-A.bed" "$CDIR/mini/dbSnp153_snv_alt-C.bed" "$CDIR/mini/dbSnp153_snv_alt-G.bed" "$CDIR/mini/dbSnp153_snv_alt-T.bed" "$CDIR/mini/dbSnp153_snv_type-commonAll.bed" "$CDIR/mini/dbSnp153_snv_type-commonSome.bed" "$CDIR/mini/dbSnp153_snv_type-diffMajor.bed" "$CDIR/mini/dbSnp153_snv_type-overlapDiffClass.bed" "$CDIR/mini/dbSnp153_snv_type-overlapSameClass.bed" "$CDIR/mini/dbSnp153_snv_type-rareAll.bed" "$CDIR/mini/dbSnp153_snv_type-rareSome.bed" "$CDIR/mini/dbSnp153_snv_type-rareAll.bed" "$CDIR/mini/dbSnp153_snv_type-refIsMinor.bed" "$CDIR/mini/dbSnp153_snv_type-refIsRare.bed" "$CDIR/mini/dbSnp153_snv_type-revStrand" "$CDIR/mini/dbSnp153_snv_type-clinvar";
 for DBSNP in $CDIR/dbSnp153_snv.bw;
 do
 	SNP=`basename $DBSNP ".bw"`
