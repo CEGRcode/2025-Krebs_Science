@@ -64,7 +64,7 @@ If you don't have a lot of samples and the samples are really small, GenoPipe wi
 
 Example:
 ```
-bash job/run_epitopeid.pbs
+sbatch job/run_epitopeid.sbatch
 ```
 
 ### For many/large samples
@@ -73,5 +73,5 @@ If you need more time, the script is set-up to run on servers with a PBS schedul
 
 Example:
 ```
-qsub job/run_epitopeid.pbs
+sbatch job/run_epitopeid.sbatch
 ```
