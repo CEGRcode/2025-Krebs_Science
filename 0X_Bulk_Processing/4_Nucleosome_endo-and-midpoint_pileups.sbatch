@@ -10,13 +10,10 @@
 # Pileup midpoint (heatmaps) and composites (endo cut sites) for a custom
 # combination of BAM x BED files (primarily nucleosome BAM). No scaling.
 #  - data/BAM/K562_-_BI_rep1_hg19.bam
-#  - data/BAM/K562_H3K27ac_BX_rep1_hg19.bam
-#  - data/BAM/K562_H3K4me3_BX_rep1_hg19.bam
-# Read2 and read1 sense/anti flipped for plotting.
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/
-METADATA=$WRK/Fox_NFIA_CTCF/0X_Bulk_Processing/Nucleosome_pileups.txt
+WRK=/Path/to/Title
+METADATA=$WRK/0X_Bulk_Processing/Nucleosome_pileups.txt
 ###
 
 # Dependencies
@@ -31,8 +28,8 @@ BAMDIR=$WRK/data/BAM
 OUTDIR=$WRK/Library
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER=$WRK/Fox_NFIA_CTCF/bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/Fox_NFIA_CTCF/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
