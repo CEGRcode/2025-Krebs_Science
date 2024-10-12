@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/00_Download_and_Preprocessing
+WRK=/Path/to/Title/00_Download_and_Preprocessing
 ###
 bigWigToWig=$WRK/../bin/bigWigToWig
 BWTOBG=$WRK/../bin/convert_wig_to_bedgraph.py
