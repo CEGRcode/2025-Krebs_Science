@@ -66,12 +66,3 @@ Example:
 ```
 sbatch job/run_strainid.sbatch
 ```
-
-### For many/large samples
-
-If you need more time, the script is set-up to run on servers with a PBS scheduler. Make sure the walltime you request is reasonable (`#PBS -l walltime=`) and that you are using the appropriate allocation (`#PBS -A`).
-
-Example:
-```
-sbatch job/run_strainid.sbatch
-```
