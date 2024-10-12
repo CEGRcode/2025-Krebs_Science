@@ -1,6 +1,6 @@
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+WRK=/Path/to/Fox_NFIA_CTCF/
 OUTDIR=$WRK/Library
 ###
 
