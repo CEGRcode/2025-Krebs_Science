@@ -8,11 +8,11 @@
 #SBATCH --array 1-36
 
 # Pileup read1 (exo cut sites) for a custom combinations of BAM x BED files.
-# Heatmaps included and all with scaling. Read2 sense/anti flipped for plotting.
+# Heatmaps included and all with scaling. 
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/
-METADATA=$WRK/Fox_NFIA_CTCF/0X_Bulk_Processing/Read1_pileups.txt
+WRK=/Path/to/Title
+METADATA=$WRK/0X_Bulk_Processing/Read1_pileups.txt
 ###
 
 # Dependencies
@@ -24,17 +24,17 @@ set -exo
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/Fox_NFIA_CTCF/data/BAM
-OUTDIR=$WRK/Fox_NFIA_CTCF/Library
+BAMDIR=$WRK/data/BAM
+OUTDIR=$WRK/Library
 
 # Setup ScriptManager for job array
-#SCRIPTMANAGER=$WRK/2024-Chen_Benzonase-ChIP-exo/bin/ScriptManager-v0.14.jar
-ORIGINAL_SCRIPTMANAGER=$WRK/Fox_NFIA_CTCF/bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/Fox_NFIA_CTCF/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+#SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.14.jar
+ORIGINAL_SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
-COMPOSITE=$WRK/Fox_NFIA_CTCF/bin/sum_Col_CDT.pl
+COMPOSITE=$WRK/bin/sum_Col_CDT.pl
 
 # Set up output directories
 [ -d logs ] || mkdir logs
