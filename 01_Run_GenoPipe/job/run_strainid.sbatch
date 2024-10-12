@@ -13,7 +13,7 @@ source activate genopipe # load conda environment with GenoPipe dependencies
 
 ### CHANGE ME
 
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+WRK=/Path/to/Title/
 STRAINID=$WRK/bin/StrainID
 GENOME=$WRK/hg38_files/hg38.fa
 ###
