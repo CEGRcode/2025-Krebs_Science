@@ -69,6 +69,9 @@ cp  38480_FOXA2_ab256493_HepG2_-_-_-_BX.bam  HepG2_FOXA2_BX_rep1_hg38.bam
 cp  32659_FOXA2_ab256493_K562_-_-_-_BX.bam K562_FOXA2_BX_rep1_hg38.bam
 cp  38479_FOXA2_ab256493_K562_-_IMDM_-_BX.bam K562_FOXA2_BX_rep2_hg38.bam
 
+# ZKSCAN1 K562
+cp  34048_ZKSCAN1_HPA006672_K562_-_IMDM_-_BX.bam K562_ZKSCAN1_BX_rep1_hg38.bam
+
 cd $WRK/../data
 mv sample-BAM/K562_*.bam BAM/
 mv sample-BAM/HepG2_*.bam BAM/
