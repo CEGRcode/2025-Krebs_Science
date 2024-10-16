@@ -25,6 +25,7 @@ LIST=(
     "$WRK/data/RefPT-Motif/1000bp/CTCF_Occupancy_1000bp.bed"
     "$WRK/data/RefPT-Motif/1000bp/FOXA_all_1000bp.bed"
     "$WRK/data/RefPT-Motif/1000bp/NFIA_downNuc_500bp.bed"
+    "$WRK/data/RefPT-Motif/1000bp/ZKSCAN1_Occupancy_flip_shift2_1000bp.bed"
 )
 
 # Script shortcuts
