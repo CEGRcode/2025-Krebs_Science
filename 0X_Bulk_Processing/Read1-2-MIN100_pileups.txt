@@ -11,3 +11,5 @@ $BAMDIR/BAM/K562_NFIA_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_NucS
 $BAMDIR/BAM/K562_NFIA_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_NucSort-UPSTREAM_1000bp.bed                         p                 .95
 $BAMDIR/BAM/K562_NFIA_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_NucSort-OVERLAP_1000bp.bed                          p                 .95
 $BAMDIR/BAM/K562_NFIA_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/NFIA_downNuc_down125_250bp.bed                           p                 .95
+
+$BAMDIR/BAM/K562_ZKSCAN1_BX_rep1_hg38.bam    $WRK/data/RefPT-Motif/1000bp/ZKSCAN1_Occupancy_flip_shift2_1000bp                           p                 .95
