@@ -31,3 +31,7 @@ do
     ceqlogo -i $PWMFILE -m 1 -o $OUTDIR/$BASE\_logo.eps -f EPS
 done
 
+# make logo for ZKSCAN1
+mkdir -p $OUTDIR/ZKSCAN1_MEME 
+meme $WRK/Library/ZKSCAN1_Occupancy_flip_shift2_1000bp/ZKSCAN1_Occupancy_flip_shift2_1000bp_31bp.fa -oc $OUTDIR/ZKSCAN1_MEME -nmotifs 1 -maxw 31 -dna
+
