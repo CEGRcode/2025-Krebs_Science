@@ -19,13 +19,11 @@ cd $WRK/../data/sample-BAM
 java -jar $PICARD MergeSamFiles -I 33925_IgG_i5006_K562_-_IMDM_-_BX.bam \
                                 -I 34031_IgG_i5006_K562_-_IMDM_-_BX.bam \
                                 -I 34055_IgG_i5006_K562_-_IMDM_-_BX.bam \
-                                -I 34175_IgG_i5006_K562_-_IMDM_-_BX.bam \
-                                -I 33963_IgG_i5006_K562_-_IMDM_-_BX.bam \
-                                -I 36713_IgG_i5006_K562_-_IMDM_-_BX.bam \
                                 -I 37449_IgG_i5006_K562_-_IMDM_-_BX.bam \
-                                -I 34668_IgG_i5006_K562_-_-_-_BX.bam \
                                 -I 34469_IgG_i5006_K562_-_IMDM_-_BX.bam \
+                                -I 36713_IgG_i5006_K562_-_IMDM_-_BX.bam  \
                                 -I 36900_IgG_i5006_K562_-_IMDM_-_BX.bam \
+                                -I 38288_IgG_i5006_K562_-_IMDM_-_BX.bam \
                                 -O K562_IgG_BX_merge_hg38.bam
 
 java -jar $PICARD MergeSamFiles -I 38481_IgG_i5006_HepG2_-_-_-_BX.bam \
