@@ -44,8 +44,7 @@ cat ZKSCAN1_Occupancy_1bp-_shift2.bed ZKSCAN1_Occupancy_1bp+_shift2.bed | bedtoo
 
 rm ZKSCAN1_Occupancy_1bp-_shift2.bed ZKSCAN1_Occupancy_1bp+_shift2.bed ZKSCAN1_Occupancy_1bp+.bed ZKSCAN1_Occupancy_1bp-.bed
 wc -l ZKSCAN1_Occupancy_1bp.bed
-893 ZKSCAN1_Occupancy_1bp.bed
-
+# expand
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 ZKSCAN1_Occupancy_flip_shift2.bed  -o $MOTIF/1000bp/ZKSCAN1_Occupancy_flip_shift2_1000bp.bed
 
 
