@@ -7,6 +7,12 @@
 WRK=/storage/group/bfp2/default/hxc585_HainingChen/Library
 SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
 
+[ -d SF3/c ] || mkdir SF3/c
+cp $LIBRARY/ZKSCAN1_Occupancy_flip_shift2_1000bp/Composites/K562_ZKSCAN1_BX_rep1_hg38_ZKSCAN1_Occupancy_flip_shift2_MIN100_read2_Normalized.out SF3/c
+cp $LIBRARY/ZKSCAN1_Occupancy_flip_shift2_1000bp/Composites/K562_ZKSCAN1_BX_rep1_hg38_ZKSCAN1_Occupancy_flip_shift2_MIN100_read1_Normalized.out SF3/c
+cp $LIBRARY/ZKSCAN1_Occupancy_flip_shift2_1000bp/Composites/K562_-_BI_rep1_hg38_ZKSCAN1_Occupancy_flip_shift2_read2.out SF3/c
+cp $LIBRARY/ZKSCAN1_Occupancy_flip_shift2_1000bp/Composites/K562_-_BI_rep1_hg38_ZKSCAN1_Occupancy_flip_shift2_read1.out SF3/c
+
 [ -d F4/a ] || mkdir F4/a
 cp $LIBRARY/WebLogos/CTCF_M1_logo.eps F4/a/
 cp $LIBRARY/CTCF_Occupancy_1000bp/Composites/K562_CTCF_BX_rep1_hg38_CTCF_Occupancy_1000bp_read1_Normalized.out F4/a/

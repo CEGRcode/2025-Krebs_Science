@@ -8,4 +8,5 @@ $BAMDIR/BAM/K562_-_BI_rep1_hg38.bam $WRK/data/RefPT-Motif/1000bp/FOXA_K562_Nucen
 
 $BAMDIR/BAM/K562_-_BI_rep1_hg38.bam	$WRK/data/RefPT-Motif/1000bp/NFIA_downNuc_4_1000bp.bed
 $BAMDIR/BAM/K562_-_BI_rep1_hg38.bam	$WRK/data/RefPT-Motif/1000bp/NFIA_engageNucdown_NucSort_1000bp.bed
+$BAMDIR/BAM/K562_-_BI_rep1_hg38.bam $WRK/data/RefPT-Motif/1000bp/ZKSCAN1_Occupancy_flip_shift2_1000bp.bed
 
