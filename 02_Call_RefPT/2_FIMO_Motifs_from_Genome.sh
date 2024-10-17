@@ -50,8 +50,6 @@ echo "($SLURM_ARRAY_TASK_ID) $TF"
 # Run FIMO to scan genome for motif occurrences
  fimo --verbosity 1 --thresh 1.0E-4 --oc FIMO/$TF $PWM $GENOME
 
-grep $ALIAS FIMO/$TF/fimo.gff > FIMO/$TF/fimo.$TF.motif1.unsorted.noproximity.unfiltered.gff
-
 # Convert GFF to BED format
 java -jar $SCRIPTMANAGER coordinate-manipulation gff-to-bed FIMO/$TF/fimo.gff -o FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed
 
