@@ -13,7 +13,7 @@ Genome=$WRK/data/hg38_files/hg38.info.txt
 
 ZKSCAN1=$WRK/Motif_analysis/ZKSCAN1
 
-mkdir -p $ZKSCAN1FILE
+mkdir -p $ZKSCAN1
 cd $ZKSCAN1
 
 # determine the nucleosome engagment direction on each NFIA sites
