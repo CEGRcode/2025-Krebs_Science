@@ -1,28 +1,42 @@
 #!/bin/bash
 
-# get 
-module load anaconda
-source activate bioinfo
 ### CHANGE ME
-WRK=/Path/to/Title
-MOTIF=$WRK/data/RefPT-Motif/
-FIMO=$WRK/02_Call_RefPT/FIMO
-SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
-GENOME=$WRK/data/hg38_files/hg38.fa
-Genome=$WRK/data//hg38_files/hg38.info.txt
-Nuc="$WRK/Motif_analysis/K562_Nucpeak_hg38liftover_sort.bed"
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/02_Call_RefPT
+###
 
-mkdir -p $WRK/Motif_analysis/FOXA
-cd $WRK/Motif_analysis/FOXA
+# Dependencies
+# - bedtools
+# - java
+
+set -exo
+module load bedtools
+module load anaconda
+source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+
+# Inputs and outputs
+MOTIF=../data/RefPT-Motif
+GENOME=../data/hg38_files/hg38.fa
+GINFO=../data/hg38_files/hg38.info.txt
+Nuc=Motif_analysis/K562_Nucpeak_hg38liftover_sort.bed
+
+# Script shortcuts
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+
+TEMP=temp-5_FoxA_motif
+[ -d $TEMP ] || mkdir $TEMP
+[ -d Motif_analysis/FOXA ] || mkdir Motif_analysis/FOXA
+
+cd Motif_analysis/FOXA
 
 # merge HepG2 FoxA1 sites
 
-cat $FIMO/FOXA2/FOXA_HepG2_*_Occupancy_1bp.bed | \
+cat FIMO/FOXA2/FOXA_HepG2_*_Occupancy_1bp.bed | \
 bedtools sort -i - | \
 uniq | \
 awk '($1 !~ /alt|random|chrUn/){OFS="\t"; print $1, $2, $3, $1"_"$2"_"$3, $5, $6, "HepG2"}' | bedtools sort -i | uniq > FOXA_HepG2.bed
 
-cat $FIMO/FOXA2/FOXA_K562_*_Occupancy_1bp.bed | \
+cat FIMO/FOXA2/FOXA_K562_*_Occupancy_1bp.bed | \
 bedtools sort -i - | \
 uniq | \
 awk '($1 !~ /alt|random|chrUn/){OFS="\t"; print $1, $2, $3, $1"_"$2"_"$3, $5, $6, "K562"}' | bedtools sort -i | uniq > FOXA_K562.bed
@@ -34,7 +48,7 @@ wc -l FOXA_K562.bed
 wc -l FOXA_HepG2.bed
 wc -l FOXA_uniq_HepG2.bed
 wc -l FOXA_K562_HepG2_overlap.bed
-wc -l  FOXA_uniq_K562.bed
+wc -l FOXA_uniq_K562.bed
 
 rm FOXA_K562.bed
 cat FOXA_uniq_K562.bed FOXA_K562_HepG2_overlap.bed | bedtools sort -i | uniq >  FOXA_K562.bed
@@ -43,7 +57,7 @@ cat FOXA_uniq_K562.bed FOXA_K562_HepG2_overlap.bed | bedtools sort -i | uniq >  
 HepG2FoxA1=$WRK/data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam
 K562FoxA1=$WRK/data/BAM/K562_FOXA1_BX_rep1_hg38.bam
 
-bedtools shift -i FOXA_K562.bed -g $Genome -p 150 -m -150 > FOXA_K562_down150.bed
+bedtools shift -i FOXA_K562.bed -g $GINFO -p 150 -m -150 > FOXA_K562_down150.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 100 FOXA_K562_down150.bed -o FOXA_K562_down150_100bp.bed
 
 mkdir -p SCORES

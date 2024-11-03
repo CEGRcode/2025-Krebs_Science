@@ -1,12 +1,18 @@
 #!/bin/bash
 
 # Organize select MEME reference files for RefPT building into the PWM directory
-module load anaconda3
-source activate meme
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/02_Call_RefPT
 ###
+
+# Dependencies
+# - MEME suite (MEME)
+
+set -exo
+module load anaconda3
+source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 
 # Inputs and outputs
 MDIR=$WRK/data/sample-MEME

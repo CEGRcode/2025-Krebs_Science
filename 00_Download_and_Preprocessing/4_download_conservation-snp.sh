@@ -1,17 +1,21 @@
 #!/bin/bash
 
 ### CHANGE ME
-WRK=/Path/to/Title/00_Download_and_Preprocessing
+WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
 ###
+
+# Inputs and outputs
+CDIR=$WRK/../data/Conservation-SNP
+CHRSZ=$WRK/../data/hg38_files/hg38.chrom.sizes
+
+# Script shortcuts
 bigWigToWig=$WRK/../bin/bigWigToWig
 BWTOBG=$WRK/../bin/convert_wig_to_bedgraph.py
 BBTOBED=$WRK/../bin/bigBedToBed
 BGTOBW=$WRK/../bin/bedGraphToBigWig
 
-CDIR=$WRK/../data/Conservation-SNP
-CHRSZ=$WRK/../data/hg38_files/hg38.chrom.sizes
-
-mkdir -p $CDIR
+[ -d $CDIR ] || mkdir $CDIR
 cd $CDIR
 
 # Conservation processing - Download

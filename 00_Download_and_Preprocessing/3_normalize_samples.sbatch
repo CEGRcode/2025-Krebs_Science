@@ -10,13 +10,15 @@
 # Calculate normalization factors and get fragment distribution for every *.bam file in a directory
 
 ### CHANGE ME
-WRK=/Path/to/Title/
+WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
 ###
 
 # Dependencies
 # - java
 # - samtools
 
+set -exo
 module load samtools
 
 # Fill in placeholder constants with your directories
@@ -26,8 +28,8 @@ FDIR=$BAMDIR/FragmentDistributions
 BLACKLIST=$WRK/../data/hg38_files/hg38-blacklist.bed
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER="$WRK/bin/ScriptManager-v0.15.jar"
-SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts

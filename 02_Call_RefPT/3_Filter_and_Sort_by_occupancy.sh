@@ -11,31 +11,39 @@
 
 ### CHANGE ME
 WINDOW=100
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
-FIMO="$WRK/02_Call_RefPT/FIMO"
-cd "$FIMO" || exit
+# WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/02_Call_RefPT
+###
 
 # Dependencies
 # - java
 # - python
 # - samtools
 
-set -exo pipefail
+set -exo
 module load anaconda3
-source activate virtualenv
-
-# Script shortcuts
-SCRIPTMANAGER="$WRK/bin/ScriptManager-v0.15.jar"
+source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 
 # Inputs and outputs
-BLACKLIST="$WRK/data/hg38_files/hg38-blacklist.bed"
-MOTIF="$WRK/data/RefPT-Motif"
+BLACKLIST=../data/hg38_files/hg38-blacklist.bed
+MOTIF=../data/RefPT-Motif
 
-mkdir -p "$MOTIF/1000bp" "$MOTIF/1bp"
+# Script shortcuts
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+
+FIMO=FIMO
+cd $FIMO || exit
+
+[ -d FIMO ] || mkdir FIMO
+[ -d $MOTIF/1bp ] || mkdir $MOTIF/1bp
+[ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
 
 # Parse TF from PWM filename
-PWM=$(ls "$WRK/02_Call_RefPT/PWM/"*.meme.txt | head -n "$SLURM_ARRAY_TASK_ID" | tail -1)
+PWM=$(ls "$WRK/PWM/"*.meme.txt | head -n "$SLURM_ARRAY_TASK_ID" | tail -1)
 TF=$(basename "$PWM" "_M1.meme.txt")
+
+# TODO: Fix up filepaths below
 
 # Get BAM file
 # Define BAM file based on TF and sort by TF occupancy

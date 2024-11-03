@@ -4,7 +4,8 @@
 # This will need to be updated to run off of SRR samples before manuscript submission.
 
 ### CHANGE ME
-WRK=/path/to/Title/00_Download_and_Preprocessing
+WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
 ###
 
 # Dependencies
@@ -27,8 +28,8 @@ pug-fastq $MYSAMPLES
 mv *.fastq.gz $FDIR
 
 # Download Filtered BAM
- pug-bam $MYSAMPLES -b hg38
- mv *.bam $BDIR
+pug-bam $MYSAMPLES -b hg38
+mv *.bam $BDIR
 
 # Download MEME files
 pug-meme $MEMESAMPLES -b hg38

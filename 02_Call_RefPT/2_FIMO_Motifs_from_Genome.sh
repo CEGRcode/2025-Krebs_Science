@@ -5,16 +5,15 @@
 #SBATCH -A open
 #SBATCH -o logs/2_FIMO_Motifs_from_Genome.log.out-%a
 #SBATCH -e logs/2_FIMO_Motifs_from_Genome.log.err-%a
-#SBATCH --array 1-5
+#SBATCH --array 1-4
 
 # FIMO the reference genome for each motif in the PWM directory
 
 ### CHANGE ME
 EXCLUSION=100
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
-CALL_RefPT_hg38=$WRK/02_Call_RefPT/
-cd $CALL_RefPT_hg38
-
+WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/02_Call_RefPT
+###
 
 # Dependencies
 # - bedtools
@@ -22,15 +21,17 @@ cd $CALL_RefPT_hg38
 # - MEME suite (FIMO)
 
 set -exo
+module load bedtools
 module load anaconda3
-source activate meme
-source activate bioinfo
+source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 
 # Inputs and outputs
-GENOME=$WRK/data/hg38_files/hg38.fa
-BLACKLIST=$WRK/data/hg38_files/hg38-blacklist.bed
-ORIGINAL_SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+GENOME=$WRK/../data/hg38_files/hg38.fa
+BLACKLIST=$WRK/../data/hg38_files/hg38-blacklist.bed
+
+# Script shortcuts
+ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Define PWM file path based on SLURM_ARRAY_TASK_ID index
@@ -48,7 +49,7 @@ TF=$(basename "$PWM" "_M1.meme.txt")
 echo "($SLURM_ARRAY_TASK_ID) $TF"
 
 # Run FIMO to scan genome for motif occurrences
- fimo --verbosity 1 --thresh 1.0E-4 --oc FIMO/$TF $PWM $GENOME
+fimo --verbosity 1 --thresh 1.0E-4 --oc FIMO/$TF $PWM $GENOME
 
 # Convert GFF to BED format
 java -jar $SCRIPTMANAGER coordinate-manipulation gff-to-bed FIMO/$TF/fimo.gff -o FIMO/$TF/motif1_unsorted_noproximity_unfiltered.bed
@@ -60,7 +61,7 @@ bedtools intersect -v -a FIMO/$TF/motif1_unsorted_noproximity-.bed -b FIMO/$TF/m
 rm  FIMO/$TF/motif1_unsorted_noproximity-.bed FIMO/$TF/motif1_unsorted_noproximity+.bed 
 
 # Apply proximity filter
-java -jar $SCRIPTMANAGER peak-analysis filter-bed  FIMO/$TF/motif1_unsorted_noproximity.bed -o FIMO/$TF/motif1_unsorted
+java -jar $SCRIPTMANAGER peak-analysis filter-bed FIMO/$TF/motif1_unsorted_noproximity.bed -o FIMO/$TF/motif1_unsorted
 
 # Rename motif-1 file and cleanup
 mv FIMO/$TF/motif1_unsorted-FILTER.bed FIMO/$TF/$TF\_motif1_unsorted.bed
