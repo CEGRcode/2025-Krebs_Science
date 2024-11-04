@@ -10,52 +10,38 @@ CDIR=$WRK/../data/Conservation-SNP
 CHRSZ=$WRK/../data/hg38_files/hg38.chrom.sizes
 
 # Script shortcuts
-bigWigToWig=$WRK/../bin/bigWigToWig
-BWTOBG=$WRK/../bin/convert_wig_to_bedgraph.py
 BBTOBED=$WRK/../bin/bigBedToBed
 BGTOBW=$WRK/../bin/bedGraphToBigWig
 
 [ -d $CDIR ] || mkdir $CDIR
 cd $CDIR
 
-# Conservation processing - Download
-wget -c https://hgdownload.cse.ucsc.edu/goldenpath/hg38/phyloP30way/hg38.phyloP30way.bw
-mv hg38.phyloP30way.bw $CDIR/
-#ls -l ~/Downloads/bigWigToWig
-#chmod +x ~/Downloads/bigWigToWig 
-$bigWigToWig hg38.phyloP30way.bw hg38.phyloP30way.wig
+# =====Conservation processing=====
 
-#python $BWTOBG -i hg38.phyloP30way.wig -o phg38.phyloP30way.bedgraph
-# SNP processing - download and expand to standard BED format
+# Download
+wget -c -O $CDIR/hg38.phyloP30way.bw https://hgdownload.cse.ucsc.edu/goldenpath/hg38/phyloP30way/hg38.phyloP30way.bw
+
+# =====SNP processing=====
+
+# Download BigBed
 wget -c http://hgdownload.soe.ucsc.edu/gbdb/hg38/snp/dbSnp153.bb
-#ls -l ~/Downloads/bigBedToBed
-#chmod +x ~/Downloads/bigBedToBed    
+
+# Decompress to standard BED format
 $BBTOBED dbSnp153.bb dbSnp153.bed
 
-# SNP processsing - split by snv and others (ins,del,delins,mnv)
-awk '{OFS="\t"}{FS="\t"}{
- if ($14=="snv") {
-   print $0 > "dbSnp153_snv.bed";
- } 
-}' dbSnp153.bed
+# Filter to keep snv (remove ins,del,delins,mnv) and remove non-standard chr
+awk '{OFS="\t"}{FS="\t"}{ if ($14=="snv") print; }' dbSnp153.bed \
+	| grep -v '_fix' | grep -v '_random' | grep -v 'chrUn_' | grep -v '_alt' \
+	> dbSnp153_snv.bed
 
+# Rebuild each filtered BED file as a BedGraph file
+#   - strand agnostic count of chr-start-stop
+#   - reformat counts into score column of bedgraph
+cut -f1-3 dbSnp153_snv.bed | sort | uniq -c \
+	| awk '{OFS="\t"}{print $2,$3,$4,$1}' > dbSnp153_snv.bedGraph
 
-# Rebuild each filtered BED file as a BigWig file (for BigWig-style pileup)
-for FILE in dbSnp153_snv.bed;
-do
-	BASE=`basename $FILE ".bed"`
-	echo $BASE
-	continue
+# Convert BedGraph to BigWig (for BigWig-style pileup)
+$BGTOBW dbSnp153_snv.bedGraph $CHRSZ $CDIR/dbSnp153_snv.bw
 
-	# Make a smaller BED
-	# bedtools intersect -sorted -a $FILE -b <(bedtools sorted -i )
-
-	# Assume all notated for "+" strand, also stripping non-standard chr
-	awk '{FS="\t"}{OFS="\t"}{print $1,$2,$3}' $FILE \
-		| grep -v '_fix' |grep -v '_random' | grep -v 'chrUn_' | grep -v '_alt' \
-		| uniq -c | awk '{OFS="\t"}{print $2,$3,$4,$1}' > $BASE.bedGraph
-	$BGTOBW $BASE.bedGraph $CHRSZ $BASE.bw
-
-	# Clean-up
-	 rm $BASE.bedGraph
-done
+# Clean-up
+rm dbSnp153.bb dbSnp153.bed dbSnp153_snv.bed dbSnp153_snv.bedGraph
