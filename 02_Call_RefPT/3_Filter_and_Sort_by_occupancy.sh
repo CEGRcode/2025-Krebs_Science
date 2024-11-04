@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/3_Filter_and_Sort_by_occupancy.log.out-%a
 #SBATCH -e logs/3_Filter_and_Sort_by_occupancy.log.err-%a
-#SBATCH --array 1-5
+#SBATCH --array 1-7
 
 # Sort filtered Motif BED Files by the first BX rep1 BAM file occupancy for each TF target (skip scrambled)
 
@@ -31,89 +31,75 @@ MOTIF=../data/RefPT-Motif
 
 # Script shortcuts
 SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+INFLECTION=../bin/get_inflection_point.py
 
-FIMO=FIMO
-cd $FIMO || exit
+BAM_LIST=(
+    ../data/BAM/K562_CTCF_BX_rep1_hg38.bam
+    ../data/BAM/K562_FOXA1_BX_rep1_hg38.bam
+    ../data/BAM/K562_FOXA2_BX_rep1_hg38.bam
+    ../data/BAM/K562_NFIA_BX_rep1_hg38.bam
+    ../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam
+    ../data/BAM/HepG2_FOXA2_BX_rep1_hg38.bam
+    ../data/BAM/K562_ZKSCAN1_BX_rep1_hg38.bam
+)
 
-[ -d FIMO ] || mkdir FIMO
-[ -d $MOTIF/1bp ] || mkdir $MOTIF/1bp
-[ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
+# Define PWM file path based on SLURM_ARRAY_TASK_ID index
+INDEX=$(($SLURM_ARRAY_TASK_ID-1))
+BAMFILE=${BAM_LIST[$INDEX]}
+BAM=`basename $BAMFILE ".bam"`
 
-# Parse TF from PWM filename
-PWM=$(ls "$WRK/PWM/"*.meme.txt | head -n "$SLURM_ARRAY_TASK_ID" | tail -1)
-TF=$(basename "$PWM" "_M1.meme.txt")
+# Parse TF and Cell Line from BAM base filename
+CELLLINE=`echo $BAM | awk -F"_" '{print $1}'`
+TF=`echo $BAM | awk -F"_" '{print $2}'`
+[[ $TF == "FOXA1" ]] && MTF=FOXA2 || MTF=$TF
 
-# TODO: Fix up filepaths below
+TEMP=temp-3_Filter_and_Sort_by_occupancy
+[ -d $TEMP ] || mkdir $TEMP
 
-# Get BAM file
-# Define BAM file based on TF and sort by TF occupancy
-if [[ $TF == "FOXA2" ]]; then
-    HepG2FoxA1="$WRK/data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam"
-    HepG2FoxA2="$WRK/data/BAM/HepG2_FOXA2_BX_rep1_hg38.bam"
-    K562FoxA1="$WRK/data/BAM/K562_FOXA1_BX_rep1_hg38.bam"
-    K562FoxA2="$WRK/data/BAM/K562_FOXA2_BX_rep1_hg38.bam"
+# [ -d $MOTIF/1bp ] || mkdir $MOTIF/1bp
+# [ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
 
-    java -jar "$SCRIPTMANAGER" coordinate-manipulation expand-bed -c "$WINDOW" "$TF/${TF}_motif1_unsorted.bed" -o "$TF/FOXA_MOTIF1_unsorted_${WINDOW}bp.bed"
+# Construct basename
+BASE=$TEMP/${MTF}_${TF}-${CELLLINE}_M1_${WINDOW}bp
 
-    for FILE in "$HepG2FoxA1" "$HepG2FoxA2" "$K562FoxA1" "$K562FoxA2"; do
-        BAM=$(basename "$FILE" ".bam")
-        Cell=$(basename "$BAM" | cut -f1 -d "_")
-        Factor=$(basename "$BAM" | cut -f2 -d "_")
-        
-        java -jar "$SCRIPTMANAGER" read-analysis tag-pileup -5 -1 -s 6 --combined "$TF/FOXA_MOTIF1_unsorted_${WINDOW}bp.bed" "$FILE" -M "$TF/FOXA_MOTIF1_unsorted_${WINDOW}bp_${BAM}"
-        java -jar "$SCRIPTMANAGER" coordinate-manipulation sort-bed -c "$WINDOW" "$TF/FOXA_MOTIF1_unsorted_${WINDOW}bp.bed" "$TF/FOXA_MOTIF1_unsorted_${WINDOW}bp_${BAM}_combined.cdt" -o "$TF/FOXA_MOTIF1_${Cell}_${Factor}_sorted"
-        java -jar "$SCRIPTMANAGER" figure-generation heatmap --black -r 1 -l 2 -p .95 "$TF/FOXA_MOTIF1_${Cell}_${Factor}_sorted.cdt" -o "$TF/FOXA_MOTIF1_${Cell}_${Factor}_sorted.png"
-        
-        rm "$TF/FOXA_MOTIF1_unsorted_${WINDOW}bp_${BAM}_combined.cdt"
-        
-        mkdir -p "$TF/${Cell}_${Factor}_InflectionFilter"
-        
-        java -jar "$SCRIPTMANAGER" read-analysis aggregate-data --sum "$TF/FOXA_MOTIF1_${Cell}_${Factor}_sorted.cdt" -o "$TF/${Cell}_${Factor}_InflectionFilter/"
-        tail -n +2 "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES.out" | cut -f 2 | paste "$TF/FOXA_MOTIF1_${Cell}_${Factor}_sorted.bed" - > "$TF/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES.bed"
-        
-        python ../scripts/get_inflection_point.py -i "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES.out" -o "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES_inflectionPT.png" > "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_Threshold.txt"
-        
-        THRESH=$(grep "KneeLocator: " "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_Threshold.txt" | awk '{print $2}')
-        echo "$THRESH"
-        
-        awk -v THRESH="$THRESH" '{FS="\t"; OFS="\t"; if($2>=THRESH) print}' "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES.out" > "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES_Filter-$THRESH.out"
-        NLINES=$(wc -l < "$TF/${Cell}_${Factor}_InflectionFilter/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES_Filter-$THRESH.out")
-        head -n "$NLINES" "$TF/FOXA_MOTIF1_${Cell}_${Factor}_sorted_SCORES.bed" > "$TF/FOXA_MOTIF1_${Cell}_${Factor}_Occupancy.bed"
-        java -jar "$SCRIPTMANAGER" coordinate-manipulation expand-bed -c 1 "$TF/FOXA_MOTIF1_${Cell}_${Factor}_Occupancy.bed" -o "$TF/FOXA_MOTIF1_${Cell}_${Factor}_Occupancy_1bp.bed"
-    done
-    
-    rm "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp.bed"
-elif [[ $TF == "shuffle"* ]]; then
-    #sort -k5,5nr "$TF/${TF}_motif1_unsorted.bed" | head -n 10000 > "$TF/${TF}_top10k.bed"
-    java -jar "$SCRIPTMANAGER" coordinate-manipulation expand-bed -c 1 "$TF/${TF}_top10k.bed" -o "$TF/${TF}_top10k_1bp.bed"
-else
-    BAMFILE="$WRK/data/BAM/K562_${TF}_BX_rep1_hg38.bam"
-    BAM=$(basename "$BAMFILE" ".bam")
-    
-    java -jar "$SCRIPTMANAGER" coordinate-manipulation expand-bed -c "$WINDOW" "$TF/${TF}_motif1_unsorted.bed" -o "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp.bed"
-    java -jar "$SCRIPTMANAGER" read-analysis tag-pileup -5 -1 -s 6 --combined "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp.bed" "$BAMFILE" -M "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp_$BAM"
-    java -jar "$SCRIPTMANAGER" coordinate-manipulation sort-bed -c "$WINDOW" "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp.bed" "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp_${BAM}_combined.cdt" -o "$TF/${TF}_MOTIF1_sorted"
-    java -jar "$SCRIPTMANAGER" figure-generation heatmap --black -r 1 -l 2 -p .95 "$TF/${TF}_MOTIF1_sorted.cdt" -o "$TF/${TF}_MOTIF1_sorted.png"
-    
-    rm "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp_${BAM}_combined.cdt" "$TF/${TF}_MOTIF1_unsorted_${WINDOW}bp.bed"
-    
-    mkdir -p "$TF/InflectionFilter"
-    
-    java -jar "$SCRIPTMANAGER" read-analysis aggregate-data --sum "$TF/${TF}_MOTIF1_sorted.cdt" -o "$TF/InflectionFilter/"
-    tail -n +2 "$TF/InflectionFilter/${TF}_MOTIF1_sorted_SCORES.out" | cut -f 2 | paste "$TF/${TF}_MOTIF1_sorted.bed" - > "$TF/${TF}_MOTIF1_sorted_SCORES.bed"
-    
-    python ../scripts/get_inflection_point.py -i "$TF/InflectionFilter/${TF}_MOTIF1_sorted_SCORES.out" -o "$TF/InflectionFilter/${TF}_MOTIF1_sorted_SCORES_inflectionPT.png" > "$TF/InflectionFilter/${TF}_MOTIF1_sorted_Threshold.txt"
-    
-    THRESH=$(grep "KneeLocator: " "$TF/InflectionFilter/${TF}_MOTIF1_sorted_Threshold.txt" | awk '{print $2}')
-    echo "$THRESH"
-    
-    awk -v THRESH="$THRESH" '{FS="\t"; OFS="\t"; if($2>=THRESH) print}' "$TF/InflectionFilter/${TF}_MOTIF1_sorted_SCORES.out" > "$TF/InflectionFilter/${TF}_MOTIF1_sorted_SCORES_Filter-$THRESH.out"
-    NLINES=$(wc -l < "$TF/InflectionFilter/${TF}_MOTIF1_sorted_SCORES_Filter-$THRESH.out")
-    head -n "$NLINES" "$TF/${TF}_MOTIF1_sorted_SCORES.bed" > "$TF/${TF}_Occupancy.bed"
-    java -jar "$SCRIPTMANAGER" coordinate-manipulation expand-bed -c 1 "$TF/${TF}_Occupancy.bed" -o "$TF/${TF}_Occupancy_1bp.bed"
-fi
+# =====Sort by occupancy=====
 
-# Expand to 1000bp window and 1 bp Window
-# Uncomment if needed
-# java -jar "$SCRIPTMANAGER" coordinate-manipulation expand-bed -c 1000 "$MOTIF/${TF}_Occupancy.bed" -o "$MOTIF/1000bp/${TF}_Occupancy_1000bp.bed"
-# java -jar "$SCRIPTMANAGER" coordinate-manipulation expand-bed -c 1 "$MOTIF/${TF}_Occupancy.bed" -o "$MOTIF/1bp/${TF}_Occupancy_1bp.bed"
+# Expand WINDOW
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c $WINDOW FIMO/$MTF/$MTF\_M1_unsorted.bed -o FIMO/$MTF/$MTF\_M1_unsorted_${WINDOW}bp.bed
+
+# Tag Pileup
+java -jar $SCRIPTMANAGER read-analysis tag-pileup -5 -1 -s 6 --combined FIMO/$MTF/$MTF\_M1_unsorted_${WINDOW}bp.bed $BAMFILE -M ${BASE}_unsorted
+
+# Sort BED by Occupancy
+java -jar $SCRIPTMANAGER coordinate-manipulation sort-bed -c $WINDOW FIMO/$MTF/$MTF\_M1_unsorted_${WINDOW}bp.bed ${BASE}_unsorted_combined.cdt -o ${BASE}_combined
+
+# Visualize for reference
+java -jar $SCRIPTMANAGER figure-generation heatmap --black -r 1 -l 2 -p .95 ${BASE}_combined.cdt -o ${BASE}_combined.png
+
+
+# =====Call bound threshold=====
+
+# Sum tags for Occupancy score
+java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum ${BASE}_combined.cdt -o ${BASE}_combined.out
+
+# Add summed scores as 7th column to BED file
+tail -n +2 ${BASE}_combined.out | cut -f 2 | paste ${BASE}_combined.bed - > ${BASE}_combined_7-Occupancy.bed
+
+# Calculate inflection point
+python $INFLECTION -i ${BASE}_combined.out -o ${BASE}_InflectionPT.png > ${BASE}_InflectionPT.txt
+
+# Parse out threshold
+THRESH=`grep "KneeLocator: " ${BASE}_InflectionPT.txt | awk '{print $2}'`
+echo $THRESH
+
+# Count sites above threshold
+awk -v THRESH="$THRESH" 'BEGIN{FS="\t"}{if($2>=THRESH) print}' ${BASE}_combined.out > ${BASE}_AboveThreshold.out
+NBOUND=`wc -l ${BASE}_AboveThreshold.out | awk '{print $1}'`
+
+# Cut off BED at bound threshold
+head -n $NBOUND ${BASE}_combined_7-Occupancy.bed > ${BASE}_7-Occupancy_BOUND.bed
+
+# =====Expand RefPT=====
+
+# Expand 1bp
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 ${BASE}_7-Occupancy_BOUND.bed -o ${BASE}_7-Occupancy_BOUND_1bp.bed

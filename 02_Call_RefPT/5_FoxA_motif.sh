@@ -1,5 +1,33 @@
 #!/bin/bash
 
+# Build FOXA motif-related reference points
+
+# data/RefPT-Motif
+#   |--FOXA_LABEL-K562_SORT-NucleosomeEngagement.bed                                (see 500bp)
+#   |--FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged.bed                  (see 500bp)
+#   |--FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged.bed              (see 500bp)
+#   |--FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement.bed                              (see 500bp)
+#   |--FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-Engaged.bed                (see 500bp)
+#   |--FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged.bed            (see 500bp)
+#   |--FOXA_LABEL-K562_SORT-ClosestDyad.bed                                         (see 1000bp)
+#   |--FOXA_LABEL-K562_SORT-ClosestDayd_GROUP-NoOverlap.bed                         (see 1000bp)
+#   |--FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR.bed                               (see 1000bp)
+#   |--FOXA_LABEL-uHepG2_SORT-ClosestDyad.bed                                       (see 1000bp)
+#   |--FOXA_SORT-ClosestDyad_STACK-K562-uHepG2.bed                                  (see 1000bp)
+#   |--500bp
+#      |--FOXA_LABEL-K562_SORT-NucleosomeEngagement_500bp.bed                       (FOXA_K562_NucengageSort_500bp.bed)
+#      |--FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_500bp.bed         (FOXA_K562_Nucengage_1000bp.bed)
+#      |--FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_500bp.bed     (FOXA_K562_NoNuc_1000bp.bed)
+#      |--FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_500bp.bed                     (FOXA_uniq_HepG2_NucengageSort_500bp.bed)
+#      |--FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-Engaged_500bp.bed       (FOXA_HepG2_Nucengage_1000bp.bed)
+#      |--FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged_500bp.bed   (FOXA_HepG2_NoNuc_1000bp.bed)
+#   |--1000bp
+#      |--FOXA_LABEL-K562_SORT-ClosestDyad.bed                                      (FOXA_K562_NucSort.bed)
+#      |--FOXA_LABEL-K562_SORT-ClosestDayd_GROUP-NoOverlap_1000bp.bed               (FOXA_K562_NucSort-OVERLAP_1000bp.bed)
+#      |--FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR_1000bp.bed                     (FOXA_K562_NucSort-NFR_1000bp.bed)
+#      |--FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed                        (FOXA_all_1000bp.bed)
+
+
 ### CHANGE ME
 WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
 WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/02_Call_RefPT
@@ -17,116 +45,153 @@ source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 # Inputs and outputs
 MOTIF=../data/RefPT-Motif
 GENOME=../data/hg38_files/hg38.fa
-GINFO=../data/hg38_files/hg38.info.txt
-Nuc=Motif_analysis/K562_Nucpeak_hg38liftover_sort.bed
+GINFO=../data/hg38_files/hg38.chrom.sizes.txt
+NUCLEOSOME=../data/RefPT-Krebs/BNase-Nucleosomes.bed
+
+[ -d $MOTIF ] || mkdir $MOTIF
+[ -d $MOTIF/500bp ] || mkdir $MOTIF/500bp
+[ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
 
 # Script shortcuts
 SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 
 TEMP=temp-5_FoxA_motif
 [ -d $TEMP ] || mkdir $TEMP
-[ -d Motif_analysis/FOXA ] || mkdir Motif_analysis/FOXA
 
-cd Motif_analysis/FOXA
+## =====Intersect and subtract K562 vs HepG2 bound sites=====
 
-# merge HepG2 FoxA1 sites
+HEPG2_FOXA1=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA1-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
+HEPG2_FOXA2=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA2-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
+K562_FOXA1=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA1-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
+K562_FOXA2=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA2-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
 
-cat FIMO/FOXA2/FOXA_HepG2_*_Occupancy_1bp.bed | \
-bedtools sort -i - | \
-uniq | \
-awk '($1 !~ /alt|random|chrUn/){OFS="\t"; print $1, $2, $3, $1"_"$2"_"$3, $5, $6, "HepG2"}' | bedtools sort -i | uniq > FOXA_HepG2.bed
+# Merge and unique HepG2 sites with genomic sort
+cat $HEPG2_FOXA1 $HEPG2_FOXA2 \
+    | sort -uk4,4 \
+    | awk 'BEGIN{FS="\t";OFS="\t"}{print $0,"HepG2"}' \
+    | bedtools sort -i \
+    > $TEMP/FOXA_HepG2.bed
 
-cat FIMO/FOXA2/FOXA_K562_*_Occupancy_1bp.bed | \
-bedtools sort -i - | \
-uniq | \
-awk '($1 !~ /alt|random|chrUn/){OFS="\t"; print $1, $2, $3, $1"_"$2"_"$3, $5, $6, "K562"}' | bedtools sort -i | uniq > FOXA_K562.bed
-# test overlap
-bedtools intersect -v -a FOXA_HepG2.bed -b FOXA_K562.bed | awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$4,$5,$6,"HepG2_uniq"}'  > FOXA_uniq_HepG2.bed
-bedtools intersect -u -a FOXA_HepG2.bed -b FOXA_K562.bed | awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$4,$5,$6,"K562_HepG2_overlap"}'  > FOXA_K562_HepG2_overlap.bed
-bedtools intersect -v -a FOXA_K562.bed  -b FOXA_HepG2.bed | awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$4,$5,$6,"K562_uniq"}'  > FOXA_uniq_K562.bed
-wc -l FOXA_K562.bed
-wc -l FOXA_HepG2.bed
-wc -l FOXA_uniq_HepG2.bed
-wc -l FOXA_K562_HepG2_overlap.bed
-wc -l FOXA_uniq_K562.bed
+# Merge and unique K562 sites with genomic sort
+cat $K562_FOXA1 $K562_FOXA2 \
+    | sort -uk4,4 \
+    | awk 'BEGIN{FS="\t";OFS="\t"}{print $0,"K562"}' \
+    | bedtools sort -i \
+    > $TEMP/FOXA_K562.bed
 
-rm FOXA_K562.bed
-cat FOXA_uniq_K562.bed FOXA_K562_HepG2_overlap.bed | bedtools sort -i | uniq >  FOXA_K562.bed
-## test if FoxA1 interact with Nucleosome downstream
+# QC: Stat each group
+wc -l $TEMP/FOXA_K562.bed
+wc -l $TEMP/FOXA_HepG2.bed
 
-HepG2FoxA1=$WRK/data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam
-K562FoxA1=$WRK/data/BAM/K562_FOXA1_BX_rep1_hg38.bam
+# Venn Intersect
+bedtools intersect -v -a $TEMP/FOXA_HepG2.bed -b $TEMP/FOXA_K562.bed  | awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$4,$5,$6,"uHepG2"}' > $TEMP/FOXA_uHepG2.bed
+bedtools intersect -u -a $TEMP/FOXA_HepG2.bed -b $TEMP/FOXA_K562.bed  | awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$4,$5,$6,"K562-HepG2"}' > $TEMP/FOXA_K562-HepG2.bed
+bedtools intersect -v -a $TEMP/FOXA_K562.bed  -b $TEMP/FOXA_HepG2.bed | awk '{OFS="\t"}{FS="\t"}{print $1,$2,$3,$4,$5,$6,"uK562"}' > $TEMP/FOXA_uK562.bed
 
-bedtools shift -i FOXA_K562.bed -g $GINFO -p 150 -m -150 > FOXA_K562_down150.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 100 FOXA_K562_down150.bed -o FOXA_K562_down150_100bp.bed
+# QC: Stat each group
+wc -l $TEMP/FOXA_uHepG2.bed
+wc -l $TEMP/FOXA_K562-HepG2.bed
+wc -l $TEMP/FOXA_uK562.bed
 
-mkdir -p SCORES
-
-java -jar "$SCRIPTMANAGER" read-analysis tag-pileup FOXA_K562_down150_100bp.bed $K562FoxA1 -2 --cpu 4 -M  SCORES/K562FoxA1_FOXA_K562_down150_100bp_read2
-
-java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum SCORES/K562FoxA1_FOXA_K562_down150_100bp_read2_anti.cdt -o SCORES/
-tail -n +2 SCORES/K562FoxA1_FOXA_K562_down150_100bp_read2_anti_SCORES.out | cut -f 2 | paste FOXA_K562.bed -  | sort -k8,8nr > FOXA_K562_NucengageSort.bed
-rm FOXA_K562_down150.bed FOXA_K562_down150_100bp.bed
-  
-
-bedtools shift -i FOXA_uniq_HepG2.bed -g $Genome -p 150 -m -150 > FOXA_uniq_HepG2_down150.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 100 FOXA_uniq_HepG2_down150.bed -o FOXA_uniq_HepG2_down150_100bp.bed
-java -jar "$SCRIPTMANAGER" read-analysis tag-pileup FOXA_uniq_HepG2_down150_100bp.bed $HepG2FoxA1 -2 --cpu 4 -M SCORES/HepG2FoxA1_FOXA_uniq_HepG2_down150_100bp_read2
-java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum SCORES/HepG2FoxA1_FOXA_uniq_HepG2_down150_100bp_read2_anti.cdt -o SCORES/
-tail -n +2 SCORES/HepG2FoxA1_FOXA_uniq_HepG2_down150_100bp_read2_anti_SCORES.out | cut -f 2 | paste FOXA_uniq_HepG2.bed  - | sort -k8,8nr > FOXA_uniq_HepG2_NucengageSort.bed
-rm 8 FOXA_uniq_HepG2_down150.bed 8 FOXA_uniq_HepG2_down150_100bp.bed 
-
-## Sort FOXA sits by distance to cleosost nucleosome, sperate in NFR or in nucleosome
-bedtools sort -i FOXA_K562_NucengageSort.bed | uniq | bedtools closest -a - -b $Nuc -d -D a | sort -k15,15n > FOXA_K562_NucSort.bed
-bedtools sort -i FOXA_uniq_HepG2_NucengageSort.bed | uniq | bedtools closest -a - -b $Nuc -d -D a | sort -k15,15n > FOXA_uniq_HepG2_NucSort.bed
+# Merge with Venn labels (uK562 + K562-HepG2)
+cat $TEMP/FOXA_uK562.bed $TEMP/FOXA_K562-HepG2.bed | bedtools sort -i | uniq > $TEMP/FOXA_LABEL-K562.bed
+mv $TEMP/FOXA_uHepG2.bed $TEMP/FOXA_LABEL-uHepG2.bed
 
 
-awk '{
-    if ($15 >= -73 && $15 <= 73) {
-        print $0 >> "FOXA_K562_NucSort-OVERLAP.bed"
+## =====Sort FOXA sites by downstream nucleosome engagement=====
+# for each of K562 and uHepG2 groups, count 5' end read 2 tags at 150bp downstream
+
+K562_FOXA1_BAM=../data/BAM/K562_FOXA1_BX_rep1_hg38.bam
+HEPG2_FOXA1_BAM=../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam
+
+# Shift 150bp downstream
+bedtools shift -i $TEMP/FOXA_LABEL-K562.bed -g $GINFO -p 150 -m -150 > $TEMP/FOXA_LABEL-K562_Shift-d150.bed
+bedtools shift -i $TEMP/FOXA_LABEL-uHepG2.bed -g $GINFO -p 150 -m -150 > $TEMP/FOXA_LABEL-uHepG2_Shift-d150.bed
+
+# Expand 100bp
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 100 $TEMP/FOXA_LABEL-K562_Shift-d150.bed -o $TEMP/FOXA_LABEL-K562_Shift-d150_100bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 100 $TEMP/FOXA_LABEL-uHepG2_Shift-d150.bed -o $TEMP/FOXA_LABEL-uHepG2_Shift-d150_100bp.bed
+
+# Tag Pileup
+java -jar $SCRIPTMANAGER read-analysis tag-pileup $TEMP/FOXA_LABEL-K562_Shift-d150_100bp.bed $K562_FOXA1_BAM -2 --cpu 4 -M $TEMP/FOXA_LABEL-K562_Shift-d150_100bp_read2
+java -jar $SCRIPTMANAGER read-analysis tag-pileup $TEMP/FOXA_LABEL-uHepG2_Shift-d150_100bp.bed $HEPG2_FOXA1_BAM -2 --cpu 4 -M $TEMP/FOXA_LABEL-uHepG2_Shift-d150_100bp_read2
+
+# Sum antisense scores
+java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $TEMP/FOXA_LABEL-K562_Shift-d150_100bp_read2_anti.cdt -o $TEMP/FOXA_LABEL-K562_Shift-d150_100bp_read2_anti.out
+java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $TEMP/FOXA_LABEL-uHepG2_Shift-d150_100bp_read2_anti.cdt -o $TEMP/FOXA_LABEL-uHepG2_Shift-d150_100bp_read2_anti.out
+
+# Append scores to initial BED file
+tail -n +2 $TEMP/FOXA_LABEL-K562_Shift-d150_100bp_read2_anti.out | cut -f 2 | paste $TEMP/FOXA_LABEL-K562.bed - | sort -k8,8nr > $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement.bed
+tail -n +2 $TEMP/FOXA_LABEL-uHepG2_Shift-d150_100bp_read2_anti.out | cut -f 2 | paste $TEMP/FOXA_LABEL-uHepG2.bed - | sort -k8,8nr > $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement.bed
+
+# Expand 500bp
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement.bed -o $MOTIF/500bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_500bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement.bed -o $MOTIF/500bp/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_500bp.bed
+
+# Seperate by nucleosome engagement level (Engaged/LessEngaged, Top/Bottom)
+head -n 500 $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement.bed > $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged.bed
+tail -n +501 $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement.bed > $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged.bed
+head -n 900 $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement.bed > $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-Engaged.bed
+tail -n +901 $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement.bed > $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged.bed
+
+# Expand 500bp
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged.bed       -o $MOTIF/500bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_500bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 $MOTIF/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged.bed   -o $MOTIF/500bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_500bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-Engaged.bed     -o $MOTIF/500bp/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-Engaged_500bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 $MOTIF/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged.bed -o $MOTIF/500bp/FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged_500bp.bed
+
+
+## =====Sort FOXA sites by distance to closest nucleosome and separate into NFR/nucleosome groups=====
+
+# Sort BED files for closest operation
+bedtools sort -i $TEMP/FOXA_LABEL-K562.bed > $TEMP/FOXA_LABEL-K562_SORT-Genomic.bed
+bedtools sort -i $TEMP/FOXA_LABEL-uHepG2.bed > $TEMP/FOXA_LABEL-uHepG2_SORT-Genomic.bed
+bedtools sort -i $NUCLEOSOME > $TEMP/Nucleosomes_SORT-Genomic.bed
+
+# Call closest nucleosome
+bedtools closest -d -D a -t all -a $TEMP/FOXA_LABEL-K562_SORT-Genomic.bed -b $TEMP/Nucleosomes_SORT-Genomic.bed > $TEMP/FOXA_LABEL-K562_SORT-DistClosestDyad_Redundant.tsv
+bedtools closest -d -D a -t all -a $TEMP/FOXA_LABEL-uHepG2_SORT-Genomic.bed -b $TEMP/Nucleosomes_SORT-Genomic.bed > $TEMP/FOXA_LABEL-uHepG2_SORT-DistClosestDyad_Redundant.tsv
+
+# Random select from ties and sort by distance w/respect to NFIA
+shuf $TEMP/FOXA_LABEL-K562_SORT-DistClosestDyad_Redundant.tsv | sort -uk4,4 | sort -nk14,14 > $TEMP/FOXA_LABEL-K562_SORT-ClosestDyad.tsv
+shuf $TEMP/FOXA_LABEL-uHepG2_SORT-DistClosestDyad_Redundant.tsv | sort -uk4,4 | sort -nk14,14 > $TEMP/FOXA_LABEL-uHepG2_SORT-ClosestDyad.tsv
+
+# Group by distance to closest nucleosome bounded by -73 and +73 
+awk -v DIR="$TEMP" 'BEGIN{OFS="\t";FS="\t"}{
+    if ($14 >= -73 && $14 <= 73) {
+      print $0 > DIR"/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap.tsv"
     } else {
-        print $0 >> "FOXA_K562_NucSort-NFR.bed"
+      print $0 > DIR"/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR.tsv"
     }
-}' FOXA_K562_NucSort.bed
+}' $TEMP/FOXA_LABEL-K562_SORT-ClosestDyad.tsv
 
 
-awk '{
-    if ($15 >= -73 && $15 <= 73) {
-        print $0 >> "FOXA_uniq_HepG2_NucSort-OVERLAP.bed"
+# Group by Nucleosome-overlapping or NFR
+awk -v DIR="$TEMP" 'BEGIN{OFS="\t";FS="\t"}{
+    if ($14 >= -73 && $14 <= 73) {
+        print $0 >DIR"/FOXA_LABEL-uHepG2_SORT-ClosestDyad_GROUP-NoOverlap.tsv"
     } else {
-        print $0 >> "FOXA_uniq_HepG2_NucSort-NFR.bed"
+        print $0 > DIR"/FOXA_LABEL-uHepG2_SORT-ClosestDyad_GROUP-NFR.tsv"
     }
-}' FOXA_uniq_HepG2_NucSort.bed
+}' $TEMP/FOXA_LABEL-uHepG2_SORT-ClosestDyad.tsv
 
-wc -l *NucSort-*.bed
+# Slice to BED6
+cut -f1-6 $TEMP/FOXA_LABEL-K562_SORT-ClosestDyad.tsv                   > $MOTIF/FOXA_LABEL-K562_SORT-ClosestDyad.bed
+cut -f1-6 $TEMP/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap.tsv   > $MOTIF/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap.bed
+cut -f1-6 $TEMP/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR.tsv         > $MOTIF/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR.bed
+cut -f1-6 $TEMP/FOXA_LABEL-uHepG2_SORT-ClosestDyad.tsv                 > $MOTIF/FOXA_LABEL-uHepG2_SORT-ClosestDyad.bed
+cut -f1-6 $TEMP/FOXA_LABEL-uHepG2_SORT-ClosestDyad_GROUP-NoOverlap.tsv > $MOTIF/FOXA_LABEL-uHepG2_SORT-ClosestDyad_GROUP-NoOverlap.bed
+cut -f1-6 $TEMP/FOXA_LABEL-uHepG2_SORT-ClosestDyad_GROUP-NFR.tsv       > $MOTIF/FOXA_LABEL-uHepG2_SORT-ClosestDyad_GROUP-NFR.bed
 
-## get all FOXA bindable sites
+# Concat for stacked BED
+cat $MOTIF/FOXA_LABEL-K562_SORT-ClosestDyad.bed $MOTIF/FOXA_LABEL-uHepG2_SORT-ClosestDyad.bed > $MOTIF/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2.bed
 
-cat FOXA_K562_NucSort.bed FOXA_uniq_HepG2_NucSort.bed > FOXA_all.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_all.bed -o $MOTIF/1000bp/FOXA_all_1000bp.bed
+# QC: Stat NucSort
+wc -l $MOTIF/*SORT-ClosestDyad*.bed
 
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 FOXA_K562_NucengageSort.bed -o $MOTIF/1000bp/FOXA_K562_NucengageSort_500bp.bed
-
-## seperate by nucleosome engagement level
-head -n 500 FOXA_K562_NucengageSort.bed > FOXA_K562_Nucengage.bed
-tail -n +501 FOXA_K562_NucengageSort.bed > FOXA_K562_NoNuc.bed
-
-head -n 900 FOXA_uniq_HepG2_NucengageSort.bed > FOXA_HepG2_Nucengage.bed
-tail -n +901 FOXA_uniq_HepG2_NucengageSort.bed > FOXA_HepG2_NoNuc.bed
-
-## expand
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_K562_NucSort.bed -o $MOTIF/1000bp/FOXA_K562_NucSort_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_uniq_HepG2_NucSort.bed -o $MOTIF/1000bp/FOXA_uniq_HepG2_NucSort_1000bp.bed
-
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_K562_NucSort-OVERLAP.bed -o $MOTIF/1000bp/FOXA_K562_NucSort-OVERLAP_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_K562_NucSort-NFR.bed -o $MOTIF/1000bp/FOXA_K562_NucSort-NFR_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_uniq_HepG2_NucSort-OVERLAP.bed -o $MOTIF/1000bp/FOXA_uniq_HepG2_NucSort-OVERLAP_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_uniq_HepG2_NucSort-NFR.bed -o $MOTIF/1000bp/FOXA_uniq_HepG2_NucSort-NFR_1000bp.bed
-
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_K562_Nucengage.bed -o $MOTIF/1000bp/FOXA_K562_Nucengage_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_K562_NoNuc.bed -o $MOTIF/1000bp/FOXA_K562_NoNuc_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_HepG2_Nucengage.bed -o $MOTIF/1000bp/FOXA_HepG2_Nucengage_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 FOXA_HepG2_NoNuc.bed -o $MOTIF/1000bp/FOXA_HepG2_NoNuc_1000bp.bed
-
-
-
+# Expand 1000bp
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2.bed -o $MOTIF/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/FOXA_LABEL-K562_SORT-ClosestDyad.bed -o $MOTIF/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/FOXA_LABEL-uHepG2_SORT-ClosestDyad.bed -o $MOTIF/1000bp/FOXA_LABEL-uHepG2_SORT-ClosestDyad_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR.bed -o $MOTIF/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap.bed -o $MOTIF/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap_1000bp.bed
