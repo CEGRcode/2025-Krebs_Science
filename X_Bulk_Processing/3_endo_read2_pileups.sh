@@ -11,8 +11,9 @@
 # Heatmaps included and all with scaling. Read2 sense/anti flipped for plotting.
 
 ### CHANGE ME
-WRK=/Path/to/Title
-METADATA=$WRK/0X_Bulk_Processing/Read2_pileups.txt
+WRK=/path/to/2024-Chen_Nature/X_Bulk_Processing
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/X_Bulk_Processing
+METADATA=Read2_pileups.txt
 ###
 
 # Dependencies
@@ -24,17 +25,17 @@ set -exo
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/data/BAM
+BAMDIR=../data/BAM
 OUTDIR=$WRK/Library
 
 # Setup ScriptManager for job array
 
-ORIGINAL_SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
-COMPOSITE=$WRK/Fox_NFIA_CTCF/bin/sum_Col_CDT.pl
+COMPOSITE=../bin/sum_Col_CDT.pl
 
 # Set up output directories
 [ -d logs ] || mkdir logs
@@ -49,11 +50,8 @@ BAM=`basename $BAMFILE ".bam"`
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
 BED=`basename $BEDFILE ".bed"`
 
-# absolute or persentage
-Threshold=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $3}'`
-
-# Determine absolute value for heatmap
-Value=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $4}'`
+# Determine heatmap contrast threshold
+CONTRAST_THRESH=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $3}'`
 
 echo "(${SLURM_ARRAY_TASK_ID}) ${BEDFILE} "x" ${BAMFILE} "
 
@@ -77,8 +75,8 @@ java -jar $SCRIPTMANAGER read-analysis scale-matrix $DIR/CDT/$BASE\_sense.cdt -s
 
 
 # Two-color heatmap & merge
-java -jar $SCRIPTMANAGER figure-generation heatmap -$Threshold $Value -c FF00FF $DIR/CDT/$BASE\_sense_Normalized.cdt -o $DIR/PNG/Strand/$BASE\_sense_Normalized_treeview.png
-java -jar $SCRIPTMANAGER figure-generation heatmap -$Threshold $Value -c 00BFFF  $DIR/CDT/$BASE\_anti_Normalized.cdt  -o $DIR/PNG/Strand/$BASE\_anti_Normalized_treeview.png
+java -jar $SCRIPTMANAGER figure-generation heatmap -a $CONTRAST_THRESH -c FF00FF $DIR/CDT/$BASE\_sense_Normalized.cdt -o $DIR/PNG/Strand/$BASE\_sense_Normalized_treeview.png
+java -jar $SCRIPTMANAGER figure-generation heatmap -a $CONTRAST_THRESH -c 00BFFF  $DIR/CDT/$BASE\_anti_Normalized.cdt  -o $DIR/PNG/Strand/$BASE\_anti_Normalized_treeview.png
 java -jar $SCRIPTMANAGER figure-generation merge-heatmap $DIR/PNG/Strand/$BASE\_sense_Normalized_treeview.png $DIR/PNG/Strand/$BASE\_anti_Normalized_treeview.png -o $DIR/PNG/$BASE\_Normalized_merge.png
 
 # Count sites

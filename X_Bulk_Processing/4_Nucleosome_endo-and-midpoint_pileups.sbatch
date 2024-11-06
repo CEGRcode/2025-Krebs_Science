@@ -12,8 +12,9 @@
 #  - data/BAM/K562_-_BI_rep1_hg19.bam
 
 ### CHANGE ME
-WRK=/Path/to/Title
-METADATA=$WRK/0X_Bulk_Processing/Nucleosome_pileups.txt
+WRK=/path/to/2024-Chen_Nature/X_Bulk_Processing
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/X_Bulk_Processing
+METADATA=Nucleosome_pileups.txt
 ###
 
 # Dependencies
@@ -24,20 +25,19 @@ set -exo
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/data/BAM
-OUTDIR=$WRK/Library
+BAMDIR=../data/BAM
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
-COMPOSITE=$WRK/bin/sum_Col_CDT.pl
+COMPOSITE=../bin/sum_Col_CDT.pl
 
 # Set up output directories
 [ -d logs ] || mkdir logs
-[ -d $OUTDIR ] || mkdir $OUTDIR
+[ -d Library ] || mkdir Library
 
 # Determine BAM file for the current job array index
 BAMFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
@@ -50,7 +50,7 @@ BED=`basename $BEDFILE ".bed"`
 
 echo "(${SLURM_ARRAY_TASK_ID}) ${BEDFILE} "x" ${BAMFILE} "
 
-DIR=$OUTDIR/$BED
+DIR=Library/$BED
 [ -d $DIR ] || mkdir $DIR
 [[ -d $DIR/CDT ]] || mkdir $DIR/CDT
 [[ -d $DIR/Composites ]] || mkdir $DIR/Composites
