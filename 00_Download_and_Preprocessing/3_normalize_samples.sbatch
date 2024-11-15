@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH --mem=14gb
-#SBATCH -t 00:10:00
+#SBATCH -t 00:40:00
 #SBATCH -A open
 #SBATCH -o logs/3_normalize_samples.log.out-%a
 #SBATCH -e logs/3_normalize_samples.log.err-%a
@@ -20,10 +20,10 @@ WRK=/Path/to/Title/
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/data/BAM
-NDIR=$WRK/data/NormalizationFactors
-FDIR=$WRK/data/FragmentDistributions
-BLACKLIST=$WRK/data/hg38_files/hg38-blacklist.bed
+BAMDIR=$WRK/../data/BAM
+NDIR=$BAMDIR/NormalizationFactors
+FDIR=$BAMDIR/FragmentDistributions
+BLACKLIST=$WRK/../data/hg38_files/hg38-blacklist.bed
 
 # Setup ScriptManager for job array
 ORIGINAL_SCRIPTMANAGER="$WRK/bin/ScriptManager-v0.15.jar"
@@ -40,19 +40,31 @@ cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Determine BAM file for the current job array index
 BAMFILE=`ls $BAMDIR/*hg38.bam | head -n $SLURM_ARRAY_TASK_ID | tail -1`
-BAMFILENEME=`basename $BAMFILE ".bam"`
-[ -f $BAMFILENEME.bai ] || samtools index $BAMFILE
-STRAIN=`basename $BAMFILE ".bam" | cut -d "_" -f 1`
-Target=`basename $BAMFILE ".bam" | cut -d "_" -f 2`
-ASSAY=`basename $BAMFILE ".bam" | cut -d "_" -f 3`
+BAM=`basename $BAMFILE ".bam"`
+[ -f $BAMFILE.bai ] || samtools index $BAMFILE
 
-[ "$ASSAY" == "BI" ] && exit
-echo "Calculate classic TF NCIS normalization factors w/ blacklist"
-java -jar $SCRIPTMANAGER read-analysis scaling-factor $BAMFILE -f $BLACKLIST --ncis -c $BAMDIR/${STRAIN}_IgG_*_hg38.bam -w 500 -o $NDIR/$BAMFILENEME\_NCISb
+echo "Calculate Total Tag normalization factors w/ blacklist"
 
+# Calculate Total Tag normalization factor
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER read-analysis scaling-factor $BAMFILE -f $BLACKLIST --total-tag -o $NDIR/$BAM\_TotalTag
+
+STRAIN=`echo $BAM | cut -d "_" -f 1`
+TARGET=`echo $BAM | cut -d "_" -f 2`
+[ "$TARGET" == "IgG" ] && exit
+[ "$STRAIN" == "BNase-seq" ] && exit
+[ "$STRAIN" == "DNase-seq" ] && exit
+[ "$STRAIN" == "MNase-seq" ] && exit
+[ "$STRAIN" == "MNase-ChIP" ] && exit
+[ "$STRAIN" == "CUTRUN" ] && exit
+
+CONTROL=$BAMDIR/${STRAIN}_IgG_BX_merge_hg38.bam
+echo "Calculate NCIS normalization factors w/ blacklist and control: ${CONTROL}"
+
+# Calculate NCIS normalization factor
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER read-analysis scaling-factor $BAMFILE -f $BLACKLIST --ncis -c $CONTROL -w 500 -o $NDIR/$BAM\_NCISb
 
 # Calculate fragment size distribution
-java -jar $SCRIPTMANAGER bam-statistics pe-stat -x 500 -s $BAMFILE -o $FDIR/$BAMFILENEME
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER bam-statistics pe-stat -x 500 -d $BAMFILE -o $FDIR/$BAM
 
  
 rm $SCRIPTMANAGER
