@@ -3,8 +3,8 @@
 # Organize data from X_Bulk_Processing into Z_Figures for F6
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/Z_Figures
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/Z_Figures
+WRK=/path/to/2024-Krebs_Science/Z_Figures
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
 ###
 
 set -exo

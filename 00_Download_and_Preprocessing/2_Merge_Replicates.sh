@@ -3,8 +3,8 @@
 # Script to hardcode the merging/renaming of PEGR BAM & MEME files into a standard file naming system
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
+WRK=/path/to/2024-Krebs_Science/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 ###
 
 # Dependencies

@@ -3,8 +3,8 @@
 # Make weblogos for every MEME file in `02_Call_RefPT/PWM/*.meme.txt` (both strands)
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/X_Bulk_Processing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/X_Bulk_Processing
+WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
 ###
 
 # Dependencies

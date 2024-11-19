@@ -12,8 +12,8 @@
 ### CHANGE ME
 WINDOW=100
 # WRK=/storage/group/bfp2/default/hxc585_HainingChen/Fox_NFIA_CTCF/
-WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/02_Call_RefPT
+WRK=/path/to/2024-Krebs_Science/02_Call_RefPT
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_RefPT
 ###
 
 # Dependencies

@@ -3,8 +3,8 @@
 # Organize select MEME reference files for RefPT building into the PWM directory
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/02_Call_RefPT
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/02_Call_RefPT
+WRK=/path/to/2024-Krebs_Science/02_Call_RefPT
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_RefPT
 ###
 
 # Dependencies

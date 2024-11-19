@@ -10,8 +10,8 @@
 # Calculate normalization factors and get fragment distribution for every *.bam file in a directory
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
+WRK=/path/to/2024-Krebs_Science/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 ###
 
 # Dependencies

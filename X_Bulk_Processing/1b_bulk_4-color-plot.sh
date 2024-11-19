@@ -9,8 +9,8 @@
 # Re-expand each BED file in LIST to 32bp and generate a 4-color plot
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/X_Bulk_Processing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/X_Bulk_Processing
+WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
 ###
 
 # Dependencies

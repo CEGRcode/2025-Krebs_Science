@@ -6,10 +6,10 @@
 #SBATCH -o logs/1_run_strainid.log.out
 #SBATCH -e logs/1_run_strainid.log.err
 
-# Execute GenoPipe's StrainID module on all samples in the INPUTBAM directory (2024-Chen_Nature/data/BAM)
+# Execute GenoPipe's StrainID module on all samples in the INPUTBAM directory (2024-Krebs_Science/data/BAM)
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/01_Run_GenoPipe
+WRK=/path/to/2024-Krebs_Science/01_Run_GenoPipe
 GENOPIPE=/path/to/GenoPipe
 ###
 

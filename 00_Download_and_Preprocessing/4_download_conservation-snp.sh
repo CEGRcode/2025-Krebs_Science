@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
+WRK=/path/to/2024-Krebs_Science/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 ###
 
 # Inputs and outputs

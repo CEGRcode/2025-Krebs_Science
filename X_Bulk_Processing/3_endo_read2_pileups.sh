@@ -11,8 +11,8 @@
 # Heatmaps included and all with scaling. Read2 sense/anti flipped for plotting.
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/X_Bulk_Processing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/X_Bulk_Processing
+WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
 METADATA=Read2_pileups.txt
 ###
 

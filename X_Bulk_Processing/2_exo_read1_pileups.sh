@@ -11,8 +11,8 @@
 # Heatmaps included and all with scaling. 
 
 ### CHANGE ME
-WRK=/path/to/2024-Chen_Nature/X_Bulk_Processing
-WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/X_Bulk_Processing
+WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
 METADATA=Read1_pileups.txt
 ###
 
