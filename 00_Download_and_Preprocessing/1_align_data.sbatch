@@ -10,26 +10,35 @@
 # Script to align samples according to our Galaxy Workflow
 
 ### CHANGE ME
-WRK=/path/to/2023-Chen_Benzonase-ChIP-exo/00_Download_and_Preprocessing
+WRK=/path/to/2024-Chen_Nature/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Chen_Nature/00_Download_and_Preprocessing
 ###
 
 # Dependencies
-# - BWA-MEME
+# - BWA
 # - CWpair
 # - Genetrack
 # - java
 # - MEME
 # - samtools
 
-GENOME=../data/hg19_files/hg19.fa
-PICARD=../bin/picard.jar
-SCRIPTMANAGER=../bin/ScriptManager_v0.14.jar
+set -exo
+module load bwa
+module load samtools
+module load anaconda
+source activate bx
 
+# Inputs and outputs
 FASTQ1=`ls ../data/FASTQ/*_R1.fastq.gz | head -n $SLURM_ARRAY_TASK_ID | tail -1`
 SAMPLE=`basename $FASTQ1 "R1.fastq.gz"`
 FASTQ2=../data/FASTQ/$SAMPLE\_R2.fastq.gz
 BAM=../data/sample-BAM/$SAMPLE
 MEME=../data/sample-MEME/$SAMPLE
+GENOME=../data/hg38_files/hg38.fa
+
+# Script shortcuts
+PICARD=../bin/picard.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 
 [ -d logs ] || mkdir logs
 

@@ -4,7 +4,7 @@ This directory includes the GenoPipe results and the scripts for generating and 
 
 Update the two paths before running:
 ```
-WRK=/path/to/20XX-LastName_Journal/
+WRK=/path/to/Title/
 MODULEID=/path/to/GenoPipe/ModuleID
 ```
 
@@ -64,14 +64,5 @@ If you don't have a lot of samples and the samples are really small, GenoPipe wi
 
 Example:
 ```
-bash job/run_epitopeid.pbs
-```
-
-### For many/large samples
-
-If you need more time, the script is set-up to run on servers with a PBS scheduler. Make sure the walltime you request is reasonable (`#PBS -l walltime=`) and that you are using the appropriate allocation (`#PBS -A`).
-
-Example:
-```
-qsub job/run_epitopeid.pbs
+sbatch job/run_strainid.sbatch
 ```

@@ -1,10 +1,12 @@
 
 This directory stores generally used scripts and executables.
 
-### ScriptManager-v0.14.jar
+`* Please note the marked binaries in bin that are specific for executing on Linux machines. Please overwrite with appropriate binaries if you are executing from a different OS (e.g. MacOS)`
+
+### ScriptManager-v0.15.jar
 Download the Java binary executable for ScriptManager that includes a collection of tools including TagPileup which is used to count tags and calculate coverage of samples around reference points.
 ```
-wget https://github.com/CEGRcode/scriptmanager/releases/download/v0.14/ScriptManager-v0.14.jar
+wget https://github.com/CEGRcode/scriptmanager/releases/download/v0.15/ScriptManager-v0.15.jar
 ```
 
 ### picard.jar
@@ -22,14 +24,17 @@ wget https://github.com/seqcode/chexmix/releases/download/v0.52/chexmix.v0.52.pu
 ### UCSC binaries
 Download the appropriate binary for your OS from UCSC. (current binaries are for `linux.x86_64`)
 
-#### bigWigToBedGraph
+#### bedGraphToBigWig (Linux)*
+```
+wget https://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedGraphToBigWig
+chmod 755 bedGraphToBigWig
+```
 
-#### bedGraphToBigWig
-
-#### bigBedToBed
-
-#### bedToBigBed
-
+#### bigBedToBed (Linux)*
+```
+wget https://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bigBedToBed
+chmod 755 bigBedToBed
+```
 
 ### resize_png.py
 ```
