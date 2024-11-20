@@ -25,7 +25,7 @@ module load anaconda3
 source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 
 # Inputs and outputs
-BLACKLIST=../data/hg38_files/hg38-blacklist.bed
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 MOTIF=../data/RefPT-Motif
 
 # Script shortcuts

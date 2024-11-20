@@ -27,7 +27,7 @@ source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 
 # Inputs and outputs
 GENOME=../data/hg38_files/hg38.fa
-BLACKLIST=../data/hg38_files/hg38-blacklist.bed
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 
 # Script shortcuts
 ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar

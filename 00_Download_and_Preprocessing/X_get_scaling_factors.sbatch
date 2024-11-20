@@ -26,7 +26,7 @@ module load samtools
 # Inputs and outputs
 BAMDIR=$WRK/../data/BAM
 NDIR=$WRK/../data/BAM/NormalizationFactors
-BLACKLIST=$WRK/../data/hg38_files/hg38-blacklist.bed
+BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 
 # Setup ScriptManager for job array
 ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar

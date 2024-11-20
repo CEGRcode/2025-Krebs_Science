@@ -20,7 +20,9 @@ gzip -d $GENOME.gz
 
 # Download hg38 Blacklist from ENCODE
 wget -O ../data/hg38_files/ENCFF356LFX_hg38_exclude.bed.gz https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz
-gzip -d ../data/hg38_files/ENCFF356LFX_hg38_exclude.bed.gz
+
+# Reslice into a BED6 format
+gzip -dc ../data/hg38_files/ENCFF356LFX_hg38_exclude.bed.gz | awk 'BEGIN{OFS="\t";FS="\t"}{print $0,".","0","."}' > ../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 
 # Create genome indexes
 samtools faidx $GENOME
