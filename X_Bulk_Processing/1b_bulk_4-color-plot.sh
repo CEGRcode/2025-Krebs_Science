@@ -11,6 +11,7 @@
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
 WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
+WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
 ###
 
 # Dependencies
