@@ -24,7 +24,7 @@ source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 # Inputs and outputs
 MOTIF=../data/RefPT-Motif/
 GENOME=../data/hg38_files/hg38.fa
-GINFO=../data/hg38_files/hg38.chrom.sizes.txt
+GINFO=../data/hg38_files/hg38.chrom.sizes
 ZKSCAN1_BOUND=temp-3_Filter_and_Sort_by_occupancy/ZKSCAN1_ZKSCAN1-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
 
 [ -d $MOTIF ] || mkdir $MOTIF

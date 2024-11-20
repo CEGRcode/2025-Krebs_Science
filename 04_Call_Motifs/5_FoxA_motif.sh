@@ -45,7 +45,7 @@ source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 # Inputs and outputs
 MOTIF=../data/RefPT-Motif
 GENOME=../data/hg38_files/hg38.fa
-GINFO=../data/hg38_files/hg38.chrom.sizes.txt
+GINFO=../data/hg38_files/hg38.chrom.sizes
 NUCLEOSOME=../data/RefPT-Krebs/BNase-Nucleosomes.bed
 
 [ -d $MOTIF ] || mkdir $MOTIF
