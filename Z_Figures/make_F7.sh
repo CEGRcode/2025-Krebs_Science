@@ -9,8 +9,6 @@
 # (F1b and S1) Use peak-align to "pileup" CpG island annotations on TSS-centered RefPT
 # (F1b) Tag Pileup deep ENCODE MNase-seq signal on TSS-centered RefPT
 
-
-
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/Z_Figures
 WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/Z_Figures
@@ -29,8 +27,6 @@ module load anaconda
 source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 
 # Inputs and outputs
-KREBS=$WRK/../data/RefPT-Krebs/
-REFPT=$KREBS/2000bp/TSS_GROUP-Expressed_SORT-CpG_2000bp.bed
 LIBRARY=$WRK/../X_Bulk_Processing/Library
 
 # Script shortcuts
@@ -38,23 +34,23 @@ SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
 COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
 VIOLIN=$WRK/../bin/make_violin_plot.py
 
-# Set up output directories
-[ -d F7/a ] || mkdir -p F7/a
-BED=`basename $REFPT ".bed"`
+
+[ -d F7 ] || mkdir F7
 
 # ===============================================================================================================================
 
-echo "Copy heatmaps over from X_Bulk_Processing/Library"
+[ -d F7/a ] || mkdir F7/a
 
+# Heatmaps
+BED=TSS_GROUP-Expressed_SORT-CpG_2000bp
 cp $LIBRARY/TSS_GROUP-Expressed_SORT-CpG_2000bp/SVG/BNase-seq_50U-10min_merge_hg38_TSS_GROUP-Expressed_SORT-CpG_2000bp_midpoint_combined_treeview_label.svg F7/a/
 cp $LIBRARY/TSS_GROUP-Expressed_SORT-CpG_2000bp/SVG/DNase-seq_ENCFF518XTC_rep1_hg38_TSS_GROUP-Expressed_SORT-CpG_2000bp_midpoint_combined_treeview_label.svg F7/a/
 
+# =====Make CpG heatmaps=====
 
-# ===============================================================================================================================
-
+REFPT=$WRK/../data/RefPT-Krebs/2000bp/TSS_GROUP-Expressed_SORT-CpG_2000bp.bed
+BED=`basename $REFPT ".bed"`
 CPGBED=$WRK/../data/RefPT-Other/CpGIslands.bed
-
-echo "Peak-align CpG islands around TSS"
 BASE=CpG-Islands_$BED
 
 # Pileup CpG islands
@@ -76,13 +72,12 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatma
 [ -d S1 ] || mkdir S1
 cp F7/a/$BASE\_treeview.svg S1/$BASE\_treeview.svg
 
-# ===============================================================================================================================
+
+# =====Pileup MNase heatmap (TSS RefPT w/ 80bp shift)=====
 
 BAMFILE=$WRK/../data/BAM/MNase-seq_ENCODE_merge_hg38.bam
 BAM=`basename $BAMFILE ".bam"`
-
-echo "Pileup MNase-seq across TSS RefPT w/ 80bp shift"
-BASE=$BAM\_$BED
+BASE=${BAM}_${BED}
 
 # Pileup SE MNase data (shift 80bp)
 java -jar $SCRIPTMANAGER read-analysis tag-pileup $REFPT $BAMFILE \
@@ -98,9 +93,8 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatma
 	-x "Distance from TSS (kb)" -y "${NSITES} CoPRO determined TSSs sorted by CpG island length" \
 	-o F7/a/$BASE\_treeview.svg
 
-# ===============================================================================================================================
 
-echo "Copy heatmaps over from X_Bulk_Processing/Library"
+# =====Pileup MNase/BNase for violins=====
 
 MNASE_BAMFILE=../data/BAM/MNase-seq_ENCODE_merge_hg38.bam
 BNASE_BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
@@ -131,3 +125,42 @@ python $VIOLIN -i $DATAFILE -o F7/a/violin_data.png \
 	--xlabel "+1 dyad group" --ylabel "Tag Occupancy" \
 	--width 8 --height 4\
 	--title "BNase v MNase in CpGIsland overlap v non-overlap regions"
+
+# ===============================================================================================================================
+
+[ -d F7/c ] || mkdir F7/c
+
+
+# Composites
+BED=PlusOneDyad_SORT-Expression_2000bp
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H2A_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H2A.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H2AZ_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H2AZ.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3K4me3.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K9ac_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3K9ac.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K27ac_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3K27ac.out
+cp $LIBRARY/$BED/Composites/MNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/MNase-ChIP-H3K4me3.out
+
+
+# ===============================================================================================================================
+
+[ -d F7/d ] || mkdir F7/d
+
+# Heatmaps
+BED=PlusOneDyad_SORT-pHN-dHN_400bp
+cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined_treeview_label.svg F7/d
+cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K9ac_merge_hg38_$BED\_midpoint-MAX80_combined_treeview_label.svg F7/d
+cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K27ac_merge_hg38_$BED\_midpoint-MAX80_combined_treeview_label.svg F7/d
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $LIBRARY/$BED/PNG/Strand/CoPRO_Capped_merge_hg38_$BED\_5read1_anti_treeview.png \
+	-l -200 -m 0 -r +200 -w 2 -f 18 \
+	-x $BED -y "$BED occurences (NSITES sites)" \
+	-o F7/d/CoPRO_Capped_merge_hg38_$BED\_5read1_anti_treeview_label.svg
+
+# Composites
+BED=PlusOneDyad_SORT-pHN-dHN_GROUP-TOP-2500_400bp
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/d/Top-H3K4me3.out
+cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/d/Top-CoPRO.out
+
+BED=PlusOneDyad_SORT-pHN-dHN_GROUP-BOTTOM-2500_400bp
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/d/Bottom-H3K4me3.out
+cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/d/Bottom-CoPRO.out
