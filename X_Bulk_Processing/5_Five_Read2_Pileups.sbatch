@@ -3,48 +3,48 @@
 #SBATCH --mem=24gb
 #SBATCH -t 00:40:00
 #SBATCH -A open
-#SBATCH -o logs/3_endo_read2_pileups.log.out-%a
-#SBATCH -e logs/3_endo_read2_pileups.log.err-%a
+#SBATCH -o logs/5_Five_Read2_Pileups.log.out-%a
+#SBATCH -e logs/5_Five_Read2_Pileups.log.err-%a
 #SBATCH --array 1-26
 
-# Pileup read1 (exo cut sites) for a custom combinations of BAM x BED files.
-# Heatmaps included and all with scaling. Read2 sense/anti flipped for plotting.
+# Pileup heatmaps and composites (5' read2, endo cut sites) for a custom
+# combination of BAM x BED files (primarily nucleosome BAM). Configuration
+# file specifies insert size filters, contrast threshold, RGB heatmap color,
+# and normalization strategy.
 
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
-METADATA=Read2_pileups.txt
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
+WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
+METADATA=Five_Read2_Pileups.txt
+THREADS=4
 ###
 
 # Dependencies
 # - java
-# - perl
 # - samtools
 
 set -exo
 module load samtools
 
 # Fill in placeholder constants with your directories
-BAMDIR=../data/BAM
+BAMDIR=$WRK/../data/BAM
 
 # Setup ScriptManager for job array
-
-ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
-
-# Script shortcuts
-COMPOSITE=../bin/sum_Col_CDT.pl
 
 # Set up output directories
 [ -d logs ] || mkdir logs
 [ -d Library ] || mkdir Library
 
-# Determine insert filters
+# Determine insert filters for the current job array index
 MIN=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
 MAX=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
 
-# Determine heatmap contrast threshold
+# Determine heatmap contrast threshold for the current job array index
 CONTRAST_THRESH=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $3}'`
 
 # Determine scaling method
@@ -59,13 +59,28 @@ BAM=`basename $BAMFILE ".bam"`
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $6}'`
 BED=`basename $BEDFILE ".bed"`
 
+# ===============================================================================================================================
+
+# Count sites
+NSITES=`wc -l $BEDFILE | awk '{print $1}'`
+
+# Set window labels
+RLABEL="R"
+LLABEL="L"
+WINDOW=`echo $BED | rev | cut -d"_" -f1 | rev`
+[ $WINDOW == "2000bp" ] && LLABEL="-1" && RLABEL="+1"
+[ $WINDOW == "1000bp" ] && LLABEL="-500" && RLABEL="+500"
+[ $WINDOW == "500bp" ] && LLABEL="-250" && RLABEL="+250"
+[ $WINDOW == "250bp" ] && LLABEL="-125" && RLABEL="+125"
+[ $WINDOW == "200bp" ] && LLABEL="-100" && RLABEL="+100"
+
 # Parse min/max params
-TP_PARAMS=""
+TP_PARAMS="--cpu $THREADS -5 -2"
 FILTER=""
-[[ $MIN =~ "NaN" ]] || FILTER=-MIN${MIN}
-[[ $MIN =~ "NaN" ]] || TP_PARAMS="-n $MIN"
+[[ $MIN =~ "NaN" ]] || FILTER=${FILTER}-MIN${MIN}
+[[ $MIN =~ "NaN" ]] || TP_PARAMS="${TP_PARAMS} -n ${MIN}"
 [[ $MAX =~ "NaN" ]] || FILTER=${FILTER}-MAX${MAX}
-[[ $MAX =~ "NaN" ]] || TP_PARAMS=$TP_PARAMS" -x $MAX"
+[[ $MAX =~ "NaN" ]] || TP_PARAMS="${TP_PARAMS} -x ${MAX}"
 
 # Parse heatmap params
 HM_PARAMS="-p 0.95"
@@ -101,7 +116,7 @@ DIR=Library/$BED
 echo "Run Custom read2 pileup"
 
 # Pileup (read 1)
-java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE $TP_PARAMS --cpu 4 -5 -2 -o $DIR/Composites/$BASE.out -M $DIR/CDT/$BASE
+java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE $TP_PARAMS -o $DIR/Composites/$BASE.out -M $DIR/CDT/$BASE
 
 # Scale matrix
 java -jar $SCRIPTMANAGER read-analysis scale-matrix $DIR/Composites/$BASE.out  -s $FACTOR -o $DIR/Composites/${BASE}_${NORMALIZATION}.out -l 1
@@ -115,28 +130,8 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation heatmap $HM_
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation heatmap $HM_PARAMS -c 00BFFF $DIR/CDT/${BASE}_anti.cdt  -o $DIR/PNG/Strand/${BASE}_anti_treeview.png
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation merge-heatmap $DIR/PNG/Strand/${BASE}_sense_treeview.png $DIR/PNG/Strand/${BASE}_anti_treeview.png -o $DIR/PNG/${BASE}_merge.png
 
-# Count sites
-NSITES=`wc -l $BEDFILE | awk '{print $1-1}'`
-
-# Label heatmap based on BED naming
-if [[ "$BED" == *"1000bp"* ]]; then
-    java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/${BASE}_merge.png \
-        -l "-500" -m "0" -r "+500" -w 1 -f 20 \
-        -o "$DIR/SVG/${BASE}_merge_label.svg"
-
-elif [[ "$BED" == *"500bp"* ]]; then
-    java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/${BASE}_merge.png \
-        -l "-250" -m "0" -r "+250" -w 1 -f 20 \
-        -o "$DIR/SVG/${BASE}_merge_label.svg"
-
-elif [[ "$BED" == *"250bp"* ]]; then
-    java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/${BASE}_merge.png \
-        -l "0" -m "125" -r "+250" -w 1 -f 20 \
-        -o "$DIR/SVG/${BASE}_merge_label.svg"
-fi
-
-# Make stranded composites
-perl $COMPOSITE $DIR/CDT/$BASE\_anti.cdt $DIR/CDT/$BASE\_ANTI
-perl $COMPOSITE $DIR/CDT/$BASE\_sense.cdt $DIR/CDT/$BASE\_SENSE
-cat $DIR/CDT/$BASE\_ANTI <(tail -1 $DIR/CDT/$BASE\_SENSE) > $DIR/Composites/$BASE.out
-rm $DIR/CDT/$BASE\_SENSE $DIR/CDT/$BASE\_ANTI
+# Label heatmap
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/${BASE}_merge.png \
+	-l $LLABEL -m "0" -r $RLABEL -w 1 -f 20 \
+	-x $BED -y "$BED occurences (${NSITES} sites)" \
+	-o $DIR/SVG/${BASE}_merge_label.svg

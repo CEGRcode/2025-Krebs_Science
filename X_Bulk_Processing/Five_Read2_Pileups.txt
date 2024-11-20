@@ -24,4 +24,3 @@ NaN	NaN	3	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/500b
 100	NaN	1	NCIS	../data/BAM/K562_NFIA_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/NFIA_SORT-DistClosestDyad_GROUP-Downstream_1000bp.bed	F6c
 100	NaN	1	NCIS	../data/BAM/K562_ZKSCAN1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/ZKSCAN1_SORT-Occupancy_1000bp.bed	S3c
 100	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/ZKSCAN1_SORT-Occupancy_1000bp.bed	S3c
-
