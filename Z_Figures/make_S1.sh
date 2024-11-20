@@ -3,9 +3,9 @@
 # Make PE insert size histogram of BNase-seq 2 replicates at each of three digestion levels (50U-3min, 50U-10min, 50U-30min)
 
 ### CHANGE ME
-WRK=/path/to/2023-Krebs_BenzonaseSeq/Z_Figures
-WRK=/ocean/projects/see180003p/owlang/2023-Krebs_BenzonaseSeq/Z_Figures
-WRK=/storage/home/owl5022/scratch/2023-Krebs_BenzonaseSeq/Z_Figures
+WRK=/path/to/2024-Krebs_Science/Z_Figures
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/Z_Figures
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
 ###
 
 # Dependencies

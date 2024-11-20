@@ -11,9 +11,9 @@
 # purpose - track dinucleotide frequency for every single base pair. This uses 4 groups of 4 dinucleotides but with freq as log2(obs/exp). **LOWLY-BOUND bedfile is from 04_DNAshape output. **all code checked JEK 231207. One change made to set seed for random generation of bedfile. 231208 - edited bash function to +1 added to both num/denom if 0 instances of dinucleotides. v10 - log(2) code fixed. v11 - changed to AA, AT, AG, and AC groupings. v12 - use counts; not exp./obs. v12 - change to 16 dinucleotides
 
 ### CHANGE ME
-WRK=/path/to/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
-WRK=/ocean/projects/see180003p/owlang/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
-WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
+WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
 METADATA=../03_Call_Motifs/TF_JASPAR_ENCODE_config.txt
 THREADS=4
 ###

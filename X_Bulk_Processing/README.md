@@ -1,4 +1,4 @@
-This directory contains scripts to pileup select BAM files against select RefPT BED file and saves the analysis to `2023-Krebs_BenzonaseSeq/Library`.
+This directory contains scripts to pileup select BAM files against select RefPT BED file and saves the analysis to `2024-Krebs_Science/Library`.
 
 Please make sure your BAM files are downloaded and indexed in the appropriate directory (`data/BAM/`) with normalization factors calculated (`data/BAM/NormalizationFactors/`) and reference points built (`data/RefPT-XXX`).
 

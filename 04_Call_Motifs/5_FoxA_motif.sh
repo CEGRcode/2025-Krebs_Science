@@ -30,7 +30,7 @@
 
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/04_Call_Motifs
+WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
 ###
 
 # Dependencies
@@ -156,7 +156,7 @@ bedtools closest -d -D a -t all -a $TEMP/FOXA_LABEL-uHepG2_SORT-Genomic.bed -b $
 shuf $TEMP/FOXA_LABEL-K562_SORT-DistClosestDyad_Redundant.tsv | sort -uk4,4 | sort -nk14,14 > $TEMP/FOXA_LABEL-K562_SORT-ClosestDyad.tsv
 shuf $TEMP/FOXA_LABEL-uHepG2_SORT-DistClosestDyad_Redundant.tsv | sort -uk4,4 | sort -nk14,14 > $TEMP/FOXA_LABEL-uHepG2_SORT-ClosestDyad.tsv
 
-# Group by distance to closest nucleosome bounded by -73 and +73 
+# Group by distance to closest nucleosome bounded by -73 and +73
 awk -v DIR="$TEMP" 'BEGIN{OFS="\t";FS="\t"}{
     if ($14 >= -73 && $14 <= 73) {
       print $0 > DIR"/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap.tsv"

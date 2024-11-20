@@ -14,9 +14,9 @@
 #     |--PlusOneDyad_SORT-pHex-dHex_GROUP-Nuc-Dyad_GROUP-BOTTOM-1K_500bp.bed
 
 ### CHANGE ME
-WRK=/path/to/2023-Krebs_BenzonaseSeq/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2023-Krebs_BenzonaseSeq/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2023-Krebs_BenzonaseSeq/02_Call_Nucleosomes
+WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
 THREADS=4
 ###
 

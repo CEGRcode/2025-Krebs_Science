@@ -10,9 +10,9 @@
 # promoter-proximal and not promoter-proximal (NFR overlap or not)
 
 ### CHANGE ME
-WRK=/path/to/2023-Krebs_BenzonaseSeq/03_Call_Motifs
-WRK=/ocean/projects/see180003p/owlang/2023-Krebs_BenzonaseSeq/03_Call_Motifs
-WRK=/storage/home/owl5022/scratch/2023-Krebs_BenzonaseSeq/03_Call_Motifs
+WRK=/path/to/2024-Krebs_Science/03_Call_Motifs
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_Motifs
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/03_Call_Motifs
 ###
 
 # Dependencies

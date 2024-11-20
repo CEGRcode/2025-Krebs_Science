@@ -12,7 +12,7 @@
 ### CHANGE ME
 EXCLUSION=100
 WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/04_Call_Motifs
+WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
 ###
 
 # Dependencies

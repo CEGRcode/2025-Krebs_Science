@@ -13,9 +13,9 @@
 # Scaling? Color threshold?
 
 ### CHANGE ME
-WRK=/path/to/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
-WRK=/ocean/projects/see180003p/owlang/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
-WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
+WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
 THREADS=4
 ###
 

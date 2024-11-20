@@ -23,8 +23,8 @@
 #   |--BNase-ChIP_H4_merge_hg38.bam
 
 ### CHANGE ME
-WRK=/path/to/2023-Krebs_BenzonaseSeq/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2023-Krebs_BenzonaseSeq/00_Download_and_Preprocessing
+WRK=/path/to/2024-Krebs_Science/00_Download_and_Preprocessing
+WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 ###
 
 # Dependencies

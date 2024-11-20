@@ -11,9 +11,9 @@
 # purpose - intersect bedfile of all sites for a motif with encode-called peaks (Bed narrowPeak bedfile). v8 - intersection (and not intersection) based on Olivia's code. Rest of code from v6. v10 - take ratio, sort, then take quartiles. v11 - updated to hg38
 
 ### CHANGE ME
-WRK=/path/to/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
-WRK=/ocean/projects/see180003p/owlang/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
-WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2023-Krebs_BenzonaseSeq/X_Bulk_Processing
+WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
 METADATA=../03_Call_Motifs/TF_JASPAR_ENCODE_config.txt
 THREADS=4
 ###
