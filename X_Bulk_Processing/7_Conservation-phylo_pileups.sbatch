@@ -3,13 +3,13 @@
 #SBATCH --mem=14gb
 #SBATCH -t 00:15:00
 #SBATCH -A open
-#SBATCH -o logs/6_Conservation-phylo_pileups.log.out-%a
-#SBATCH -e logs/6_Conservation-phylo_pileups.log.err-%a
+#SBATCH -o logs/7_Conservation-phylo_pileups.log.out-%a
+#SBATCH -e logs/7_Conservation-phylo_pileups.log.err-%a
 #SBATCH --array 1
 
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
+WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
 ###
 
 # Dependencies
