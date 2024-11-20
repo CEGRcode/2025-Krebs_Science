@@ -3,8 +3,8 @@
 #SBATCH --mem=24gb
 #SBATCH -t 00:15:00
 #SBATCH -A open
-#SBATCH -o logs/5_CoPRO_TSS_ActiveSite_Pileups.log.out-%a
-#SBATCH -e logs/5_CoPRO_TSS_ActiveSite_Pileups.log.err-%a
+#SBATCH -o logs/6_CoPRO_TSS_ActiveSite_Pileups.log.out-%a
+#SBATCH -e logs/6_CoPRO_TSS_ActiveSite_Pileups.log.err-%a
 #SBATCH --array 1-5
 
 # Pileup 5' R1 and R2 (heatmaps) and composites for a list of BED files using
@@ -16,6 +16,7 @@
 WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
 WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
 WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
+WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
 THREADS=4
 ###
 
