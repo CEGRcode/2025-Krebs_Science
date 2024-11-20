@@ -12,10 +12,16 @@ Scripts were designed to run on linux systems with a Slurm scheduler. Simply upd
 - [Read more on Slurm Job arrays](https://slurm.schedmd.com/job_array.html)
 - No Slurm scheduler? `SLURM_ARRAY_TASK_ID` can be hardcoded and run as a regular shell script
 
-## 1_make_weblogos.sh
+## 1a_make_weblogos.sh
 
 ```
-sh 1_make_weblogos.sh
+sh 1a_make_weblogos.sh
+```
+
+## 1b_bulk_4-color-plot.sh
+
+```
+sh 1b_bulk_4-color-plot.sh
 ```
 
 ## 2_MotifAnalyses.sbatch
@@ -36,8 +42,26 @@ sbatch 3_Midpoint_Pileups.sbatch
 sbatch 4_Five_Read1_Pileups.sbatch
 ```
 
-## 5_CoPRO_TSS_ActiveSite_Pileups.sbatch
+## 5_Five_Read2_Pileups.sbatch
+
+```
+sbatch 5_Five_Read2_Pileups.sbatch
+```
+
+## 6_CoPRO_TSS_ActiveSite_Pileups.sbatch
 
 ```
 sbatch 5_CoPRO_TSS_ActiveSite_Pileups.sbatch
+```
+
+## 7_Conservation-phylo_pileups.sbatch
+
+```
+sbatch 7_Conservation-phylo_pileups.sbatch
+```
+
+## 8_dbSnp153_pileups.sbatch
+
+```
+sbatch 8_dbSnp153_pileups.sbatch
 ```
