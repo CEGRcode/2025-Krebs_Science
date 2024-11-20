@@ -1,4 +1,8 @@
 **.DS_Store
+**.bam
+**.bam.bai
+**.fastq
+**.fastq.gz
 
 bin/ScriptManager-v0.15-*.jar
 
@@ -15,8 +19,27 @@ data/RefPT-Krebs/BNase-Nucleosomes.bed
 data/sample-BAM/*.bam*
 data/sample-MEME/*.txt
 
-02_Call_RefPT/FIMO
-02_Call_RefPT/temp-*
+00_Download_and_Preprocessing/ENCODE
+00_Download_and_Preprocessing/ChIP
+00_Download_and_Preprocessing/Benzonase
+00_Download_and_Preprocessing/FASTQ
+00_Download_and_Preprocessing/BAM
+
+02_Call_Nucleosomes/AllParticles
+02_Call_Nucleosomes/Intersect
+02_Call_Nucleosomes/UniqueParticles
+02_Call_Nucleosomes/temp-4_Build_TSS_RefPT
+02_Call_Nucleosomes/MakePlusMinus
+02_Call_Nucleosomes/Make_pHex-dHex
+02_Call_Nucleosomes/Make_pHN-dHN
+
+03_Call_JASPAR/FIMO
+03_Call_JASPAR/temp-*
+
+04_Call_Motifs/FIMO
+04_Call_Motifs/temp-*
 
 X_Bulk_Processing/Library
 
+Z_Figures/F*
+Z_Figures/S*
