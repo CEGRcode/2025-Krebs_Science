@@ -11,7 +11,7 @@
 ### Correspondence:fp265@cornell.edu
 
 ### PMID : [XXXXXXXX](https://pubmed.ncbi.nlm.nih.gov/XXXXXXXX/)
-### GEO ID : [XXXXXXXX](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=XXXXXXXX)
+### GEO ID : [GSE266547](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE266547)
 
 ## Abstract
 Genes are regulated by transcription factors (TFs) bound to DNA sites (TFBS). Unbound sites are often nucleosomal and inaccessible. Current assays cannot address whether TFs encounter phasing of the DNA helix on nucleosomal surfaces across a natural genomic context, and how this may change upon TF binding. Here we use an endonuclease, either alone or coupled to ChIP-exo to measure the genomic rotational and translational (positional) phasing of nucleosomal DNA at unbound and TF-bound TFBSs in human cells. Unbound sites had a preferred rotational phase, but generally lacked a translational phase. In contrast, TF/TFBS complexes were often engaged with an adjacent translationally and rotationally phased nucleosome. Thus, a few molecular themes may govern how TFs engage nucleosomes.

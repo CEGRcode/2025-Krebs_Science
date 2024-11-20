@@ -36,6 +36,71 @@ wget https://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bigBedToBed
 chmod 755 bigBedToBed
 ```
 
+### calculate_BED_ScoreRatio.pl
+
+Calculate a ratio between the score columns of two different BED files to create a new BED file with the ratio for the score.
+
+```
+usage:		perl calculate_BED_ScoreRatio.pl	Numerator_BED_File	Denominator_BED_File	Output_BED
+Example:	perl calculate_BED_ScoreRatio.pl numerator.bed denominator.bed ratio.bed
+	BED information inherited from numerator BED file
+```
+
+### dinucleotide_CDT_from_FASTA.py
+Scan a FASTA file for positional dinucleotide content
+```
+python dinucleotide_CDT_from_FASTA.py  -h
+usage: dinucleotide_CDT_from_FASTA.py [-h] -i fasta_fn -s dinucleotides_str -o tsv_fn
+
+============
+Get 0/1 matrix (CDT format) of dinucleotides
+============
+
+optional arguments:
+ -h, --help            show this help message and exit
+ -i fasta_fn, --input fasta_fn
+                       the FASTA file to analyze
+ -s dinucleotides_str, --seq dinucleotides_str
+                       the "-" delimited set of dinucleotides to check for
+ -o tsv_fn, --output tsv_fn
+                       the output CDT formatted 0/1 matrix of dinucleotide matches
+```
+
+### kmer_tally_to_pwm.py
+Can feed this script the tally output from `upstream_seq_tally.py` to summarize the kmer tallies' positional nucleotide content.
+```
+usage: kmer_tally_to_pwm.py [-h] -i bam_fn -o tsv_fn [-c COLUMN]
+kmer_tally_to_pwm.py: error: the following arguments are required: -i/--input, -o/--output
+```
+
+### make_violin_plot.py
+Make violin plots with presets formatted for this manuscript.
+```
+usage: make_violin_plot.py [-h] [-i two_col_file] [--width width] [--height height] [--title title] [--xlabel xlabel] [--ylabel ylabel] [--preset1] [--preset2] [-o output_svg]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i two_col_file, --input two_col_file
+                        tab-delimited file made of two columns: first column y values to plot (must all be numeric values), second column is the grouping (which violin group along x-axis to contribute to)
+  --width width         width of figure
+  --height height       height of figure
+  --title title         title of figure
+  --xlabel xlabel       x-axis label
+  --ylabel ylabel       y-axis label
+  --preset1             use proximal/distal presets for nucleosome intervals (Fig 4d)
+  --preset2             use proximal/distal presets for half-nucleosome intervals (Fig 4d)
+  -o output_svg, --output output_svg
+                        name of SVG filepath to save figure to (if none provided, figure pops up in new window)
+```
+
+### upstream_seq_tally.py
+Tally up kmers upstream of each read (can use proper-pair flag for paired-end data). Reverse-stand mapped reads are reverse complemented to orient kmers with the read on the right.
+```
+usage: upstream_seq_tally.py [-h] -i bam_fn -g fasta_fn -o tsv_fn [-p]
+                             [-k KMER]
+upstream_seq_tally.py: error: the following arguments are required: -i/--input, -g/--genome, -o/--output
+```
+
 ### resize_png.py
 ```
 Usage:
