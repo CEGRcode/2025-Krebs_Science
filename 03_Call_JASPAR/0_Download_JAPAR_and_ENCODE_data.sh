@@ -6,9 +6,9 @@
 # `../data/` directory.
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/03_Call_Motifs
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_Motifs
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/03_Call_Motifs
+WRK=/path/to/2024-Krebs_Science/03_Call_JASPAR
+WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_JASPAR
+WRK=/scratch/owl5022/2024-Krebs_Science/03_Call_JASPAR
 METADATA=TF_JASPAR_ENCODE_config.txt
 ###
 

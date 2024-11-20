@@ -14,7 +14,7 @@
 WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
 WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
 WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-METADATA=../03_Call_Motifs/TF_JASPAR_ENCODE_config.txt
+METADATA=../03_Call_JASPAR/TF_JASPAR_ENCODE_config.txt
 THREADS=4
 ###
 

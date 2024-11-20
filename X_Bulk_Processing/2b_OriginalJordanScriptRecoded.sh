@@ -14,7 +14,7 @@
 WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
 WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
 WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-METADATA=../03_Call_Motifs/TF_JASPAR_ENCODE_config.txt
+METADATA=../03_Call_JASPAR/TF_JASPAR_ENCODE_config.txt
 THREADS=4
 ###
 
@@ -87,7 +87,7 @@ significant_peaks_anti=${FILEBASE}_General_significant_peaks_anti.tab
 rotational_values=${FILEBASE}_General_rotational_values.tab
 FINAL=${FILEBASE}_FinalStats.tab
 
-# See 03_Call_Motifs for generating initial motifs split into quartiles
+# See 03_Call_JASPAR for generating initial motifs split into quartiles
 
 #extract number of NTs from MEME file
 python $EXTRACT $MEMEFILE $NT_count
