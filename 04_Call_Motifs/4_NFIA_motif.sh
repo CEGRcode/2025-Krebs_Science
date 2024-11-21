@@ -48,7 +48,7 @@ MOTIF=../data/RefPT-Motif
 GENOME=../data/hg38_files/hg38.fa
 GINFO=../data/hg38_files/hg38.chrom.sizes
 BAMFILE=../data/BAM/K562_NFIA_BX_rep1_hg38.bam
-NUCLEOSOME=../data/RefPT-Krebs/BNase-Nucleosomes.bed
+NUCLEOSOME=../data/RefPT-Krebs/1bp/BNase-Nucleosomes_1bp.bed
 BOUND_NFIA=temp-3_Filter_and_Sort_by_occupancy/NFIA_NFIA-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
 
 [ -d $MOTIF ] || mkdir $MOTIF

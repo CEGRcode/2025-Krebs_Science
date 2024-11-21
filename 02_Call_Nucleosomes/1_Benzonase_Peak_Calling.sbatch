@@ -137,8 +137,14 @@ cat AllParticles/Supraoct.bed AllParticles/Nucleosome.bed \
 	> AllParticles/Merged_Redundant_Nucleosome-Particles.bed #K562_redundant_master_nucleosomal_particles.bed
 wc -l AllParticles/Merged_Redundant_Nucleosome-Particles.bed
 
+[ -d $KREBS ] || mkdir $KREBS
+[ -d $KREBS/1bp ] || mkdir $KREBS/1bp
+
 # Create a peak file for just the full-length nucleosomes
 KREBS=../data/RefPT-Krebs
-[ -d $KREBS ] || mkdir $KREBS
 bedtools sort -i AllParticles/Nucleosome.bed > $KREBS/BNase-Nucleosomes.bed
+
 wc -l $KREBS/BNase-Nucleosomes.bed
+
+# Expand 1bp
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $KREBS/BNase-Nucleosomes.bed -o $KREBS/1bp/BNase-Nucleosomes_1bp.bed
