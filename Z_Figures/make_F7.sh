@@ -43,8 +43,8 @@ VIOLIN=$WRK/../bin/make_violin_plot.py
 
 # Heatmaps
 BED=TSS_GROUP-Expressed_SORT-CpG_2000bp
-cp $LIBRARY/TSS_GROUP-Expressed_SORT-CpG_2000bp/SVG/BNase-seq_50U-10min_merge_hg38_TSS_GROUP-Expressed_SORT-CpG_2000bp_midpoint_combined_treeview_label.svg F7/a/
-cp $LIBRARY/TSS_GROUP-Expressed_SORT-CpG_2000bp/SVG/DNase-seq_ENCFF518XTC_rep1_hg38_TSS_GROUP-Expressed_SORT-CpG_2000bp_midpoint_combined_treeview_label.svg F7/a/
+cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint_TotalTag_combined.svg F7/a/
+cp $LIBRARY/$BED/SVG/DNase-seq_ENCFF518XTC_rep1_hg38_${BED}_midpoint_TotalTag_combined.svg F7/a/
 
 # =====Make CpG heatmaps=====
 
@@ -77,7 +77,7 @@ cp F7/a/$BASE\_treeview.svg S1/$BASE\_treeview.svg
 
 BAMFILE=$WRK/../data/BAM/MNase-seq_ENCODE_merge_hg38.bam
 BAM=`basename $BAMFILE ".bam"`
-BASE=${BAM}_${BED}
+BASE=${BAM}_${BED}_TotalTag
 
 # Pileup SE MNase data (shift 80bp)
 java -jar $SCRIPTMANAGER read-analysis tag-pileup $REFPT $BAMFILE \
@@ -85,13 +85,13 @@ java -jar $SCRIPTMANAGER read-analysis tag-pileup $REFPT $BAMFILE \
 	-o F7/a/$BASE\_combined.out -M F7/a/$BASE
 
 # Two-color heatmap
-java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation heatmap --black -p 0.95 F7/a/$BASE\_combined.cdt.gz -o F7/a/$BASE\_treeview.png
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation heatmap --black -p 0.95 F7/a/$BASE\_combined.cdt.gz -o F7/a/$BASE\_combined.png
 
 # Label heatmap
-java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap F7/a/$BASE\_treeview.png \
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap F7/a/$BASE\_combined.png \
 	-l "-1" -m "0" -r "+1" -w 2 -f 18 \
 	-x "Distance from TSS (kb)" -y "${NSITES} CoPRO determined TSSs sorted by CpG island length" \
-	-o F7/a/$BASE\_treeview.svg
+	-o F7/a/$BASE\_combined.svg
 
 
 # =====Pileup MNase/BNase for violins=====
@@ -121,9 +121,9 @@ do
 done
 
 # Violins
-python $VIOLIN -i $DATAFILE -o F7/a/violin_data.png \
+python $VIOLIN -i $DATAFILE -o F7/a/violin_data.svg \
 	--xlabel "+1 dyad group" --ylabel "Tag Occupancy" \
-	--width 8 --height 4\
+	--width 8 --height 4 \
 	--title "BNase v MNase in CpGIsland overlap v non-overlap regions"
 
 # ===============================================================================================================================
@@ -133,13 +133,13 @@ python $VIOLIN -i $DATAFILE -o F7/a/violin_data.png \
 
 # Composites
 BED=PlusOneDyad_SORT-Expression_2000bp
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H2A_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H2A.out
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H2AZ_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H2AZ.out
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3.out
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3K4me3.out
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K9ac_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3K9ac.out
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K27ac_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/BNase-ChIP-H3K27ac.out
-cp $LIBRARY/$BED/Composites/MNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/c/MNase-ChIP-H3K4me3.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H2A_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/c/BNase-ChIP-H2A.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H2AZ_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/c/BNase-ChIP-H2AZ.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/c/BNase-ChIP-H3.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/c/BNase-ChIP-H3K4me3.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K9ac_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/c/BNase-ChIP-H3K9ac.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K27ac_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/c/BNase-ChIP-H3K27ac.out
+cp $LIBRARY/$BED/Composites/MNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/c/MNase-ChIP-H3K4me3.out
 
 
 # ===============================================================================================================================
@@ -148,9 +148,9 @@ cp $LIBRARY/$BED/Composites/MNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_c
 
 # Heatmaps
 BED=PlusOneDyad_SORT-pHN-dHN_400bp
-cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined_treeview_label.svg F7/d
-cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K9ac_merge_hg38_$BED\_midpoint-MAX80_combined_treeview_label.svg F7/d
-cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K27ac_merge_hg38_$BED\_midpoint-MAX80_combined_treeview_label.svg F7/d
+cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.svg F7/d
+cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K9ac_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.svg F7/d
+cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K27ac_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.svg F7/d
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $LIBRARY/$BED/PNG/Strand/CoPRO_Capped_merge_hg38_$BED\_5read1_anti_treeview.png \
 	-l -200 -m 0 -r +200 -w 2 -f 18 \
 	-x $BED -y "$BED occurences (NSITES sites)" \
@@ -158,9 +158,9 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatma
 
 # Composites
 BED=PlusOneDyad_SORT-pHN-dHN_GROUP-TOP-2500_400bp
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/d/Top-H3K4me3.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/d/Top-H3K4me3.out
 cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/d/Top-CoPRO.out
 
 BED=PlusOneDyad_SORT-pHN-dHN_GROUP-BOTTOM-2500_400bp
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_combined.out F7/d/Bottom-H3K4me3.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/d/Bottom-H3K4me3.out
 cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/d/Bottom-CoPRO.out
