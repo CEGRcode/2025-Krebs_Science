@@ -28,11 +28,12 @@ source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 
 # Inputs and outputs
 LIBRARY=$WRK/../X_Bulk_Processing/Library
+BAMDIR=$WRK/../data/BAM
 
 # Script shortcuts
 SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
 COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-VIOLIN=$WRK/../bin/make_violin_plot.py
+BOXPLOT=$WRK/../bin/make_box_plot.py
 
 
 [ -d F7 ] || mkdir F7
@@ -96,8 +97,13 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatma
 
 # =====Pileup MNase/BNase for violins=====
 
-MNASE_BAMFILE=../data/BAM/MNase-seq_ENCODE_merge_hg38.bam
-BNASE_BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+# Set BAM basenames
+MNASE_BAM=MNase-seq_ENCODE_merge_hg38
+BNASE_BAM=BNase-seq_50U-10min_merge_hg38
+
+# Parse scaling factors
+MNASE_FACTOR=`grep 'factor' $BAMDIR/NormalizationFactors/${MNASE_BAM}_TotalTag_ScalingFactors.out | awk '{print $3}'`
+BNASE_FACTOR=`grep 'factor' $BAMDIR/NormalizationFactors/${BNASE_BAM}_TotalTag_ScalingFactors.out | awk '{print $3}'`
 
 DATAFILE=F7/a/violin_data.txt
 [ -f $DATAFILE ] && rm $DATAFILE
@@ -107,24 +113,34 @@ do
 	BEDFILE=../data/RefPT-Krebs/PlusOneDyad_SORT-DistToExpressedTSS_GROUP-CpGIsland-$GROUP.bed
 
 	# Tag pileup BNase-seq and MNase-seq
-	java -jar $SCRIPTMANAGER read-analysis tag-pileup -1 -5 --combined --shift 80 $BEDFILE $MNASE_BAMFILE -M F7/a/MNase_$GROUP\_5read1-SHIFT80
-	java -jar $SCRIPTMANAGER read-analysis tag-pileup -m -p --combined            $BEDFILE $BNASE_BAMFILE -M F7/a/BNase_$GROUP\_midpoint
+	java -jar $SCRIPTMANAGER read-analysis tag-pileup -1 -5 --combined --shift 80 $BEDFILE $BAMDIR/$MNASE_BAM.bam -M F7/a/MNase_$GROUP\_5read1-SHIFT80
+	java -jar $SCRIPTMANAGER read-analysis tag-pileup -m -p --combined            $BEDFILE $BAMDIR/$BNASE_BAM.bam -M F7/a/BNase_$GROUP\_midpoint
 	# java -jar $SCRIPTMANAGER read-analysis tag-pileup -1 -5 --combined --shift 80 $BEDFILE $BNASE_BAMFILE -M F7/a/BNase_$GROUP\_5read1-SHIFT80
 
 	# Aggregate data into violin data file
-	java -jar $SCRIPTMANAGER read-analysis aggregate-data -m F7/a/MNase_$GROUP\_5read1-SHIFT80_combined.cdt -o F7/a/BNase_$GROUP.out
-	java -jar $SCRIPTMANAGER read-analysis aggregate-data -m F7/a/BNase_$GROUP\_midpoint_combined.cdt       -o F7/a/MNase_$GROUP.out
+	java -jar $SCRIPTMANAGER read-analysis aggregate-data -m F7/a/MNase_$GROUP\_5read1-SHIFT80_combined.cdt -o F7/a/MNase_$GROUP.out
+	java -jar $SCRIPTMANAGER read-analysis aggregate-data -m F7/a/BNase_$GROUP\_midpoint_combined.cdt       -o F7/a/BNase_$GROUP.out
+
+	# Scale data
+	java -jar $SCRIPTMANAGER read-analysis scale-matrix -l 1 -s $MNASE_FACTOR F7/a/MNase_$GROUP.out -o F7/a/MNase_${GROUP}_SCALE.out
+	java -jar $SCRIPTMANAGER read-analysis scale-matrix -l 1 -s $BNASE_FACTOR F7/a/BNase_$GROUP.out -o F7/a/BNase_${GROUP}_SCALE.out
 
 	# Append aggregated data into a merged violin data file
-	sed '1d' F7/a/BNase_$GROUP.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"BNase-"GROUP}' >> $DATAFILE
-	sed '1d' F7/a/MNase_$GROUP.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"MNase-"GROUP}' >> $DATAFILE
+	sed '1d' F7/a/MNase_${GROUP}_SCALE.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"MNase-"GROUP}' >> $DATAFILE
+	sed '1d' F7/a/BNase_${GROUP}_SCALE.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"BNase-"GROUP}' >> $DATAFILE
 done
 
-# Violins
-python $VIOLIN -i $DATAFILE -o F7/a/violin_data.svg \
+# Plot violin data (skip zeros)
+python $BOXPLOT -i <(awk 'BEGIN{OFS="\t";FS="\t"}{if ($1!=0) print }' $DATAFILE) \
+	-o F7/a/violin_data.svg \
 	--xlabel "+1 dyad group" --ylabel "Tag Occupancy" \
-	--width 8 --height 4 \
+	--width 4 --height 4 --ylog10 --preset1 \
 	--title "BNase v MNase in CpGIsland overlap v non-overlap regions"
+
+# Stat zeros (all MNase)
+awk '{if ($1==0) print $2}' F7/a/violin_data.txt | sort | uniq -c
+# 28 MNase-NoOverlap
+# 1026 MNase-Overlap
 
 # ===============================================================================================================================
 
