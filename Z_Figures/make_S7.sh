@@ -24,7 +24,7 @@ LIBRARY=$WRK/../X_Bulk_Processing/Library
 
 # Script shortcuts
 SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-VIOLIN=$WRK/../bin/make_violin_plot.py
+VIOLIN=$WRK/../bin/make_violin-split_plot.py
 SUMCDT=$WRK/../bin/sum_each_CDT.py
 
 [ -d S7 ] || mkdir S7
@@ -117,8 +117,8 @@ do
 	FACTOR=`grep '^Scaling factor' $FDIR/$BAM\_TotalTag_ScalingFactors.out | awk '{print $3}'`
 
 	# Slice Proximal/Distal tag counts
-	gzip -dc $CDIR/$BAM\_$BED\_5read1-MIN128-MAX164_sense.cdt.gz | cut -f1,2,930-999 > $TEMP/$TARGET\_Proximal_NOSCALE.cdt
-	gzip -dc $CDIR/$BAM\_$BED\_5read1-MIN128-MAX164_anti.cdt.gz | cut -f1,2,1003-1072 > $TEMP/$TARGET\_Distal_NOSCALE.cdt
+	cut -f1,2,930-999   $CDIR/$BAM\_$BED\_5read1-MIN128-MAX164_sense.cdt > $TEMP/$TARGET\_Proximal_NOSCALE.cdt
+	cut -f1,2,1003-1072 $CDIR/$BAM\_$BED\_5read1-MIN128-MAX164_anti.cdt  > $TEMP/$TARGET\_Distal_NOSCALE.cdt
 
 	# Scale by scaling factor
 	java -jar $SCRIPTMANAGER read-analysis scale-matrix -s $FACTOR $TEMP/$TARGET\_Proximal_NOSCALE.cdt -o $TEMP/$TARGET\_Proximal.cdt
@@ -136,21 +136,21 @@ java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m -o $TEMP/H3K27ac-
 java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m -o $TEMP/H3K27ac-H3_Distal.tab   $TEMP/H3K27ac_Distal.cdt   $TEMP/H3_Distal.cdt
 
 # Calculate log2 density at each coordinate given the pair of values
-sed '1d' $TEMP/H2AZ-H2B_Proximal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H2AZ-H2B_Proximal"}'   > $TEMP/H2AZ-H2B_Proximal.density
-sed '1d' $TEMP/H2AZ-H2B_Distal.tab     | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H2AZ-H2B_Distal"}'     > $TEMP/H2AZ-H2B_Distal.density
-sed '1d' $TEMP/H3K4me3-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3_Proximal"}' > $TEMP/H3K4me3-H3_Proximal.density
-sed '1d' $TEMP/H3K4me3-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3_Distal"}'   > $TEMP/H3K4me3-H3_Distal.density
-sed '1d' $TEMP/H3K9ac-H3_Proximal.tab  | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3_Proximal"}'  > $TEMP/H3K9ac-H3_Proximal.density
-sed '1d' $TEMP/H3K9ac-H3_Distal.tab    | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3_Distal"}'    > $TEMP/H3K9ac-H3_Distal.density
-sed '1d' $TEMP/H3K27ac-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3_Proximal"}' > $TEMP/H3K27ac-H3_Proximal.density
-sed '1d' $TEMP/H3K27ac-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3_Distal"}'   > $TEMP/H3K27ac-H3_Distal.density
+sed '1d' $TEMP/H2AZ-H2B_Proximal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H2AZ-H2B","Proximal"}'   > $TEMP/H2AZ-H2B_Proximal.density
+sed '1d' $TEMP/H2AZ-H2B_Distal.tab     | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H2AZ-H2B","Distal"}'     > $TEMP/H2AZ-H2B_Distal.density
+sed '1d' $TEMP/H3K4me3-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3","Proximal"}' > $TEMP/H3K4me3-H3_Proximal.density
+sed '1d' $TEMP/H3K4me3-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3","Distal"}'   > $TEMP/H3K4me3-H3_Distal.density
+sed '1d' $TEMP/H3K9ac-H3_Proximal.tab  | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3","Proximal"}'  > $TEMP/H3K9ac-H3_Proximal.density
+sed '1d' $TEMP/H3K9ac-H3_Distal.tab    | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3","Distal"}'    > $TEMP/H3K9ac-H3_Distal.density
+sed '1d' $TEMP/H3K27ac-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3","Proximal"}' > $TEMP/H3K27ac-H3_Proximal.density
+sed '1d' $TEMP/H3K27ac-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3","Distal"}'   > $TEMP/H3K27ac-H3_Distal.density
 
 # Compile density info
-cat $TEMP/*.density > S7/e/DensityInfo.tab
+cat $TEMP/*.density | gzip -dc > S7/e/DensityInfo.tab
 
 # Generate violin plot
-python $VIOLIN -i <(cut -f2,3 S7/e/DensityInfo.tab) -o S7/e/DensityInfo.svg \
-	--width 8 --height 4 --preset1 \
+python $VIOLIN -i <(gzip -dc S7/h/DensityInfo.tab.gz | cut -f2,3,4) -o S7/e/DensityInfo.svg \
+	--width 4 --height 4 --preset1 \
 	--title "Density at +1 nucleosome" \
 	--xlabel "modification" --ylabel "Density (log2)"
 
@@ -239,19 +239,19 @@ java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m -o $TEMP/H3K27ac-
 java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m -o $TEMP/H3K27ac-H3_Distal.tab   $TEMP/H3K27ac_Distal.cdt   $TEMP/H3_Distal.cdt
 
 # Calculate log2 density at each coordinate given the pair of values
-sed '1d' $TEMP/H3K4me3-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3_Proximal"}' > $TEMP/H3K4me3-H3_Proximal.density
-sed '1d' $TEMP/H3K4me3-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3_Distal"}'   > $TEMP/H3K4me3-H3_Distal.density
-sed '1d' $TEMP/H3K9ac-H3_Proximal.tab  | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3_Proximal"}'  > $TEMP/H3K9ac-H3_Proximal.density
-sed '1d' $TEMP/H3K9ac-H3_Distal.tab    | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3_Distal"}'    > $TEMP/H3K9ac-H3_Distal.density
-sed '1d' $TEMP/H3K27ac-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3_Proximal"}' > $TEMP/H3K27ac-H3_Proximal.density
-sed '1d' $TEMP/H3K27ac-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3_Distal"}'   > $TEMP/H3K27ac-H3_Distal.density
+sed '1d' $TEMP/H3K4me3-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3","Proximal"}' > $TEMP/H3K4me3-H3_Proximal.density
+sed '1d' $TEMP/H3K4me3-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K4me3-H3","Distal"}'   > $TEMP/H3K4me3-H3_Distal.density
+sed '1d' $TEMP/H3K9ac-H3_Proximal.tab  | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3","Proximal"}'  > $TEMP/H3K9ac-H3_Proximal.density
+sed '1d' $TEMP/H3K9ac-H3_Distal.tab    | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K9ac-H3","Distal"}'    > $TEMP/H3K9ac-H3_Distal.density
+sed '1d' $TEMP/H3K27ac-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3","Proximal"}' > $TEMP/H3K27ac-H3_Proximal.density
+sed '1d' $TEMP/H3K27ac-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3","Distal"}'   > $TEMP/H3K27ac-H3_Distal.density
 
 # Compile density info
 cat $TEMP/*.density | gzip -c > S7/h/DensityInfo.tab.gz
 
 # Generate violin plot
-python $VIOLIN -i <(gzip -dc S7/h/DensityInfo.tab.gz | cut -f2,3) -o S7/h/DensityInfo.svg \
-	--width 8 --height 4 --preset2 \
+python $VIOLIN -i <(gzip -dc S7/h/DensityInfo.tab.gz | cut -f2,3,4) -o S7/h/DensityInfo.svg \
+	--width 3 --height 4 --preset2 \
 	--title "Density at +1 nucleosome" \
 	--xlabel "modification" --ylabel "Density (log2)"
 
