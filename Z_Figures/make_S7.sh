@@ -185,7 +185,7 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatma
 		S7/f/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_combined.png \
 		-l "-1" -m "0" -r "+1" -w 1 -f 20 \
 		-x "Distance from TSS (kb)" -y "${BED}" \
-		-o F7/a/$BASE\_combined.svg
+		-o S7/f/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_combined.svg
 
 # ===============================================================================================================================
 
