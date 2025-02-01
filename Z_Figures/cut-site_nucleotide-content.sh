@@ -73,7 +73,7 @@ do
     python $KMER2NT -i $TEMP/DiTally/${BAM}_SUBSAMPLE_DINT-l50r100-R1.tsv -o $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R1.tsv
 
     # Generate Figure: stack single nucleotides (enforce same-frequency)
-    python $STACKNT -i <(cut -f1,40-70 $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R1.tsv) --title ${BAM}_SUBSAMPLE -o $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R1.png
+    python $STACKNT --entropy -i <(cut -f1,40-70 $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R1.tsv) --title ${BAM}_SUBSAMPLE -o $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R1.svg
 
     # ===Read 2===
 
@@ -86,7 +86,7 @@ do
     python $KMER2NT -i $TEMP/DiTally/${BAM}_SUBSAMPLE_DINT-l50r100-R2.tsv -o $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R2.tsv
 
     # Generate Figure: stack single nucleotides (enforce same-frequency)
-    python $STACKNT -i <(cut -f1,40-70 $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R2.tsv) --title ${BAM}_SUBSAMPLE -o $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R2.png
+    python $STACKNT --entropy -i <(cut -f1,40-70 $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R2.tsv) --title ${BAM}_SUBSAMPLE -o $TEMP/DiTally/${BAM}_SUBSAMPLE_NT-l50r100-R2.svg
 
 
 
