@@ -9,8 +9,8 @@
 
 # Pileup heatmaps and composites (fragment midpoints) for a custom
 # combination of BAM x BED files (primarily nucleosome BAM). Configuration
-# file specifies insert size filters, contrast threshold, and normalization
-# strategy.
+# file specifies RGB heatmap color, insert size filters, contrast threshold,
+# and normalization strategy.
 
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
