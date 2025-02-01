@@ -7,6 +7,9 @@ from matplotlib.ticker import (MultipleLocator)
 import seaborn as sns
 sns.set()
 
+# Use text, not shapes of text in SVG
+plt.rcParams['svg.fonttype'] = 'none'
+
 def getParams():
 	'''Parse parameters from the command line'''
 	parser = argparse.ArgumentParser(description='Build insert-size histograms from ScriptManager bam-statistics pe-stats output.')

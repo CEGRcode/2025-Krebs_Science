@@ -6,10 +6,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# from os import listdir
-# from os.path import isfile, join, splitext
-# import re, sys
-# import random
+# Use text, not shapes of text in SVG
+plt.rcParams['svg.fonttype'] = 'none'
 
 # Python 3.6+
 # relies on dict insertion order
