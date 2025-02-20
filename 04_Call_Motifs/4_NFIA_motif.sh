@@ -4,15 +4,16 @@
 
 # data/RefPT-Motif
 #   |--NFIA_SORT-DistClosestDyad.bed                                        (see 1000bp)
-#   |--NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed                       (see 1000bp)
-#   |--NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed                          (see 1000bp)
-#   |--NFIA_SORT-DistClosestDyad_GROUP-Upstream.bed                         (see 1000bp)
-#   |--NFIA_SORT-Occupancy.bed                                              (see 500bp)
+#   |--NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed                       (see 1000bp and 1bp)
+#   |--NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed                          (see 1000bp and 1bp)
+#   |--NFIA_SORT-DistClosestDyad_GROUP-Upstream.bed                         (see 1000bp and 1bp)
+#   |--NFIA_SORT-Occupancy.bed                                              (see 500bp and 1bp)
 #   |--NFIA-u95_SORT-Occupancy.bed
 #   |--NFIA-d95_SORT-Occupancy.bed
 #   |--NFIA_REORIENT-Random_SORT-Occupancy.bed                              (NFIA_randomly_orientated.bed)
 #   |--NFIA-u95_REORIENT-Random_SORT-Occupancy.bed
 #   |--NFIA-d95_REORIENT-Random_SORT-Occupancy.bed
+#   |--NFIA_SORT-Occupancy_GROUP-Q4.bed                                      (see 1000bp and 1bp)
 #   |--150bp
 #      |--NFIA-u95_SORT-Occupancy_150bp.bed
 #      |--NFIA-d95_SORT-Occupancy_150bp.bed
@@ -27,7 +28,13 @@
 #      |--NFIA_SORT-DistClosestDyad_GROUP-Downstream_1000bp.bed             (NFIA_NucSort-DOWNSTREAM_1000bp)
 #      |--NFIA_SORT-DistClosestDyad_GROUP-Overlap_1000bp.bed                (NFIA_NucSort-OVERLAP_1000bp)
 #      |--NFIA_SORT-DistClosestDyad_GROUP-Upstream_1000bp.bed               (NFIA_NucSort-UPSTREAM_1000bp)
-#      |--NFIA_REORIENT-DownstreamDyad_SORT-Occupancy_GROUP-Q4_1000bp.bed   (NFIA_downNuc_4_1000bp.bed)
+#      |--NFIA_SORT-Occupancy_GROUP-Q4_1000bp.bed                           (NFIA_downNuc_4_1000bp.bed)
+#   |--1bp  
+#      |--NFIA_SORT-DistClosestDyad_GROUP-Downstream_1bp.bed
+#      |--NFIA_SORT-DistClosestDyad_GROUP-Overlap_1bp.bed
+#      |--NFIA_SORT-DistClosestDyad_GROUP-Upstream_1bp.bed
+#      |--NFIA_SORT-Occupancy_1bp.bed 
+#      |--NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed 
 
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
@@ -52,6 +59,7 @@ NUCLEOSOME=../data/RefPT-Krebs/1bp/BNase-Nucleosomes_1bp.bed
 BOUND_NFIA=temp-3_Filter_and_Sort_by_occupancy/NFIA_NFIA-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
 
 [ -d $MOTIF ] || mkdir $MOTIF
+[ -d $MOTIF/1bp ] || mkdir $MOTIF/1bp
 [ -d $MOTIF/150bp ] || mkdir $MOTIF/150bp
 [ -d $MOTIF/250bp ] || mkdir $MOTIF/250bp
 [ -d $MOTIF/500bp ] || mkdir $MOTIF/500bp
@@ -143,10 +151,10 @@ java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-d
 ## =====Slice bottom quartile=====
 
 # # Take bottom quartile (Q4) of NFIA_downNuc
-# tail -n 1991 $MOTIF/NFIA_REORIENT-DownstreamDyad_SORT-Occupancy.bed > $MOTIF/NFIA_REORIENT-DownstreamDyad_SORT-Occupancy_GROUP-Q4.bed
+tail -n 1991 $MOTIF/NFIA_SORT-Occupancy.bed > $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed
 
 # # Expand 1000bp
-# java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/NFIA_downNuc_GROUP-Q4.bed -o $MOTIF/1000bp/NFIA_downNuc_GROUP-Q4_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed -o $MOTIF//NFIA_SORT-Occupancy_GROUP-Q4_1000bp.bed
 
 
 # =====Sort by closest nucleosome and group by distance=====
@@ -156,7 +164,7 @@ bedtools sort -i $MOTIF/NFIA_SORT-Occupancy.bed > $TEMP/NFIA_SORT-Genomic.bed
 bedtools sort -i $NUCLEOSOME > $TEMP/Nucleosomes_SORT-Genomic.bed
 
 # Call closest nucleosome
-bedtools closest -d -D a -t all -a $TEMP/NFIA_SORT-Genomic.bed -b $TEMP/Nucleosomes_SORT-Genomic.bed > $TEMP/NFIA_SORT-DistClosestDyad_Redundant.tsv
+bedtools closest -d -D a -t first -a $TEMP/NFIA_SORT-Genomic.bed -b $TEMP/Nucleosomes_SORT-Genomic.bed > $TEMP/NFIA_SORT-DistClosestDyad_Redundant.tsv
 
 # Random select from ties and sort by distance w/respect to NFIA
 shuf $TEMP/NFIA_SORT-DistClosestDyad_Redundant.tsv | sort -uk4,4 | sort -nk13,13 > $TEMP/NFIA_SORT-DistClosestDyad.tsv
@@ -243,18 +251,9 @@ bedtools shift -i $MOTIF/NFIA_REORIENT-Random_SORT-Occupancy.bed -g $GINFO -p -9
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-u95_REORIENT-Random_SORT-Occupancy.bed -o $MOTIF/150bp/NFIA-u95_REORIENT-Random_SORT-Occupancy_150bp.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-d95_REORIENT-Random_SORT-Occupancy.bed -o $MOTIF/150bp/NFIA-d95_REORIENT-Random_SORT-Occupancy_150bp.bed
 
-# Violin plot commands should be moved to Z_Figures
-# for file in $TEMP/NFIA_shuffled_downNuc_down95.bed $TEMP/NFIA_shuffled_downNuc_up95.bed ; do
-#   filename=$(basename $file ".bed")
-#   java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $file -o ${filename}_150bp.bed
-#   java -jar $SCRIPTMANAGER read-analysis tag-pileup ${filename}_150bp.bed $NFIA1 -n 100 -1 --combined --cpu 4 -M SCORES/NFIA_${filename}_150bp_read1_MIN100
-#   java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum SCORES/NFIA_${filename}_150bp_read1_MIN100_combined.cdt -o SCORES/
-#   rm ${filename}_150bp.bed
-# done
-
-# cut -f 2 SCORES/NFIA_NFIA_shuffled_downNuc_down95_150bp_read1_MIN100_combined_SCORES.out \
-#     | paste SCORES/NFIA_NFIA_shuffled_downNuc_up95_150bp_read1_MIN100_combined_SCORES.out - \
-#     | tail -n +2 | cut -f 2-3 \
-#     | paste NFIA_shuffled_downNuc.bed - \
-#     > NFIA_shuffled_downNuc_SCORES.bed
-# rm NFIA_shuffled_downNuc_down95.bed NFIA_shuffled_downNuc_up95.bed
+## shift NFIA ref, make 1bp ref for 10 bp rotational phase quantification
+cp $MOTIF/NFIA_SORT-Occupancy.bed  $MOTIF/1bp/NFIA_SORT-Occupancy_1bp.bed
+cp $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed $MOTIF/1bp/NFIA_SORT-DistClosestDyad_GROUP-Downstream_1bp.bed
+cp $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed $MOTIF/1bp/NFIA_SORT-DistClosestDyad_GROUP-Overlap_1bp.bed
+cp $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Upstream.bed $MOTIF/1bp/NFIA_SORT-DistClosestDyad_GROUP-Upstream_1bp.bed
+cp $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed  $MOTIF/1bp/NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed
