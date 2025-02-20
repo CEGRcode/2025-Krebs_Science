@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/2_FIMO_Motifs_from_Genome.log.out-%a
 #SBATCH -e logs/2_FIMO_Motifs_from_Genome.log.err-%a
-#SBATCH --array 1-4
+#SBATCH --array 1-5
 
 # FIMO the reference genome for each motif in the PWM directory
 
