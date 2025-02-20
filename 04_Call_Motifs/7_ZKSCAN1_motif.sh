@@ -29,6 +29,7 @@ ZKSCAN1_BOUND=temp-3_Filter_and_Sort_by_occupancy/ZKSCAN1_ZKSCAN1-K562_M1_100bp_
 
 [ -d $MOTIF ] || mkdir $MOTIF
 [ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
+[ -d $MOTIF/1bp ] || mkdir $MOTIF/1bp
 
 # Script shortcuts
 SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
@@ -54,3 +55,4 @@ sort -uk1,3 $TEMP/ZKSCAN1_BOUND_shifted.bed | sort -rnk7,7 | cut -f1-6 > $MOTIF/
 
 # Expand 1000bp
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/ZKSCAN1_SORT-Occupancy.bed  -o $MOTIF/1000bp/ZKSCAN1_SORT-Occupancy_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $MOTIF/ZKSCAN1_SORT-Occupancy.bed  -o $MOTIF/1bp/ZKSCAN1_SORT-Occupancy_1bp.bed
