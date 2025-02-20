@@ -4,8 +4,18 @@
 
 # data/RefPT-Motif
 #   |--CTCF_SORT-Occupancy.bed
+#   |--CTCF_SORT-SMC3Engagement.bed
+#   |--CTCF_SORT-SMC3Engagement_GROUP-Low.bed
+#   |--CTCF_SORT-SMC3Engagement_GROUP-High.bed
 #   |--1000bp
 #     |--CTCF_SORT-Occupancy_1000bp.bed
+#     |--CTCF_SORT-SMC3Engagement_GROUP-Low_1000bp.bed
+#     |--CTCF_SORT-SMC3Engagement_GROUP-High_1000bp.bed
+#     |--CTCF_SORT-SMC3Engagement_1000bp.bed
+#   |--1bp
+#     |--CTCF_SORT-Occupancy_1bp.bed
+#     |--CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed
+#     |--CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed
 
 ### CHANGE ME
 WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
