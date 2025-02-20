@@ -154,7 +154,7 @@ java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-d
 tail -n 1991 $MOTIF/NFIA_SORT-Occupancy.bed > $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed
 
 # # Expand 1000bp
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed -o $MOTIF//NFIA_SORT-Occupancy_GROUP-Q4_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed -o $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4_1000bp.bed
 
 
 # =====Sort by closest nucleosome and group by distance=====
