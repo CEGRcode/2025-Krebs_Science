@@ -251,7 +251,7 @@ bedtools shift -i $MOTIF/NFIA_REORIENT-Random_SORT-Occupancy.bed -g $GINFO -p -9
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-u95_REORIENT-Random_SORT-Occupancy.bed -o $MOTIF/150bp/NFIA-u95_REORIENT-Random_SORT-Occupancy_150bp.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-d95_REORIENT-Random_SORT-Occupancy.bed -o $MOTIF/150bp/NFIA-d95_REORIENT-Random_SORT-Occupancy_150bp.bed
 
-## shift NFIA ref, make 1bp ref for 10 bp rotational phase quantification
+## make 1bp ref for 10 bp rotational phase quantification
 cp $MOTIF/NFIA_SORT-Occupancy.bed  $MOTIF/1bp/NFIA_SORT-Occupancy_1bp.bed
 cp $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed $MOTIF/1bp/NFIA_SORT-DistClosestDyad_GROUP-Downstream_1bp.bed
 cp $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed $MOTIF/1bp/NFIA_SORT-DistClosestDyad_GROUP-Overlap_1bp.bed
