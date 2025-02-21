@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/3_Filter_and_Sort_by_occupancy.log.out-%a
 #SBATCH -e logs/3_Filter_and_Sort_by_occupancy.log.err-%a
-#SBATCH --array 1-7
+#SBATCH --array 1-8
 
 # Sort filtered Motif BED Files by the first BX rep1 BAM file occupancy for each TF target (skip scrambled)
 
@@ -40,6 +40,7 @@ BAM_LIST=(
     ../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam
     ../data/BAM/HepG2_FOXA2_BX_rep1_hg38.bam
     ../data/BAM/K562_ZKSCAN1_BX_rep1_hg38.bam
+    ../data/BAM/K562_HNF4A_BX_rep1_hg38.bam
 )
 
 # Define PWM file path based on SLURM_ARRAY_TASK_ID index
