@@ -164,7 +164,7 @@ bedtools sort -i $MOTIF/NFIA_SORT-Occupancy.bed > $TEMP/NFIA_SORT-Genomic.bed
 bedtools sort -i $NUCLEOSOME > $TEMP/Nucleosomes_SORT-Genomic.bed
 
 # Call closest nucleosome
-bedtools closest -d -D a -t first -a $TEMP/NFIA_SORT-Genomic.bed -b $TEMP/Nucleosomes_SORT-Genomic.bed | sort -nk13,13 > $TEMP/NFIA_SORT-DistClosestDyad.tsv
+bedtools closest -d -D a -t first -a $TEMP/NFIA_SORT-Genomic.bed -b $TEMP/Nucleosomes_SORT-Genomic.bed | sort -k13,13n > $TEMP/NFIA_SORT-DistClosestDyad.tsv
 
 # Group by distance to closest nucleosome bounded by -73 and +73 (3 groups)
 awk -v DIR="$MOTIF" 'BEGIN{OFS="\t";FS="\t"}{
