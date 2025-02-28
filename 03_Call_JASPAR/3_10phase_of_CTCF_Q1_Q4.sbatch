@@ -35,7 +35,7 @@ GENOME=$WRK/../data/hg38_files/hg38.fa
 BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
 BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 MOTIF=$WRK/../data/RefPT-JASPAR
-$OUTDIR=$WRK/../data/RefPT-CTCF10phase
+OUTDIR=$WRK/../data/RefPT-CTCF10phase
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
@@ -1161,27 +1161,3 @@ for folder in $DIR/${Ref}_${Nuc}_Q${Sort}_BZ $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucle
         python $chisquare "$X" "$output_file" 
     fi
 done
-
-
-## =====Split into Quartiles=====
-
-[ -d $MOTIF ] || mkdir $MOTIF
-[ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
-
-# Count sites and divide by four (quartile size)
-NSITES=`wc -l $ODIR/BoundMotifs_SORT-TFnucRatio.bed | awk '{print int($1/4)}'`
-TWON=`wc -l $ODIR/BoundMotifs_SORT-TFnucRatio.bed | awk '{print int($1*2/4)}'`
-THREEN=`wc -l $ODIR/BoundMotifs_SORT-TFnucRatio.bed | awk '{print int($1*3/4)}'`
-echo NSITES=$NSITES
-
-# Slice quartiles from counts
-head -n $NSITES $ODIR/BoundMotifs_SORT-TFnucRatio.bed                > $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile1.bed
-head -n $TWON   $ODIR/BoundMotifs_SORT-TFnucRatio.bed | tail -n $NSITES > $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile2.bed
-head -n $THREEN $ODIR/BoundMotifs_SORT-TFnucRatio.bed | tail -n $NSITES > $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile3.bed
-tail -n $NSITES $ODIR/BoundMotifs_SORT-TFnucRatio.bed                > $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile4.bed
-
-# Expand 1000bp (Motif-centered lower-bound intersect)
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile1.bed -o $MOTIF/1000bp/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile1_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile2.bed -o $MOTIF/1000bp/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile2_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile3.bed -o $MOTIF/1000bp/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile3_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile4.bed -o $MOTIF/1000bp/$TF\_$JASPAR\_SORT-TFnucRatio_GROUP-Quartile4_1000bp.bed
