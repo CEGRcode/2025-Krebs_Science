@@ -35,7 +35,7 @@ GENOME=$WRK/../data/hg38_files/hg38.fa
 BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
 BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 MOTIF=$WRK/../data/RefPT-JASPAR
-OUTDIR=$WRK/../data/RefPT-CTCF10phase
+OUTDIR=$WRK/../data/RefPT-FOXA10phase
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
@@ -53,7 +53,7 @@ chisquare=$WRK/../bin/chisquare.py
 # Determine BED file for the current job array index
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
 BED=`basename $BEDFILE ".bed"`
-Sort=$(basename "$BEDFILE" ".bed" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
+Sort=`basename $BEDFILE".bed" | cut -d "_" -f 2 | cut -d "-" -f 2`
 Ref=`basename $BEDFILE".bed" | cut -d "_" -f 1`
 
 # Determine BAM file for the current job array index
@@ -79,7 +79,7 @@ BASE=${BAM}_${BED}_${Nuc}_1000bp_read1
 echo $BASE
 
 ## add Q group to Ref
-awk -v Ref=${Ref} -v Sort=${Sort} '{ OFS="\t"; print $1, $2, $3, $4, $5, $6, Ref"_Q"Sort }' $BEDFILE | bedtools sort -i | uniq > $DIR/temp.bed
+awk -v Ref=${Ref} -v Sort=${Sort} '{ OFS="\t"; print $1, $2, $3, $4, $5, $6, Ref"_"Sort }' $BEDFILE | bedtools sort -i | uniq > $DIR/temp.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $DIR/temp.bed -o $DIR/${BED}_1bp.bed
 rm $DIR/temp.bed
 # expand
@@ -472,29 +472,29 @@ cat $DIR/${BASE}_original_senseanti_4_peak.bed  |  bedtools intersect -v -a - -b
             }
         }' 
 
-cat $DIR/${Ref}_${Nuc}_*_10x_+1.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase0",$17}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_0.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+2.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase1",$8}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_1.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+3.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase2",$9}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_2.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+4.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase3",$10}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_3.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+5.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase4",$11}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_4.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+6.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase5",$12}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_5.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+7.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase6",$13}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_6.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+8.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase7",$14}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_7.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+9.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase8",$15}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_8.bed
-cat $DIR/${Ref}_${Nuc}_*_10x_+0.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase9",$16}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_9.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+1.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase0",$17}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_0.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+2.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase1",$8}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_1.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+3.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase2",$9}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_2.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+4.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase3",$10}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_3.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+5.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase4",$11}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_4.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+6.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase5",$12}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_5.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+7.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase6",$13}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_6.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+8.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase7",$14}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_7.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+9.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase8",$15}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_8.bed
+cat $DIR/${Ref}_${Nuc}_*_10x_+0.bed | bedtools sort -i | uniq | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_Phase9",$16}' | sort -k8,8nr > $DIR/${Ref}_${Nuc}_${Sort}_phase_9.bed
 
 mv $DIR/${Ref}_${Nuc}_*_10x_*.bed $DIR/temp
 rm $DIR/${BASE}_original_senseanti_*_peak.bed
-bedtools intersect -v -a $DIR/${BED}_1bp.bed -b $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_no10x","0"}' > $DIR/${Ref}_${Nuc}_Q${Sort}_phase_no10x.bed
-cat $DIR/${Ref}_${Nuc}_Q${Sort}_phase_1.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_2.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_3.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_4.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_5.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_6.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_7.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_8.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_9.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_0.bed $DIR/${Ref}_${Nuc}_Q${Sort}_phase_no10x.bed | bedtools sort -i | uniq > $DIR/${Ref}_${Nuc}_Q${Sort}_all.bed
+bedtools intersect -v -a $DIR/${BED}_1bp.bed -b $DIR/${Ref}_${Nuc}_${Sort}_phase_*.bed | awk '{OFS="\t"; print $1,$2,$3,$4,$5,$6,$7"_no10x","0"}' > $DIR/${Ref}_${Nuc}_${Sort}_phase_no10x.bed
+cat $DIR/${Ref}_${Nuc}_${Sort}_phase_1.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_2.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_3.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_4.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_5.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_6.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_7.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_8.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_9.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_0.bed $DIR/${Ref}_${Nuc}_${Sort}_phase_no10x.bed | bedtools sort -i | uniq > $DIR/${Ref}_${Nuc}_${Sort}_all.bed
 ## make heatmap figure of original cdt, sorted by phase and phase score.
 
 head -n 1  $DIR/SCORES/${BASE}_original_anti.cdt > $DIR/${BASE}_original_anti_head.cdt
 head -n 1  $DIR/SCORES/${BASE}_original_sense.cdt > $DIR/${BASE}_original_sense_head.cdt
 tail -n +2  $DIR/SCORES/${BASE}_original_anti.cdt > $DIR/${BASE}_original_anti.cdt
 tail -n +2  $DIR/SCORES/${BASE}_original_sense.cdt > $DIR/${BASE}_original_sense.cdt
-awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_Q${Sort}_all.bed | paste $DIR/${BASE}_original_anti.cdt -  | sort -k1004,1004nr  > $DIR/${BASE}_original_anti_scoresort.cdt 
-awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_Q${Sort}_all.bed | paste $DIR/${BASE}_original_sense.cdt - | sort -k1004,1004nr  > $DIR/${BASE}_original_sense_scoresort.cdt 
+awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_${Sort}_all.bed | paste $DIR/${BASE}_original_anti.cdt -  | sort -k1004,1004nr  > $DIR/${BASE}_original_anti_scoresort.cdt 
+awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_${Sort}_all.bed | paste $DIR/${BASE}_original_sense.cdt - | sort -k1004,1004nr  > $DIR/${BASE}_original_sense_scoresort.cdt 
 rm $DIR/${BASE}_original_anti.cdt $DIR/${BASE}_original_sense.cdt 
 
 awk -v DIR=$DIR -v BASE=${BASE} '{
@@ -599,7 +599,7 @@ if  [[ "$Nuc" == "+1Nuc" ]]; then
     java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --blue $DIR/${BASE}_original_250bp_phase_sort_sense.cdt -o  $DIR/${BASE}_original_250bp_phase_sort_sense.png
     java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --red $DIR/${BASE}_original_250bp_phase_sort_anti.cdt  -o $DIR/${BASE}_original_250bp_phase_sort_anti.png
     java -jar $SCRIPTMANAGER figure-generation merge-heatmap $DIR/${BASE}_original_250bp_phase_sort_sense.png $DIR/${BASE}_original_250bp_phase_sort_anti.png -o $DIR/${BASE}_original_250bp_phase_sort_merge.png
-    java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_merge.png -f 20 -l 0 -m +125 -r +250  -o $DIR/${BASE}_Q${Sort}_original_250bp_phase_sort_merge.svg
+    java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_merge.png -f 20 -l 0 -m +125 -r +250  -o $DIR/${BASE}_${Sort}_original_250bp_phase_sort_merge.svg
     java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_sense.png -f 20 -l 0 -m +125 -r +250  -o $DIR/${BASE}_original_250bp_phase_sort_sense.svg
     java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_anti.png -f 20 -l 0 -m +125 -r +250  -o $DIR/${BASE}_original_250bp_phase_sort_anti.svg
     rm $DIR/${BASE}_original_250bp_phase_sort_sense.png $DIR/${BASE}_original_250bp_phase_sort_anti.png $DIR/${BASE}_original_250bp_phase_sort_merge.png
@@ -630,7 +630,7 @@ elif [[ "$Nuc" == "-1Nuc" ]]; then
     java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --blue $DIR/${BASE}_original_250bp_phase_sort_sense.cdt -o  $DIR/${BASE}_original_250bp_phase_sort_sense.png
     java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --red $DIR/${BASE}_original_250bp_phase_sort_anti.cdt  -o $DIR/${BASE}_original_250bp_phase_sort_anti.png
     java -jar $SCRIPTMANAGER figure-generation merge-heatmap $DIR/${BASE}_original_250bp_phase_sort_sense.png $DIR/${BASE}_original_250bp_phase_sort_anti.png -o $DIR/${BASE}_original_250bp_phase_sort_merge.png
-    java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_merge.png -f 20 -l -250 -m -125 -r 0  -o $DIR/${BASE}_Q${Sort}_original_250bp_phase_sort_merge.svg
+    java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_merge.png -f 20 -l -250 -m -125 -r 0  -o $DIR/${BASE}_${Sort}_original_250bp_phase_sort_merge.svg
     java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_anti.png -f 20 -l -250 -m -125 -r 0  -o $DIR/${BASE}_original_250bp_phase_sort_anti.svg
     java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_original_250bp_phase_sort_sense.png -f 20 -l -250 -m -125 -r 0  -o $DIR/${BASE}_original_250bp_phase_sort_sense.svg
 
@@ -843,15 +843,15 @@ bedtools intersect -v -a $DIR/${BED}_1bp.bed -b $DIR/${Ref}_${Nuc}_shuffle_phase
 
 rm $DIR/${BASE}_shuffle_senseanti_*_peak.bed
 
-cat $DIR/${Ref}_${Nuc}_shuffle_phase_*.bed | bedtools sort -i | uniq > $DIR/${Ref}_${Nuc}_Q${Sort}_shuffle_all.bed
+cat $DIR/${Ref}_${Nuc}_shuffle_phase_*.bed | bedtools sort -i | uniq > $DIR/${Ref}_${Nuc}_${Sort}_shuffle_all.bed
 rm $DIR/${Ref}_${Nuc}_shuffle_phase_*.bed
 ## make heatmap figure of original cdt, sorted by phase and phase score.
 head -n 1  $DIR/SCORES/${BASE}_shuffle_anti.cdt > $DIR/${BASE}_shuffle_anti_head.cdt
 head -n 1  $DIR/SCORES/${BASE}_shuffle_sense.cdt > $DIR/${BASE}_shuffle_sense_head.cdt
 tail -n +2  $DIR/SCORES/${BASE}_shuffle_anti.cdt > $DIR/${BASE}_shuffle_anti.cdt
 tail -n +2  $DIR/SCORES/${BASE}_shuffle_sense.cdt > $DIR/${BASE}_shuffle_sense.cdt
-awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_Q${Sort}_shuffle_all.bed | paste $DIR/${BASE}_shuffle_anti.cdt -  | sort -k1004,1004nr  > $DIR/${BASE}_shuffle_anti_scoresort.cdt 
-awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_Q${Sort}_shuffle_all.bed | paste $DIR/${BASE}_shuffle_sense.cdt - | sort -k1004,1004nr  > $DIR/${BASE}_shuffle_sense_scoresort.cdt 
+awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_${Sort}_shuffle_all.bed | paste $DIR/${BASE}_shuffle_anti.cdt -  | sort -k1004,1004nr  > $DIR/${BASE}_shuffle_anti_scoresort.cdt 
+awk '{OFS="\t"; print $7,$8}' $DIR/${Ref}_${Nuc}_${Sort}_shuffle_all.bed | paste $DIR/${BASE}_shuffle_sense.cdt - | sort -k1004,1004nr  > $DIR/${BASE}_shuffle_sense_scoresort.cdt 
 rm $DIR/${BASE}_shuffle_anti.cdt $DIR/${BASE}_shuffle_sense.cdt 
 
 awk -v DIR=$DIR -v BASE=${BASE} '{
@@ -958,7 +958,7 @@ rm  $DIR/${BASE}_shuffle_sense_head.cdt  $DIR/${BASE}_shuffle_anti_head.cdt
 java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --blue $DIR/${BASE}_shuffle_250bp_phase_sort_sense.cdt -o  $DIR/${BASE}_shuffle_250bp_phase_sort_sense.png
 java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 --red $DIR/${BASE}_shuffle_250bp_phase_sort_anti.cdt  -o $DIR/${BASE}_shuffle_250bp_phase_sort_anti.png
 java -jar $SCRIPTMANAGER figure-generation merge-heatmap $DIR/${BASE}_shuffle_250bp_phase_sort_sense.png $DIR/${BASE}_shuffle_250bp_phase_sort_anti.png -o $DIR/${BASE}_shuffle_250bp_phase_sort_merge.png
-java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_shuffle_250bp_phase_sort_merge.png -f 20 -l 0 -m +125 -r +250  -o $DIR/${BASE}_Q${Sort}_shuffle_250bp_phase_sort_merge.svg
+java -jar $SCRIPTMANAGER figure-generation label-heatmap $DIR/${BASE}_shuffle_250bp_phase_sort_merge.png -f 20 -l 0 -m +125 -r +250  -o $DIR/${BASE}_${Sort}_shuffle_250bp_phase_sort_merge.svg
 rm $DIR/${BASE}_shuffle_250bp_phase_sort_sense.png $DIR/${BASE}_shuffle_250bp_phase_sort_anti.png  $DIR/${BASE}_shuffle_250bp_phase_sort_merge.png
 rm $DIR/${BASE}_shuffle_250bp_phase_sort_sense.cdt $DIR/${BASE}_shuffle_250bp_phase_sort_anti.cdt
 
@@ -981,7 +981,7 @@ for file in $DIR/SCORES/${BASE}_original_phase_*_sense.cdt ; do
 done
 
 
-for file in  $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed  ; do
+for file in  $DIR/${Ref}_${Nuc}_${Sort}_phase_*.bed  ; do
   filename=$(basename "$file" ".bed")
   java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $file -o $DIR/10Dinucleotide/${filename}_1000bp.bed
   java -jar $SCRIPTMANAGER sequence-analysis fasta-extract $GENOME   $DIR/10Dinucleotide/${filename}_1000bp.bed -o $DIR/10Dinucleotide/${filename}_1000bp.fa
@@ -989,7 +989,7 @@ for file in  $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed  ; do
 done
 
 
-for file in $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed  ; do
+for file in $DIR/${Ref}_${Nuc}_${Sort}_phase_*.bed  ; do
   filename=$(basename "$file" ".bed")
   python $MOTIFSCAN -i  $DIR/10Dinucleotide/${filename}_1000bp.fa -m RR -o $DIR/10CDT/RR_${filename}
   python $MOTIFSCAN -i  $DIR/10Dinucleotide/${filename}_1000bp.fa -m YY -o $DIR/10CDT/YY_${filename}
@@ -998,7 +998,7 @@ for file in $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed  ; do
 done
 
 
-for file in  $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed ; do
+for file in  $DIR/${Ref}_${Nuc}_${Sort}_phase_*.bed ; do
   filename=$(basename "$file" ".bed")
    perl $COMPOSITE $DIR/10CDT/RR_${filename}_sense.cdt $DIR/RR_${filename}_sense
    perl $COMPOSITE $DIR/10CDT/RR_${filename}_anti.cdt $DIR/RR_${filename}_anti
@@ -1022,7 +1022,7 @@ for file in  $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed ; do
 done
 
 #Statiscal
-for file in  $DIR/${Ref}_${Nuc}_Q${Sort}_phase_*.bed  ; do
+for file in  $DIR/${Ref}_${Nuc}_${Sort}_phase_*.bed  ; do
   filename=$(basename "$file" ".bed")
   cat $DIR/10CDT/RR_${filename}_sense.cdt | cut -f  1-2  > $DIR/RR_${filename}_sense_ref.cdt
   cat $DIR/10CDT/RR_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/RR_${filename}_sense_ref.cdt - > $DIR/RR_${filename}_283-482_sense.cdt
@@ -1055,17 +1055,17 @@ for file in $DIR/SCORES/${BASE}_original_phase_*_anti.cdt ; do
 done
 
 
-mkdir -p $DIR/${Ref}_${Nuc}_Q${Sort}_BZ
-mkdir -p $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide
+mkdir -p $DIR/${Ref}_${Nuc}_${Sort}_BZ
+mkdir -p $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide
 
 
-mv $DIR/${BAM}_*.cdt $DIR/${Ref}_${Nuc}_Q${Sort}_BZ
-mv $DIR/RR_*.cdt  $DIR/WW_*.cdt $DIR/YY_*.cdt  $DIR/SS_*.cdt $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide
+mv $DIR/${BAM}_*.cdt $DIR/${Ref}_${Nuc}_${Sort}_BZ
+mv $DIR/RR_*.cdt  $DIR/WW_*.cdt $DIR/YY_*.cdt  $DIR/SS_*.cdt $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide
 
-for file in $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/*_sense.cdt ; do
+for file in $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/*_sense.cdt ; do
       filename=$(basename "$file" ".cdt")
-      java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $file -o $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/${filename}_SCORES.out 
-      tail -n +2 $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/${filename}_SCORES.out  > $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/${filename}_score.out
+      java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $file -o $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/${filename}_SCORES.out 
+      tail -n +2 $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/${filename}_SCORES.out  > $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/${filename}_score.out
       
       tail -n +2 $file | cut -f 3-202 | \
       awk  -v max_col=200 '{
@@ -1087,18 +1087,18 @@ for file in $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/*_sense.cdt ; do
             for (i = 10; i <= (max_col + 9); i += 10) sum10 += $i;
 
             print sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
-        }'  | paste $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/${filename}_score.out  - |  awk '{
+        }'  | paste $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/${filename}_score.out  - |  awk '{
     OFS="\t";
-    print $1,$2,$3/($2+1),$4/($2+1),$5/($2+1),$6/($2+1),$7/($2+1),$8/($2+1),$9/($2+1),$10/($2+1),$11/($2+1),$12/($2+1)}' > $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/${filename}_score_peak.out
-    rm $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/${filename}_score.out
-    rm $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide/${filename}_SCORES.out
+    print $1,$2,$3/($2+1),$4/($2+1),$5/($2+1),$6/($2+1),$7/($2+1),$8/($2+1),$9/($2+1),$10/($2+1),$11/($2+1),$12/($2+1)}' > $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/${filename}_score_peak.out
+    rm $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/${filename}_score.out
+    rm $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide/${filename}_SCORES.out
   done
 
 
-for file in $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/*.cdt  ; do
+for file in $DIR/${Ref}_${Nuc}_${Sort}_BZ/*.cdt  ; do
       filename=$(basename "$file" ".cdt")
-      java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $file -o $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/${filename}_SCORES.out 
-      tail -n +2 $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/${filename}_SCORES.out  > $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/${filename}_score.out
+      java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $file -o $DIR/${Ref}_${Nuc}_${Sort}_BZ/${filename}_SCORES.out 
+      tail -n +2 $DIR/${Ref}_${Nuc}_${Sort}_BZ/${filename}_SCORES.out  > $DIR/${Ref}_${Nuc}_${Sort}_BZ/${filename}_score.out
       
       tail -n +2 $file | cut -f 3-202 | \
       awk  -v max_col=200 '{
@@ -1120,16 +1120,16 @@ for file in $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/*.cdt  ; do
             for (i = 10; i <= (max_col + 9); i += 10) sum10 += $i;
 
             print sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
-        }'  | paste $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/${filename}_score.out  - |  awk '{
+        }'  | paste $DIR/${Ref}_${Nuc}_${Sort}_BZ/${filename}_score.out  - |  awk '{
     OFS="\t";
-    print $1,$2,$3/($2+1),$4/($2+1),$5/($2+1),$6/($2+1),$7/($2+1),$8/($2+1),$9/($2+1),$10/($2+1),$11/($2+1),$12/($2+1)}' > $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/${filename}_score_peak.out
-    rm $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/${filename}_score.out
-    rm $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/${filename}_SCORES.out
+    print $1,$2,$3/($2+1),$4/($2+1),$5/($2+1),$6/($2+1),$7/($2+1),$8/($2+1),$9/($2+1),$10/($2+1),$11/($2+1),$12/($2+1)}' > $DIR/${Ref}_${Nuc}_${Sort}_BZ/${filename}_score_peak.out
+    rm $DIR/${Ref}_${Nuc}_${Sort}_BZ/${filename}_score.out
+    rm $DIR/${Ref}_${Nuc}_${Sort}_BZ/${filename}_SCORES.out
   done
 
 
 
-  for folder in $DIR/${Ref}_${Nuc}_Q${Sort}_BZ $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide ; do
+  for folder in $DIR/${Ref}_${Nuc}_${Sort}_BZ $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide ; do
     if [ -d "$folder" ]; then
         X=$folder
         for file in $X/*_score_peak.out ; do
@@ -1153,7 +1153,7 @@ for file in $DIR/${Ref}_${Nuc}_Q${Sort}_BZ/*.cdt  ; do
     fi
 done
 
-for folder in $DIR/${Ref}_${Nuc}_Q${Sort}_BZ $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide ; do
+for folder in $DIR/${Ref}_${Nuc}_${Sort}_BZ $DIR/${Ref}_${Nuc}_${Sort}_Dinucleotide ; do
     
     if [ -d "$folder" ]; then
         X=$folder
