@@ -23,7 +23,7 @@
 #   |--BNase-ChIP_H4_merge_hg38.bam
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/00_Download_and_Preprocessing
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing/00_Download_and_Preprocessing
 WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 ###
 
