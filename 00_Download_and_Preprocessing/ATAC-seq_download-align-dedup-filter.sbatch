@@ -11,7 +11,7 @@
 # pipeline already filters)
 
 # data/BAM
-#   |--MNase-seq_ENCODE_merge_hg38.bam
+#   |--ATAC-seq_ENCFF077FBI.bam
 
 ### CHANGE ME
 WRK=WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
@@ -44,4 +44,4 @@ PICARD=$WRK/../bin/picard.jar
 wget -c -O $BAMDIR/ATAC-seq_ENCFF077FBI.bam https://www.encodeproject.org/files/ENCFF077FBI/@@download/ENCFF077FBI.bam
 
 # Index
-samtools index $BAMDIR/MNase-seq_ENCODE_merge_hg38.bam
+samtools index $BAMDIR/ATAC-seq_ENCFF077FBI.bam
