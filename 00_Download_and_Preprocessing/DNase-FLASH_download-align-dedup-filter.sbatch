@@ -40,20 +40,20 @@ PICARD=$WRK/../bin/picard.jar
 [ -d BAM ] || mkdir BAM
 
 # Download raw FASTQ file
-for SRR in "SRR6010175" "SRR6010177" "SRR6010180" "SRR7441419" "SRR7441420";
+for SRR in "SRR801881" "SRR801880";
 do
 	fasterq-dump -O FQ --split-files $SRR &
 done
 wait
 
 # Align each sample
-for SRR in "SRR6010175" "SRR6010177" "SRR6010180" "SRR7441419" "SRR7441420";
+for SRR in "SRR801881" "SRR801880";
 do
 	bwa mem -t $THREADS -v 1 $GENOME FQ/${SRR}_1.fastq FQ/${SRR}_2.fastq | samtools sort -@ $THREADS > BAM/${SRR}_sorted.bam
 done
 
 # Mark and remove duplicates for technical replicates pairs and single (non-technical sequencing) replicates
-for SRR in "SRR6010175" "SRR6010177" "SRR6010180" "SRR7441419" "SRR7441420";
+for SRR in "SRR801881" "SRR801880";
 do
 	java -jar $PICARD MarkDuplicates -I BAM/${SRR}_sorted.bam -O BAM/${SRR}_dedup.bam -M BAM/${SRR}_dedup.metrics \
 		--REMOVE_DUPLICATES 'false' --ASSUME_SORTED 'true' --DUPLICATE_SCORING_STRATEGY 'SUM_OF_BASE_QUALITIES' \
@@ -63,17 +63,14 @@ done
 wait
 
 # Filter resulting BAM to match PEGR
-for SRR in "SRR6010175" "SRR6010177" "SRR6010180" "SRR7441419" "SRR7441420";
+for SRR in "SRR801881" "SRR801880";
 do
 	samtools view -h -b -f 0x1 -F 0x404 BAM/${SRR}_dedup.bam -o BAM/$SRR.bam &
 done
 wait
 
-# Merge BAM files
-java -jar $PICARD MergeSamFiles -O $BAMDIR/MNase-ChIP_H3K4me3_merge_hg38.bam \
-	-I BAM/SRR6010175.bam -I BAM/SRR6010177.bam \
-	-I BAM/SRR6010180.bam -I BAM/SRR7441419.bam \
-	-I BAM/SRR7441420.bam
-
 # Index
-samtools index $BAMDIR/MNase-ChIP_H3K4me3_merge_hg38.bam
+for SRR in "SRR801881" "SRR801880";
+do
+	samtools index BAM/DNase-FLASH_${SRR}.bam 
+done
