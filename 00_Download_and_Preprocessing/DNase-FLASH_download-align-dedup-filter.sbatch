@@ -3,14 +3,15 @@
 #SBATCH --mem=48gb
 #SBATCH -t 24:00:00
 #SBATCH -A open
-#SBATCH -o logs/MNase-ChIP_download-align-dedup-filter-merge.log.out
-#SBATCH -e logs/MNase-ChIP_download-align-dedup-filter-merge.log.err
+#SBATCH -o logs/DNase-FLASH_download-align-dedup-filter-merge.log.out
+#SBATCH -e logs/DNase-FLASH_download-align-dedup-filter-merge.log.err
 
 # Download MNase ChIP sequencing data (paired-end, Illumina) that targets H3K4me3
 # and align, dedup, filter, and merge the reads.
 
 # data/BAM
-#   |--MNase-ChIP_H3K4me3_merge_hg38.bam
+#   |--DNase-FLASH_SRR801881.bam
+#   |--DNase-FLASH_SRR801880.bam
 
 ### CHANGE ME
 WRK=storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
