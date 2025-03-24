@@ -37,8 +37,9 @@
 #      |--NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed 
 
 ### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
+WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
 WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
+cd $WRK
 ###
 
 # Dependencies
@@ -53,7 +54,7 @@ source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
 # Inputs and outputs
 MOTIF=../data/RefPT-Motif
 GENOME=../data/hg38_files/hg38.fa
-GINFO=../data/hg38_files/hg38.chrom.sizes
+GINFO=../data/hg38_files/hg38.chrom.sizes.txt
 BAMFILE=../data/BAM/K562_NFIA_BX_rep1_hg38.bam
 NUCLEOSOME=../data/RefPT-Krebs/1bp/BNase-Nucleosomes_1bp.bed
 BOUND_NFIA=temp-3_Filter_and_Sort_by_occupancy/NFIA_NFIA-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
@@ -99,14 +100,14 @@ paste $TEMP/NFIA_up95bp_150bp_5read1_MIN100_combined.out $TEMP/NFIA_down95bp_150
 paste $BOUND_NFIA $TEMP/NFIA_UpDownTagCounts.out > $TEMP/NFIA_7-Occupancy_8-up_9-down.bed
 
 # Compare up/down scores and split by up > down or not
-awk '{if ($8 >= $9) print $0,"engageNucDown" }' $TEMP/NFIA_7-Occupancy_8-up_9-down.bed > $TEMP/NFIA_EngagedDownstream.bed
-awk '{if ($8 <  $9) print $0,"engageNucUp"}' $TEMP/NFIA_7-Occupancy_8-up_9-down.bed > $TEMP/NFIA_EngagedUpstream.bed
+awk '{if ($8 > $9) print $0,"engageNucUp" }' $TEMP/NFIA_7-Occupancy_8-up_9-down.bed > $TEMP/NFIA_EngagedUpstream.bed
+awk '{if ($8 <= $9) print $0,"engageNucdDown"}' $TEMP/NFIA_7-Occupancy_8-up_9-down.bed > $TEMP/NFIA_EngagedDownstream.bed
 
 # QC: Stat line counts
 wc -l $TEMP/NFIA_EngagedDownstream.bed
-# 4093 temp-4_NFIA/NFIA_EngagedDownstream.bed
+# 3970 temp-4_NFIA/NFIA_EngagedDownstream.bed
 wc -l $TEMP/NFIA_EngagedUpstream.bed
-# 3873 temp-4_NFIA/NFIA_EngagedUpstream.bed
+# 3737 temp-4_NFIA/NFIA_EngagedUpstream.bed
 
 # Flip strands of upstream (puts nucleosome downstream)
 awk 'BEGIN{OFS="\t";FS="\t"}{
@@ -140,8 +141,8 @@ bedtools slop -l -250 -r 0 -s -i $MOTIF/500bp/NFIA_SORT-Occupancy_500bp.bed -g $
 ## =====Shift RefPTs up/down for violins=====
 
 # Create RefPT shifting up and down 95bp
-bedtools shift -i $MOTIF/NFIA_SORT-Occupancy.bed -g $GINFO -p 95 -m -95 > $MOTIF/NFIA-u95_SORT-Occupancy.bed
-bedtools shift -i $MOTIF/NFIA_SORT-Occupancy.bed -g $GINFO -p -95 -m 95 > $MOTIF/NFIA-d95_SORT-Occupancy.bed
+bedtools shift -i $MOTIF/NFIA_SORT-Occupancy.bed -g $GINFO -p 95 -m -95 > $MOTIF/NFIA-d95_SORT-Occupancy.bed
+bedtools shift -i $MOTIF/NFIA_SORT-Occupancy.bed -g $GINFO -p -95 -m 95 > $MOTIF/NFIA-u95_SORT-Occupancy.bed
 
 # Expand 150bp
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-u95_SORT-Occupancy.bed -o $MOTIF/150bp/NFIA-u95_SORT-Occupancy_150bp.bed
@@ -151,7 +152,7 @@ java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 $MOTIF/NFIA-d
 ## =====Slice bottom quartile=====
 
 # # Take bottom quartile (Q4) of NFIA_downNuc
-tail -n 1991 $MOTIF/NFIA_SORT-Occupancy.bed > $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed
+tail -n 1927 $MOTIF/NFIA_SORT-Occupancy.bed > $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed
 
 # # Expand 1000bp
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4.bed -o $MOTIF/NFIA_SORT-Occupancy_GROUP-Q4_1000bp.bed
@@ -167,18 +168,24 @@ bedtools sort -i $NUCLEOSOME > $TEMP/Nucleosomes_SORT-Genomic.bed
 bedtools closest -d -D a -t first -a $TEMP/NFIA_SORT-Genomic.bed -b $TEMP/Nucleosomes_SORT-Genomic.bed | sort -k13,13n > $TEMP/NFIA_SORT-DistClosestDyad.tsv
 
 # Group by distance to closest nucleosome bounded by -73 and +73 (3 groups)
-awk -v DIR="$MOTIF" 'BEGIN{OFS="\t";FS="\t"}{
+
+awk -v DIR="$TEMP" '{
    if ($13 < -73 ) {
-      print $0 > DIR"/NFIA_SORT-DistClosestDyad_GROUP-Upstream.bed"
-    } else if ($13 > 73 ) {
-      print $0 > DIR"/NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed"
-    } else {
-      print $0 > DIR"/NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed"
-    }
+      system("echo \"" $0 "\" > " DIR "/NFIA_SORT-DistClosestDyad_GROUP-Upstream.tsv")
+   } else if ($13 > 73 ) {
+      system("echo \"" $0 "\" > " DIR "/NFIA_SORT-DistClosestDyad_GROUP-Downstream.tsv")
+   } else {
+      system("echo \"" $0 "\" > " DIR "/NFIA_SORT-DistClosestDyad_GROUP-Overlap.tsv")
+   }
 }' $TEMP/NFIA_SORT-DistClosestDyad.tsv
+
 
 # Slice tsv into BED6
 cut -f1-6 $TEMP/NFIA_SORT-DistClosestDyad.tsv > $MOTIF/NFIA_SORT-DistClosestDyad.bed
+cut -f1-6 $TEMP/NFIA_SORT-DistClosestDyad_GROUP-Upstream.tsv > $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Upstream.bed
+cut -f1-6 $TEMP/NFIA_SORT-DistClosestDyad_GROUP-Downstream.tsv > $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed
+cut -f1-6 $TEMP/NFIA_SORT-DistClosestDyad_GROUP-Overlap.tsv > $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed
+
 
 # Expand 1000bp
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/NFIA_SORT-DistClosestDyad.bed -o $MOTIF/1000bp/NFIA_SORT-DistClosestDyad_1000bp.bed
@@ -188,10 +195,10 @@ java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/NFIA_
 
 # QC: Stat line counts
 wc -l $MOTIF/NFIA_SORT-DistClosestDyad_GROUP-*.bed
-# 1563 ../data/RefPT-Motif/NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed
-# 5248 ../data/RefPT-Motif/NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed
-# 1155 ../data/RefPT-Motif/NFIA_SORT-DistClosestDyad_GROUP-Upstream.bed
-
+# 1481 ../data/RefPT-Motif/NFIA_SORT-DistClosestDyad_GROUP-Downstream.bed
+# 5198 ../data/RefPT-Motif/NFIA_SORT-DistClosestDyad_GROUP-Overlap.bed
+# 1028 ../data/RefPT-Motif/NFIA_SORT-DistClosestDyad_GROUP-Upstream.bed
+# 7707 ../data/RefPT-Motif/NFIA_SORT-DistClosestDyad.bed
 ## =====Randomly reorient nucleosomes=====
 # by shuffling tag pileup matrix values and re-calling orientation by exo occupancy
 
@@ -215,12 +222,14 @@ paste $TEMP/NFIA_shuffled-up.out $TEMP/NFIA_shuffled-down.out \
 paste $BOUND_NFIA $TEMP/NFIA_shuffled-UpDownTagCounts.out > $TEMP/NFIA_shuffled_7-Occupancy_8-upshuffle_9-downshuffle.bed
 
 # Compare up/down scores and split by up > down or not
-awk '{if ($8 >= $9) print $0,"engageNucDown" }' $TEMP/NFIA_shuffled_7-Occupancy_8-upshuffle_9-downshuffle.bed > $TEMP/NFIA_shuffled_EngagedDownstream.bed
-awk '{if ($8 <  $9) print $0,"engageNucUp"}' $TEMP/NFIA_shuffled_7-Occupancy_8-upshuffle_9-downshuffle.bed > $TEMP/NFIA_shuffled_EngagedUpstream.bed
+awk '{if ($8 > $9) print $0,"engageNucUp" }' $TEMP/NFIA_shuffled_7-Occupancy_8-upshuffle_9-downshuffle.bed > $TEMP/NFIA_shuffled_EngagedUpstream.bed
+awk '{if ($8 <=  $9) print $0,"engageNucDown"}' $TEMP/NFIA_shuffled_7-Occupancy_8-upshuffle_9-downshuffle.bed > $TEMP/NFIA_shuffled_EngagedDownstream.bed
 
 # QC: Stat line counts
 wc -l $TEMP/NFIA_shuffled_EngagedUpstream.bed
+# 3529 $TEMP/NFIA_shuffled_EngagedUpstream.bed
 wc -l $TEMP/NFIA_shuffled_EngagedDownstream.bed
+# 4178 $TEMP/NFIA_shuffled_EngagedDownstream.bed
 
 # Flip strands of upstream (puts nucleosome downstream)
 awk 'BEGIN{OFS="\t";FS="\t"}{
