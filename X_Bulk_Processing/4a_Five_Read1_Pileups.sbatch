@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/4_Five_Read1_Pileups.log.out-%a
 #SBATCH -e logs/4_Five_Read1_Pileups.log.err-%a
-#SBATCH --array 1-55
+#SBATCH --array 1-59
 
 # Pileup heatmaps and composites (5' read1, exo cut sites) for a custom
 # combination of BAM x BED files (primarily nucleosome BAM). Configuration
@@ -13,11 +13,11 @@
 # strategy.
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
-WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
-METADATA=Five_Read1_Pileups.txt
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
+#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
+#WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
+#WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
+METADATA=$WRK/Five_Read1_Pileups.txt
 THREADS=4
 ###
 
@@ -133,5 +133,4 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation merge-heatma
 # Label heatmap
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/${BASE}_merge.png \
 	-l $LLABEL -m "0" -r $RLABEL -w 1 -f 20 \
-	-x $BED -y "$BED occurences (${NSITES} sites)" \
 	-o $DIR/SVG/${BASE}_merge_label.svg

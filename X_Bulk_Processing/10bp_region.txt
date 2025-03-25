@@ -1,0 +1,50 @@
+../data/RefPT-Motif/1bp/ZKSCAN1_SORT-Occupancy_1bp.bed ../data/BAM/K562_ZKSCAN1_BX_rep1_hg38.bam anti 100 443-502 60
+..data/RefPT-Motif/1bp/CTCF_SORT-Occupancy_1bp.bed ../data/BAM/K562_CTCF_BX_rep1_hg38.bam  sense 100 553-612 60 
+../data/RefPT-Motif/1bp/CTCF_SORT-Occupancy_1bp.bed ../data/BAM/K562_CTCF_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-Occupancy_1bp.bed ../data/BAM/K562_SMC3_BX_rep1_hg38.bam  sense 100 553-612 60 
+../data/RefPT-Motif/1bp/CTCF_SORT-Occupancy_1bp.bed ../data/BAM/K562_SMC3_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-Occupancy_1bp.bed ../data/BAM/K562_RAD21_BX_rep1_hg38.bam  sense 100 553-612 60 
+../data/RefPT-Motif/1bp/CTCF_SORT-Occupancy_1bp.bed ../data/BAM/K562_RAD21_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed ../data/BAM/K562_CTCF_BX_rep1_hg38.bam  sense 100 553-612 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed ../data/BAM/K562_CTCF_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed ../data/BAM/K562_SMC3_BX_rep1_hg38.bam  sense 100 553-612 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed ../data/BAM/K562_SMC3_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed ../data/BAM/K562_RAD21_BX_rep1_hg38.bam  sense 100 553-612 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed ../data/BAM/K562_RAD21_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed ../data/BAM/K562_CTCF_BX_rep1_hg38.bam  sense 100 553-612 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed ../data/BAM/K562_CTCF_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed ../data/BAM/K562_SMC3_BX_rep1_hg38.bam  sense 100 553-612 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed ../data/BAM/K562_SMC3_BX_rep1_hg38.bam  anti 100 613-672 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed ../data/BAM/K562_RAD21_BX_rep1_hg38.bam  sense 100 553-612 60
+../data/RefPT-Motif/1bp/CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed ../data/BAM/K562_RAD21_BX_rep1_hg38.bam  anti 100 613-672 60
+
+../data/RefPT-Motif/1bp/NFIA_SORT-Occupancy_1bp.bed ../data/BAM/K562_NFIA_BX_rep1_hg38.bam sense 100 523-582 60
+../data/RefPT-Motif/1bp/NFIA_SORT-Occupancy_1bp.bed ../data/BAM/K562_NFIA_BX_rep1_hg38.bam anti 100 583-642 60
+../data/RefPT-Motif/1bp/NFIA_SORT-DistClosestDyad_GROUP-Upstream_1bp.bed ../data/BAM/K562_NFIA_BX_rep1_hg38.bam sense 100 523-582 60
+../data/RefPT-Motif/1bp/NFIA_SORT-DistClosestDyad_GROUP-Upstream_1bp.bed ../data/BAM/K562_NFIA_BX_rep1_hg38.bam anti 100 583-642 60
+../data/RefPT-Motif/1bp/NFIA_SORT-DistClosestDyad_GROUP-Downstream_1bp.bed ../data/BAM/K562_NFIA_BX_rep1_hg38.bam sense 100 523-582 60
+../data/RefPT-Motif/1bp/NFIA_SORT-DistClosestDyad_GROUP-Downstream_1bp.bed ../data/BAM/K562_NFIA_BX_rep1_hg38.bam anti 100 583-642 60
+../data/RefPT-Motif/1bp/NFIA_SORT-DistClosestDyad_GROUP-Overlap_1bp.bed  ../data/BAM/K562_NFIA_BX_rep1_hg38.bam sense 100 523-582 60
+../data/RefPT-Motif/1bp/NFIA_SORT-DistClosestDyad_GROUP-Overlap_1bp.bed ../data/BAM/K562_NFIA_BX_rep1_hg38.bam  anti 100 583-642 60
+
+../data/RefPT-Motif/1bp/NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 523-722 200
+../data/RefPT-Motif/1bp/NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  anti 0 523-722 200
+../data/RefPT-Motif/1bp/NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 283-482 200
+../data/RefPT-Motif/1bp/NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  anti 0 283-482 200
+
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_1bp.bed ../data/BAM/K562_FoxA1_BX_rep1_hg38.bam  sense 100 513-592 80
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_1bp.bed ../data/BAM/K562_FoxA1_BX_rep1_hg38.bam  sense 100 513-592 80
+../data/RefPT-Motif/1bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_GROUP-Engaged_1bp.bed ../data/BAM/HepG2_FoxA1_BX_rep1_hg38.bam  sense 100 513-592 80
+../data/RefPT-Motif/1bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged_1bp.bed ../data/BAM/HepG2_FoxA1_BX_rep1_hg38.bam sense 100 513-592 80
+
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_1bp.bed ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 513-592 80
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_1bp.bed ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 513-592 80
+
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-ClosestDyad_1bp.bed ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 523-722 200
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-ClosestDyad_1bp.bed../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  anti 0 523-722 200
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-ClosestDyad_1bp.bed ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 283-482 200
+../data/RefPT-Motif/1bp/FOXA_LABEL-K562_SORT-ClosestDyad_1bp.bed../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  anti 0 283-482 200
+../data/RefPT-Motif/1bp/FOXA_LABEL-uHepG2_SORT-ClosestDyad_1bp.bed   ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 523-722 200
+../data/RefPT-Motif/1bp/FOXA_LABEL-uHepG2_SORT-ClosestDyad_1bp.bed ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  anti 0 523-722 200
+../data/RefPT-Motif/1bp/FOXA_LABEL-uHepG2_SORT-ClosestDyad_1bp.bed   ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  sense 0 283-482 200
+../data/RefPT-Motif/1bp/FOXA_LABEL-uHepG2_SORT-ClosestDyad_1bp.bed ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  anti 0 283-482 200
