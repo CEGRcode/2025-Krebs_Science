@@ -11,8 +11,8 @@
 
 ### CHANGE ME
 EXCLUSION=100
-WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
-WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
+#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
 ###
 
 # Dependencies
@@ -38,7 +38,7 @@ PWM_LIST=(
     PWM/CTCF_M1.meme.txt
     PWM/FOXA2_M1.meme.txt
     PWM/NFIA_M1.meme.txt
-    PWM/ZKSCAN1_M1.meme.txt
+    PWM/HNF4A_M1.meme.txt
 )
 
 # Define PWM file path based on SLURM_ARRAY_TASK_ID index
