@@ -37,8 +37,8 @@
 #      |--NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed 
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
-WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
+#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
 cd $WRK
 ###
 

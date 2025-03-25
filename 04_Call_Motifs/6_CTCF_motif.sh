@@ -18,8 +18,8 @@
 #     |--CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/04_Call_Motifs
-WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
+#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
 GENOME=$WRK/../data/hg38_files/hg38.fa
 GINFO=$WRK/../data/hg38_files/hg38.chrom.sizes
 SMC3BAMFILE=$WRK/../data/BAM/K562_SMC3_BX_rep1_hg38.bam
