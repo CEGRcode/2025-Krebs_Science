@@ -10,8 +10,8 @@ NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ATF2_MA1632.2_Unbound_1000bp.bed		S2c
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/CREM_MA0609.3_K562-specific-Unbound_1000bp.bed		S2c
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/CREM_MA0609.3_Unbound_1000bp.bed		S2c
-NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ATF2_MA1632.2_K562-specific-Unbound_1000bp.bed		S2c
-NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ATF2_MA1632.2_Unbound_1000bp.bed		S2c
+NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ZKSCAN1_MA1585.1_K562-specific-Unbound_1000bp.bed		S2c
+NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ZKSCAN1_MA1585.1_Unbound_1000bp.bed		S2c
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/CTCF_MA1929.1_K562-specific-Unbound_1000bp.bed		S2c
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/CTCF_MA1929.1_Unbound_1000bp.bed		S2c
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ZNF263_MA0528.1_K562-specific-Unbound_1000bp.bed		S2c
