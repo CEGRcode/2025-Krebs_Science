@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/3_Midpoint_Pileups.log.out-%a
 #SBATCH -e logs/3_Midpoint_Pileups.log.err-%a
-#SBATCH --array 1-39
+#SBATCH --array 1-59
 
 # Pileup heatmaps and composites (fragment midpoints) for a custom
 # combination of BAM x BED files (primarily nucleosome BAM). Configuration
@@ -13,11 +13,11 @@
 # and normalization strategy.
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
-WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
-METADATA=Midpoint_Pileups.txt
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
+#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
+#WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
+#WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
+METADATA=$WRK/Midpoint_Pileups.txt
 THREADS=4
 ###
 
@@ -83,7 +83,8 @@ WINDOW=`echo $BED | rev | cut -d"_" -f1 | rev`
 [ $WINDOW == "200bp" ] && LLABEL="-100" && RLABEL="+100"
 
 # Parse min/max params
-TP_PARAMS="--cpu $THREADS -m --combined -p"
+TP_PARAMS="--cpu ${THREADS} -m --combined"
+#TP_PARAMS="--cpu $THREADS -m --combined -p"
 FILTER=""
 [[ $MIN =~ "NaN" ]] || FILTER=${FILTER}-MIN${MIN}
 [[ $MIN =~ "NaN" ]] || TP_PARAMS="${TP_PARAMS} -n ${MIN}"
@@ -123,7 +124,7 @@ DIR=Library/$BED
 # ===============================================================================================================================
 
 # Pileup (mid)
-java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE $TP_PARAMS -o $DIR/Composites/${BASE}_combined.out -M $DIR/CDT/$BASE
+java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE ${TP_PARAMS} -o $DIR/Composites/${BASE}_combined.out -M $DIR/CDT/$BASE
 
 # Scale matrix
 java -jar $SCRIPTMANAGER read-analysis scale-matrix $DIR/Composites/${BASE}_combined.out -l 1 -s $FACTOR -o $DIR/Composites/${BASE}_${NORMALIZATION}_combined.out
@@ -132,10 +133,9 @@ java -jar $SCRIPTMANAGER read-analysis scale-matrix $DIR/CDT/${BASE}_combined.cd
 BASE=${BASE}_${NORMALIZATION}
 
 # Two-color heatmap
-java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation heatmap $HM_PARAMS $DIR/CDT/${BASE}_combined.cdt -o $DIR/PNG/${BASE}_combined.png
+java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation heatmap ${HM_PARAMS} $DIR/CDT/${BASE}_combined.cdt -o $DIR/PNG/${BASE}_combined.png
 
 # Label heatmap
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $DIR/PNG/${BASE}_combined.png \
 	-l $LLABEL -m "0" -r $RLABEL -w 1 -f 20 \
-	-x $BED -y "$BED occurences (${NSITES} sites)" \
 	-o $DIR/SVG/${BASE}_combined.svg
