@@ -3,9 +3,9 @@
 # Make weblogos for every JASPAR MEME file in `data/JASPAR/*.meme` and MEME file in `02_Call_RefPT/PWM/*.meme.txt` (both strands)
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
+#WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
+#WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
 ###
 
 # Dependencies
