@@ -16,3 +16,4 @@ NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/CTCF_MA1929.1_Unbound_1000bp.bed		S2c
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ZNF263_MA0528.1_K562-specific-Unbound_1000bp.bed		S2c
 NaN NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-JASPAR-nonK562/1000bp/ZNF263_MA0528.1_Unbound_1000bp.bed		S2c
+NaN NaN	../data/BAM/K562_CTCF_NonXLBX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_SORT-Occupancy_1000bp.bed		S4a

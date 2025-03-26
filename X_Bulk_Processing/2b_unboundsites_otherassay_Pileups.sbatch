@@ -5,7 +5,7 @@
 #SBATCH -A open
 #SBATCH -o logs/4_Five_Read1_Pileups.log.out-%a
 #SBATCH -e logs/4_Five_Read1_Pileups.log.err-%a
-#SBATCH --array 1-59
+#SBATCH --array 1-19
 
 # Pileup heatmaps and composites (5' read1, exo cut sites) for a custom
 # combination of BAM x BED files (primarily nucleosome BAM). Configuration
@@ -42,7 +42,14 @@ cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Determine BAM file for the current job array index
 MIN=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
-MIN=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
+MAX=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'
+TP_PARAMS="--cpu ${THREADS} -5 -a"
+FILTER=""
+[[ $MIN =~ "NaN" ]] || FILTER=${FILTER}-MIN${MIN}
+[[ $MIN =~ "NaN" ]] || TP_PARAMS="${TP_PARAMS} -n ${MIN}"
+[[ $MAX =~ "NaN" ]] || FILTER=${FILTER}-MAX${MAX}
+[[ $MAX =~ "NaN" ]] || TP_PARAMS="${TP_PARAMS} -x ${MAX}"
+
 BAMFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $3}'`
 BAM=`basename $BAMFILE ".bam"`
 [ -f $BAMFILE.bai ] || samtools index $BAMFILE
@@ -53,7 +60,7 @@ BED=`basename $BEDFILE ".bed"`
 
 # ===============================================================================================================================
 
-BASE=${BAM}_${BED}_5read1${FILTER}
+BASE=${BAM}_${BED}_5both${FILTER}
 
 # Setup output directories
 DIR=Library/$BED
@@ -65,4 +72,4 @@ DIR=Library/$BED
 echo "Run Custom read1 pileup"
 
 # Pileup (read 1)
-java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE -n $MIN -x $MAX -5 -a -o $DIR/Composites/$BASE.out
+java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE ${TP_PARAMS} -o $DIR/Composites/$BASE.out
