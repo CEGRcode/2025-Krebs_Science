@@ -27,7 +27,7 @@ cp $LIBRARY/WebLogos/CTCF_M1_logo.eps F4/a/
 # Composites
 cp $LIBRARY/$BED/Composites/K562_CTCF_BX_rep1_hg38_${BED}_5read1_NCIS.out F4/a/
 cp $LIBRARY/$BED/Composites/K562_CTCF_BX_rep1_hg38_${BED}_5read2_NCIS.out F4/a/
-cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint_combined.out F4/a/
+cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint_TotalTag_combined.out F4/a/
 
 # ===============================================================================================================================
 
@@ -41,7 +41,7 @@ cp $LIBRARY/$BED/SVG/K562_CTCF_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg F
 cp $LIBRARY/$BED/SVG/K562_CTCF_BX_rep1_hg38_${BED}_5read2_NCIS_merge_label.svg F4/b/
 cp $LIBRARY/$BED/SVG/K562_CTCF_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS_merge_label.svg F4/b/
 cp $LIBRARY/$BED/SVG/K562_CTCF_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS_merge_label.svg F4/b/
-cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint-MIN100_TotalTag_combined.svg F4/b/
+cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint_TotalTag_combined.svg F4/b/
 
 # ===============================================================================================================================
 
@@ -50,7 +50,7 @@ cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint-MIN100_Total
 # Composites
 cp $LIBRARY/$BED/Composites/K562_CTCF_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F4/c/
 cp $LIBRARY/$BED/Composites/K562_CTCF_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F4/c/
-cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint-MIN100_TotalTag_combined.out F4/c/
+cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint_TotalTag_combined.out F4/c/
 
 # ===============================================================================================================================
 
@@ -70,7 +70,7 @@ cp $LIBRARY/$BED/Composites/K562_RAD21_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.ou
 cp $LIBRARY/$BED/Composites/K562_RAD21_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F4/e/RAD21_K562_RAD21_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out
 cp $LIBRARY/$BED/Composites/K562_SMC3_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F4/e/SMC3_K562_SMC3_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out
 cp $LIBRARY/$BED/Composites/K562_SMC3_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F4/e/SMC3_K562_SMC3_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out
-cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read2-MIN100_TotalTag.out F4/e/
+cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read1_TotalTag.out F4/e/
 cp $LIBRARY/$BED/Composites/K562_CTCF_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F4/e/
 
 # ===============================================================================================================================

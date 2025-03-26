@@ -21,14 +21,15 @@ SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
 [ -d F3/a ] || mkdir F3/a
 
 # heatmap
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/BNase-seQ4_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Q4uartile4_-1Nuc_read1_Q4_shuffle_250bp_phase_sort_merge.svg F3/a/
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Q4uartile4_+1Nuc_read1_Q4_shuffle_250bp_phase_sort_merge.svg F3/a/
-
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_+1Nuc_read1_shuffle_250bp_phase_sort_merge.svg F3/a/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/BNase-seQ4_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_+1Nuc_read1_original_250bp_phase_sort_merge.svg F3/a/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_-1Nuc_read1_shuffle_250bp_phase_sort_merge.svg F3/a/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/BNase-seQ4_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_-1Nuc_read1_original_250bp_phase_sort_merge.svg F3/a/
 # Composites
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_-1Nuc_read1_shuffle_phase_2.out F3/a/
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_-1Nuc_read1_original_phase_2.out F3/a/
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_+1Nuc_read1_shuffle_phase_2.out F3/a/
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_+1Nuc_read1_original_phase_2.out F3/a/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_-1Nuc_read1_shuffle_phase_2.out F3/a/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_-1Nuc_read1_original_phase_2.out F3/a/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_+1Nuc_read1_shuffle_phase_2.out F3/a/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_+1Nuc_read1_original_phase_2.out F3/a/
 
 # ===============================================================================================================================
 
@@ -39,10 +40,10 @@ cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/BNase-seq_50U-
 cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_original_250bp_phase_sort_merge.svg F3/b/
 
 # Composites
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_shuffle_phase_2.out F3/b/
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_shuffle_phase_7.out F3/b/
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_original_phase_2.out F3/b/
-cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10plot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_original_phase_7.out F3/b/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_shuffle_phase_2.out F3/b/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_shuffle_phase_7.out F3/b/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_original_phase_2.out F3/b/
+cp $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/10xplot/BNase-seq_50U-10min_merge_hg38_CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_nearNuc_read1_original_phase_7.out F3/b/
 
 
 # ===============================================================================================================================

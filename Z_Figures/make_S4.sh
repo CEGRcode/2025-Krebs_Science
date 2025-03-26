@@ -18,13 +18,9 @@ BED1=CTCF_SORT-SMC3Engagement_1000
 BED2=CTCF_SORT-SMC3Engagement_GROUP-High_1000bp
 BED3=CTCF_SORT-SMC3Engagement_GROUP-High_1000bp
 
-[ -d S4 ] || mkdir S4
+[ -d S4/a ] || mkdir S4/a
 
 # ===============================================================================================================================
-
-[ -d F4/a ] || mkdir F4/a
-
-cp $LIBRARY/WebLogos/CTCF_M1_logo.eps F4/a/
 
 # Composites
 cp $LIBRARY/$BED/Composites/K562_CTCF_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out S4/a/
