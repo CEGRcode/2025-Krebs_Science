@@ -30,22 +30,24 @@ cp $LIBRARY/WebLogos/SPI1_MA0080.7_logo.eps F2/
 cp $LIBRARY/WebLogos/ZNF263_MA0528.1_logo.eps F2/
 
 # Composites
-cp $WRK/Library/BI_Pileups/MA1929/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA1585/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0138/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0592/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0834/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0492/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0506/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0079/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0080/Composites/*.out F2/
-cp $WRK/Library/BI_Pileups/MA0528/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA1929/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA1585/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA0138/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA0592/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA0834/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA0492/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA0509/Composites/*.out F2/
+cp $LIBRARY//BI_Pileups/MA0079/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA0080/Composites/*.out F2/
+cp $LIBRARY/BI_Pileups/MA0528/Composites/*.out F2/
 
 # heatmap
 
-cat $WRK/../0X_Bulk_Processing/Library/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/CTCF_nearNuc_Q1_original_all.bed | sort -k5,5n > F2/CTCF_nearNuc_Q1_original_Nucsort.bed
+cat $LIBRARY/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/CTCF_nearNuc_Q1_original_all.bed | sort -k5,5n > F2/CTCF_nearNuc_Q1_original_Nucsort.bed
 
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 F2/CTCF_nearNuc_Q1_original_Nucsort.bed -o F2/CTCF_nearNuc_Q1_original_Nucsort_500bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 500 F2/CTCF_nearNuc_Q1_original_Nucsort.bed -o F2/CTCF_nearNuc_Q1_original_Nucsort_500bp.bed
 java -jar $SCRIPTMANAGER read-analysis tag-pileup F2/CTCF_nearNuc_Q1_original_Nucsort_500bp.bed $WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam --cpu 4 -m -M F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint
-java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 -c B8C400 F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.cdt -o  F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.png
-ava -jar $SCRIPTMANAGER figure-generation label-heatmap F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.png -f 20 -l -250 -m 0 -r +250  -o F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.svg
+java -jar $SCRIPTMANAGER figure-generation heatmap -p .95 -c B8C400 F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint_combined.cdt -o  F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.png
+java -jar $SCRIPTMANAGER figure-generation label-heatmap F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.png -f 20 -l -250 -m 0 -r +250  -o F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.svg
+rm F2/CTCF_nearNuc_Q1_original_Nucsort_500bp.bed
+rm F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint.png

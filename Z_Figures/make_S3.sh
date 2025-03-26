@@ -98,13 +98,13 @@ done
 
 
 [ -d S3/d ] || mkdir S3/d
-cp $LIBRARY/DNAshape/ATF7_MA0834.1/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/CTCF_MA1929.1/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/ZKSCAN1_MA1585.1/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/ESRRA_MA0592.1/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/JUND_MA0492.2/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/NRF1_MA0506.3/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/REST_MA0138.3/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/SP1_MA0079.5/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/SPI1_MA0080.7/Composites/*.out S3/b
-cp $LIBRARY/DNAshape/ZNF263_MA0528.1/Composites/*.out S3/b
+cp $LIBRARY/DNAshape/ATF7_MA0834.1/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/CTCF_MA1929.1/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/ZKSCAN1_MA1585.1/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/ESRRA_MA0592.1/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/JUND_MA0492.2/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/NRF1_MA0506.3/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/REST_MA0138.3/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/SP1_MA0079.5/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/SPI1_MA0080.7/Composites/*.out S3/d
+cp $LIBRARY/DNAshape/ZNF263_MA0528.1/Composites/*.out S3/d
