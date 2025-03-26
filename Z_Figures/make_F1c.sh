@@ -8,9 +8,9 @@
 # see 04_Figures/Fig_1e_f.sh
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/Z_Figures
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/Z_Figures
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/Z_Figures
+#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/Z_Figures
+#WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
 ###
 
 # Dependencies
