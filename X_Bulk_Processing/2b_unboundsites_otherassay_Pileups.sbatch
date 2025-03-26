@@ -73,3 +73,7 @@ echo "Run Custom read1 pileup"
 
 # Pileup (read 1)
 java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE $BAMFILE ${TP_PARAMS} -o $DIR/Composites/$BASE.out
+
+
+
+

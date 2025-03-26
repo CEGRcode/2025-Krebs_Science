@@ -83,15 +83,15 @@ cp $LIBRARY/$BED/SVG/HepG2_HNF4A_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg
 
 ## motif alignment
 
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 20 $WRK/04_Call_Motifs/temp-5_FoxA_motif/HNF4A_bound-HepG2_SORT-Genomic.bed -o S5/d/HNF4A_bound-HepG2_20bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 20 $WRK/04_Call_Motifs/temp-5_FoxA_motif/HNF4A_unbound-HepG2_SORT-Genomic.bed -o S5/d/HNF4A_bound-HepG2_20bp.bed
-java -jar $SCRIPTMANAGER peak-analysis peak-align-ref  -o S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp S5/d/HNF4A_bound-HepG2_20bp.bed $WRK/../data/RefPT-Motif/500bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp
-java -jar $SCRIPTMANAGER peak-analysis peak-align-ref  -o S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp S5/d/HNF4A_unbound-HepG2_20bp.bed $WRK/../data/RefPT-Motif/500bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp
-java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 -c bf00fc S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.cdt -o S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png
-java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 -c bfbfbf S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.cdt -o S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png
-java -jar $SCRIPTMANAGER figure-generation merge-heatmap S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png -o S5/d/HNF4A_HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp_merge.png
-java -jar $SCRIPTMANAGER figure-generation label-heatmap S5/d/HNF4A_HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp_merge.png -f 20 -l -250 -m 0 -r 250 -o S5/d/HNF4A_HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp_merge.svg
-
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 20 $WRK/../04_Call_Motifs/temp-5_FoxA_motif/HNF4A_bound-HepG2_SORT-Genomic.bed -o S5/d/HNF4A_bound-HepG2_20bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 20 $WRK/../04_Call_Motifs/temp-5_FoxA_motif/HNF4A_unbound-HepG2_SORT-Genomic.bed -o S5/d/HNF4A_unbound-HepG2_20bp.bed
+java -jar $SCRIPTMANAGER peak-analysis peak-align-ref  -o S5/d/HNF4A_bound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp S5/d/HNF4A_bound-HepG2_20bp.bed $WRK/../data/RefPT-Motif/1000bp/FOXA_HepG2_SORT-ClosestHNF4A_1000bp.bed
+java -jar $SCRIPTMANAGER peak-analysis peak-align-ref  -o S5/d/HNF4A_unbound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp S5/d/HNF4A_unbound-HepG2_20bp.bed $WRK/../data/RefPT-Motif/1000bp/FOXA_HepG2_SORT-ClosestHNF4A_1000bp.bed
+java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 -c bf00fc S5/d/HNF4A_bound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp_combined.cdt -o S5/d/HNF4A_bound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp.png
+java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 -c bfbfbf S5/d/HNF4A_unbound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp_combined.cdt -o S5/d/HNF4A_unbound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp.png
+java -jar $SCRIPTMANAGER figure-generation merge-heatmap S5/d/HNF4A_bound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp.png S5/d/HNF4A_unbound-HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp.png -o S5/d/HNF4A_HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp.png
+java -jar $SCRIPTMANAGER figure-generation label-heatmap S5/d/HNF4A_HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp.png -f 20 -l -500 -m 0 -r 500 -o S5/d/HNF4A_HepG2_20bp_FOXA_HepG2_SORT-ClosestHNF4A_1000bp.svg
+rm *S5/d/*.png
 [ -d S5/e ] || mkdir S5/e
 # Composites
 BED=FOXA_bound-HepG2_SORT-ClosestHNF4A-bound_Group-Distal_1000bp
