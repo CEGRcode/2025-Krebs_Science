@@ -73,7 +73,7 @@ BED=FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged_1000bp
 cp $LIBRARY/$BED/Composites/HepG2_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out S5/c/
 cp $LIBRARY/$BED/Composites/HepG2_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out S5/c/
 
-[ -d S5/c ] || mkdir S5/c
+[ -d S5/d ] || mkdir S5/d
 
 # Heatmaps
 BED=FOXA_HepG2_SORT-ClosestHNF4A_1000bp
@@ -82,6 +82,15 @@ cp $LIBRARY/$BED/SVG/HepG2_FOXA1_BX_rep1_hg38_${BED}_5read2_NCIS_merge_label.svg
 cp $LIBRARY/$BED/SVG/HepG2_HNF4A_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg S5/d/
 
 ## motif alignment
+
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 20 $WRK/04_Call_Motifs/temp-5_FoxA_motif/HNF4A_bound-HepG2_SORT-Genomic.bed -o S5/d/HNF4A_bound-HepG2_20bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 20 $WRK/04_Call_Motifs/temp-5_FoxA_motif/HNF4A_unbound-HepG2_SORT-Genomic.bed -o S5/d/HNF4A_bound-HepG2_20bp.bed
+java -jar $SCRIPTMANAGER peak-analysis peak-align-ref  -o S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp S5/d/HNF4A_bound-HepG2_20bp.bed $WRK/../data/RefPT-Motif/500bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp
+java -jar $SCRIPTMANAGER peak-analysis peak-align-ref  -o S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp S5/d/HNF4A_unbound-HepG2_20bp.bed $WRK/../data/RefPT-Motif/500bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp
+java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 -c bf00fc S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.cdt -o S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png
+java -jar $SCRIPTMANAGER figure-generation heatmap -a 1 -c bfbfbf S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.cdt -o S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png
+java -jar $SCRIPTMANAGER figure-generation merge-heatmap S5/d/HNF4A_unbound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png S5/d/HNF4A_bound-HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.png -o S5/d/HNF4A_HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp_merge.png
+java -jar $SCRIPTMANAGER figure-generation label-heatmap S5/d/HNF4A_HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp_merge.png -f 20 -l -250 -m 0 -r 250 -o S5/d/HNF4A_HepG2_20bp_FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp_merge.svg
 
 [ -d S5/e ] || mkdir S5/e
 # Composites

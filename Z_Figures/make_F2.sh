@@ -43,7 +43,7 @@ cp $WRK/Library/BI_Pileups/MA0528/Composites/*.out F2/
 
 # heatmap
 
-cat $WRK/../0X_Bulk_Processing/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/CTCF_nearNuc_Q1_original_all.bed | sort -k5,5n > F2/CTCF_nearNuc_Q1_original_Nucsort.bed
+cat $WRK/../0X_Bulk_Processing/Library/10phase/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1/CTCF_nearNuc_Q1_original_all.bed | sort -k5,5n > F2/CTCF_nearNuc_Q1_original_Nucsort.bed
 
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 F2/CTCF_nearNuc_Q1_original_Nucsort.bed -o F2/CTCF_nearNuc_Q1_original_Nucsort_500bp.bed
 java -jar $SCRIPTMANAGER read-analysis tag-pileup F2/CTCF_nearNuc_Q1_original_Nucsort_500bp.bed $WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam --cpu 4 -m -M F2/BNase-seq_50U-10min_merge_hg38_CTCF_nearNuc_Q1_original_Nucsort_500bp_midpoint
