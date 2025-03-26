@@ -20,7 +20,7 @@ VIOLIN=$WRK/../bin/make_violin_plot.py
 
 # ===============================================================================================================================
 [ -d S6/a ] || mkdir S6/a 
-cp $LIBRARY/NFIA_SORT-Occupancy_GROUP-Q4/Composites/BNase-seq_50U-10min_merge_hg38_NFIA_SORT-Occupancy_GROUP-Q4_read1.out S6/a/
+cp $LIBRARY/NFIA_SORT-Occupancy_GROUP-Q4/Composites/BNase-seq_50U-10min_merge_hg38_NFIA_SORT-Occupancy_GROUP-Q4_5read1_TotalTag.out S6/a/
 
 ## need to add BNase-seq_50U-10min_merge_hg38_NFIA_SORT-Occupancy_GROUP-Q4_read1.out
 # ===============================================================================================================================
