@@ -78,9 +78,9 @@ cat $OUTDIR/MA1929_1_final_1000bp_intersected_ratio.TSV | head -$(cat $OUTDIR/MA
 cat $OUTDIR/MA1929_1_final_1000bp_intersected_ratio.TSV | tail -$(cat $OUTDIR/MA1929_1_final_1000bp_intersected_rowsNumber.tab) | awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6}' > $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category4.bed
 
 #expand bedfiles
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category1.bed $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category1_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category2.bed $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category2_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category3.bed $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category3_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category4.bed $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category4_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category1.bed $WRK/../data/RefPT-JASPAR-nonK562/1000bp/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category1_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category2.bed $WRK/../data/RefPT-JASPAR-nonK562/1000bp/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category2_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category3.bed $WRK/../data/RefPT-JASPAR-nonK562/1000bp/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category3_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $WRK/../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category4.bed $WRK/../data/RefPT-JASPAR-nonK562/1000bp/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category4_1000bp.bed
 
 
