@@ -42,16 +42,5 @@ Perform CTCF-specific transformations, groups, and sorts for figure RefPT buildi
 # Update submission info (e.g. add WRK path)
 sh 6_CTCF_motif.sh
 ```
-The above script should make:
-```
-../data/RefPT-Motif/1000bp/CTCF_Occupancy_TOP_1000bp.bed
-../data/RefPT-Motif/1000bp/CTCF_Occupancy_MIDDLE_1000bp.bed
-../data/RefPT-Motif/1000bp/CTCF_Occupancy_BOTTOM_1000bp.bed
-```
 
-### 7_ZKSCAN1_motif.sh
-Perform ZKSCAN1-specific transformations, groups, and sorts for figure RefPT building.
-```
-# Update submission info (e.g. add WRK path)
-sh 7_ZKSCAN1_motif.sh
 ```
