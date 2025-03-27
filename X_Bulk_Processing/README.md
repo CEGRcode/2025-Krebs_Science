@@ -24,10 +24,13 @@ sh 1a_make_weblogos.sh
 sh 1b_bulk_4-color-plot.sh
 ```
 
-## 2_MotifAnalyses.sbatch
+## 2x_MotifAnalyses.sbatch
 
 ```
-sbatch 2_MotifAnalyses.sbatch
+sbatch 2a_MotifAnalyses.sbatch
+sbatch 2b_unboundsites_otherassay_Pileups.sbatch
+sh 2c_10bp_Dinucleotide_4Q.sh
+sh 2d_10bp_midflank_DNAshape_4Q.sh
 ```
 
 ## 3_Midpoint_Pileups.sbatch
@@ -36,10 +39,11 @@ sbatch 2_MotifAnalyses.sbatch
 sbatch 3_Midpoint_Pileups.sbatch
 ```
 
-## 4_Five_Read1_Pileups.sbatch
+## 4x_Five_Read1_Pileups
 
 ```
 sbatch 4_Five_Read1_Pileups.sbatch
+sbatch 4b_10bp_pileups.sh
 ```
 
 ## 5_Five_Read2_Pileups.sbatch
@@ -54,14 +58,38 @@ sbatch 5_Five_Read2_Pileups.sbatch
 sbatch 5_CoPRO_TSS_ActiveSite_Pileups.sbatch
 ```
 
-## 7_Conservation-phylo_pileups.sbatch
+## 7x_Convervation/dbSnp153_pileups
 
 ```
-sbatch 7_Conservation-phylo_pileups.sbatch
+sh 7a_dbSnp153_pileups.sbatch
+sh 7b_Conservation-phylo_pileups.sh
 ```
 
-## 8_dbSnp153_pileups.sbatch
+## 8x_CTCF10phase
 
 ```
-sbatch 8_dbSnp153_pileups.sbatch
+sbatch 8a_10phase_of_CTCF_Q1_Q4.sbatch
+sh 8b_CTCF_phaseallign.sh
+sbatch 8c_10phase_of_CTCF_Q1_both.sbatch
+```
+
+## 9x_FoxA10phase
+
+```
+sbatch 9a_10phase_of_FOXA_uHepG2.sbatch
+sh 9b_FOXA_phaseallign.sh
+```
+
+
+## 10x_NFIA10phase
+
+```
+sbatch 10a_10phase_of_NFIA_unbound.sbatch
+sh 10b_NFIA_phaseallign.sh
+```
+
+## 11_cut-site_nucleotide-content.sh
+
+```
+sh 11_cut-site_nucleotide-content.sh
 ```
