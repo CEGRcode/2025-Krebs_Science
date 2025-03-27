@@ -14,7 +14,7 @@
 ### GEO ID : [GSE266547](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE266547)
 
 ## Abstract
-Genes are regulated by transcription factors (TFs) bound to DNA sites (TFBS). Unbound sites are often nucleosomal and inaccessible. Current assays cannot address whether TFs encounter phasing of the DNA helix on nucleosomal surfaces across a natural genomic context, and how this may change upon TF binding. Here we use an endonuclease, either alone or coupled to ChIP-exo to measure the genomic rotational and translational (positional) phasing of nucleosomal DNA at unbound and TF-bound TFBSs in human cells. Unbound sites had a preferred rotational phase, but generally lacked a translational phase. In contrast, TF/TFBS complexes were often engaged with an adjacent translationally and rotationally phased nucleosome. Thus, a few molecular themes may govern how TFs engage nucleosomes.
+How transcription factors (TFs) access DNA that is packed into chromatin has been challenging to decipher on a genomic scale due to inherent resolution limits of assays. Accessibility differs depending on whether a TF binding site (TFBS) is translationally and/or rotationally phased on or next to a nucleosome. Rotational phasing occurs where a DNA sequence in the DNA helix has a predominant rotational direction on the nucleosome surface, thereby consistently facing outward (accessible) or inward (inaccessible). While rotational phasing is DNA-encoded by dinucleotide periodicities at yeast TFBSs, such encoding has not been found in humans. Here we develop a genome-wide Benzonase nuclease-based assay to measure translational and rotational phasing, and a second assay to measure such phasing on the same DNA molecule to which a TF is bound. The latter uniquely allows phasing to be measured with transient TFs. We show that many types of human TFBSs have distinct translational and/or rotational phasing depending on whether they are bound by specific TFs. For example, unbound CTCF sites are nucleosomal with local but not global translational phasing. They possess DNA-encoded rotational phasing, with the predominant phase being in an accessible orientation. CTCF-bound sites have adjacent nucleosomes possessing a global translational phase and distinct DNA-encoded rotational phases. Similar themes recur for other TFs including NFIA and pioneer factor FoxA, but their activities are highly transient. Our assays further allow subnucleosomal structures to be examined along with their relationship to a transiting RNA polymerase. Together, these findings reveal an intimate relationship between nucleosome phasing and transcription factors.
 
 
 ## Directions
@@ -56,6 +56,9 @@ With the BAM and BED files built from the scripts in the above directories, perf
 
 ### Z_Figures
 Copy/organize results from bulk processing into figure-specific directories corresponding to subfigures in the manuscript. Also includes custom/one-off scripts for analysis that didn't need bulk-style execution.
+
+### AI_files
+all figures in paper
 
 ### data
 Store large files to be globally accessed by the scripts in each directory
