@@ -13,18 +13,25 @@ The following scripts can can be executed in any order after `0_Setup_hg38_reffi
 9 - MNase-seq (titrations)
 10 - Global calculations
 
-## 0_Setup_hg38_reffiles.sh
+## 0a_Setup_hg38_reffiles.sh
 
 Downloads the hg38.fa genome and creates all the indexes needed to run the preprocessing scripts (`.fai` index, [bwa](https://bio-bwa.sourceforge.net/bwa.shtml) index, [bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#the-bowtie2-build-indexer) index, and [bowtie (1.2.3)](https://bowtie-bio.sourceforge.net/manual.shtml#the-bowtie-build-indexer) colorspace index).
 
 ```
-sh 0_Setup_hg38_reffiles.sh
+sh 0a_Setup_hg38_reffiles.sh
 ```
 
 Previously worked with hg19 build. This build file is kept here for records:
 
 ```
 sh 0_Setup_hg19_reffiles.sh
+```
+
+## 0b_Setup_mm10_reffiles.sh
+
+Downloads the mm10.fa genome and creates all the indexes needed to run the preprocessing scripts.
+```
+sh 0b_Setup_mm10_reffiles.sh
 ```
 
 ### Download_Conservation-SNP_data.sh
@@ -81,6 +88,10 @@ sbatch DNase-seq_download.sbatch
 sbatch MNase-ChIP_download-align-dedup-filter-merge.sbatch
 sbatch MNase-seq-ENCODE_download-align-filter-merge.sbatch
 sbatch MNase-seq-Titrations_download-align-dedup-filter.sbatch
+sbatch MPE-seq_download-align-dedup-filter-merge.sbatch
+sbatch ATAC-seq_download-align-dedup-filter.sbatch
+sbatch DNase-FLASH_download-align-dedup-filter.sbatch
+
 ```
 
 ## X_get_scaling_factors.sbatch
