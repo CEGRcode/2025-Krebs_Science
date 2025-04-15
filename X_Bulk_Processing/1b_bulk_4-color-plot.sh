@@ -9,9 +9,9 @@
 # Re-expand each BED file in LIST to 32bp and generate a 4-color plot
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
-WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
+#WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
+#WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
 ###
 
 # Dependencies
@@ -31,7 +31,7 @@ LIST=(
 )
 
 # Script shortcuts
-SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jars
 RESIZE=../bin/resize_png.py
 
 # Inputs and outputs

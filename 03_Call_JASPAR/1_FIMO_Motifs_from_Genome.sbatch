@@ -10,9 +10,9 @@
 # FIMO the reference genome for each motif in the PWM directory
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/03_Call_JASPAR
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_JASPAR
-WRK=/scratch/owl5022/2024-Krebs_Science/03_Call_JASPAR
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/03_Call_JASPAR
+#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_JASPAR
+#WRK=/scratch/owl5022/2024-Krebs_Science/03_Call_JASPAR
 METADATA=TF_JASPAR_ENCODE_config.txt
 ###
 

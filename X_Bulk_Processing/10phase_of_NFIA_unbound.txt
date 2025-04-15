@@ -1,0 +1,1 @@
+../data/RefPT-Motif/1bp/NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam 

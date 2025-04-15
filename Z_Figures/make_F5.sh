@@ -3,8 +3,8 @@
 # Organize data from X_Bulk_Processing into Z_Figures for F5
 
 ### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/Z_Figures
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
+WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/Z_Figures
+#WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
 ###
 
 set -exo
@@ -34,6 +34,7 @@ cp $LIBRARY/$BED/SVG/HepG2_IgG_BX_merge_hg38_${BED}_5read1_Raw_merge_label.svg F
 cp $LIBRARY/$BED/SVG/HepG2_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg F5/a/
 cp $LIBRARY/$BED/SVG/HepG2_FOXA2_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg F5/a/
 cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint_TotalTag_combined.svg F5/a/
+cp $LIBRARY/$BED/SVG/ATAC-seq_ENCFF077FBI_CTCF_SORT-Occupancy_1000bp_midpoint_TotalTag_combined.svg F5/a/
 
 
 # ===============================================================================================================================
@@ -42,9 +43,9 @@ cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint_TotalTag_com
 
 # Composites
 BED=FOXA_LABEL-K562_SORT-ClosestDyad_1000bp
-cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read2_TotalTag.out F5/b/
+cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read1_TotalTag.out F5/b/
 BED=FOXA_LABEL-uHepG2_SORT-ClosestDyad_1000bp
-cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read2_TotalTag.out F5/b/
+cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read1_TotalTag.out F5/b/
 
 # ===============================================================================================================================
 
@@ -69,15 +70,11 @@ cp $LIBRARY/$BED/SVG/K562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg 
 cp $LIBRARY/$BED/SVG/K562_FOXA1_BX_rep1_hg38_${BED}_5read2_NCIS_merge_label.svg F5/d
 
 # Composites
-BED=FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_500bp
+BED=FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_1000bp
 cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F5/d/
 cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F5/d/
-cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read2_NCIS.out F5/d/
-cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/d/
-cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read2_TotalTag.out F5/d/
-BED=FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_500bp
+cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read1_TotalTag.out F5/d/
+BED=FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_1000bp
 cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F5/d/
 cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F5/d/
-cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/d/
-cp $LIBRARY/$BED/Composites/K562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/d/
-cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read2_TotalTag.out F5/d/
+cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read1_TotalTag.out F5/d/

@@ -28,3 +28,6 @@
 33646	33646_50U-10min_18-1	Benzonase-seq	super	50U-10min	no	-	-	18	1
 33647	33647_50U-10min_19-1	Benzonase-seq	super	50U-10min	no	-	-	19	1
 33648	33648_50U-10min_20-1	Benzonase-seq	super	50U-10min	no	-	-	20	1
+40726	40726_0.04U_1-1	        Benzonase-seq	nakedDNA	0.04U   no  -   -   1  1
+40727	40727_0.04U_2-1	        Benzonase-seq	nakedDNA	0.04U   no  -   -   2  1
+40728	40728_0.04U_3-1	        Benzonase-seq	nakedDNA	0.04U   no  -   -   3  1
