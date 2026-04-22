@@ -83,20 +83,20 @@ Externally retrieved RefPTs.
 ### data/FASTQ/
 Raw sequencing datasets go here.
 
-### data/hg19_files
+### data/hg38_files
 Run the following commands in the terminal from the `data/hg19_files` directory to download and index the reference genome. (Required to run alignments in `00_Download_and_Preprocessing`, strain checks in `01_Run_GenoPipe`, and for running other sequence analyses and figure generation)
 ```
-wget http://hgdownload.cse.ucsc.edu/goldenpath/hg19/bigZips/hg19.fa.gz -O hg19.fa.gz
-gzip -d hg19.fa.gz         # hg19.fa
-bwa index hg19.fa          # hg19.fa.amb, hg19.fa.ann, hg19.fa.bwt, hg19.fa.pac, hg19.fa.sa
-samtools faidx hg19.fa     # hg19.fa.fai
+wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/hg38.fa.gz -O hg38.fa.gz
+gzip -d hg38.fa.gz         # hg38.fa
+bwa index hg38.fa          # hg38.fa.amb, hg38.fa.ann, hg38.fa.bwt, hg38.fa.pac, hg38.fa.sa
+samtools faidx hg19.fa     # hg38.fa.fai
 ```
 
 ...and there are some other reference files already provided for you within this repository.
 ```
-hg19.info                   # used by ChExMix
-hg19_exclude_contig.txt     # used by ChExMix
-hg19_background_model.txt   # used by ChExMix
-hg19_exclude.bed            # used by 00_Download_and_Preprocessing/3_normalize_samples.pbs
+hg38.info                   # used by ChExMix
+hg38_exclude_contig.txt     # used by ChExMix
+hg38_background_model.txt   # used by ChExMix
+hg38_exclude.bed            # used by 00_Download_and_Preprocessing/3_normalize_samples.pbs
                             # and 02_Call_RefPT/2_FIMO_Motifs_from_Genome.pbs
 ```
