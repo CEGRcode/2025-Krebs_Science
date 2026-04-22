@@ -33,7 +33,7 @@ BAMDIR=$WRK/../data/BAM
 # Script shortcuts
 SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
 COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-BOXPLOT=$WRK/../bin/make_box_plot.py
+VIOLIN=$WRK/../bin/make_violin_plot.py
 
 
 [ -d F7 ] || mkdir F7
@@ -131,11 +131,7 @@ do
 done
 
 # Plot violin data (skip zeros)
-python $BOXPLOT -i <(awk 'BEGIN{OFS="\t";FS="\t"}{if ($1!=0) print }' $DATAFILE) \
-	-o F7/a/violin_data.svg \
-	--xlabel "+1 dyad group" --ylabel "Tag Occupancy" \
-	--width 4 --height 4 --ylog10 --preset1 \
-	--title "BNase v MNase in CpGIsland overlap v non-overlap regions"
+$BOXPLOT $DATAFILE violin_data.svg
 
 # Stat zeros (all MNase)
 awk '{if ($1==0) print $2}' F7/a/violin_data.txt | sort | uniq -c
