@@ -72,6 +72,7 @@ Motif-centered reference files with various sorts and expansions.
 
 ### data/RefPT-Krebs/
 Nucleosome and TSS RefPTs built for this manuscript.
+Need to unzip BNase-Nucleosomes_sort_1bp_partX.tar.gz file and merge together for BNase-Nucleosomes.bed file
 
 ### data/RefPT-JASPAR/
 JASPAR-based motifs for benzonase cut-site analysis.
