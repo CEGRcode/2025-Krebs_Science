@@ -52,60 +52,58 @@ cp $LIBRARY/WebLogos/USF2_MA0526.5_logo.eps		S2/a
 cp $LIBRARY/WebLogos/ZBTB33_MA0527.1_logo.eps	S2/a
 cp $LIBRARY/WebLogos/ZNF24_MA1124.1_logo.eps	S2/a	
 cp $LIBRARY/WebLogos/ZNF263_MA0528.1_logo.eps	S2/a
-cp $LIBRARY/WebLogos/GATA1_MA0035_3.eps		S2/a
-cp $LIBRARY/WebLogos/KLF16_MA0741_1.eps	S2/a
-cp $LIBRARY/WebLogos/NFE2_MA0841_1.eps	S2/a	
-cp $LIBRARY/WebLogos/STAT5A_MA1624_1.eps	S2/a
+cp $LIBRARY/WebLogos/GATA1_MA0035_3.eps		S2/A
+cp $LIBRARY/WebLogos/KLF16_MA0741_1.eps	S2/A
+cp $LIBRARY/WebLogos/NFE2_MA0841.1_logo.eps	S2/A	
+cp $LIBRARY/WebLogos/STAT5A_MA1624.1_logo.eps  S2/A
 
 
 # Composites
-cp $WRK/Library/BI_Pileups/MA1632/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0605/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0833/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0834/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0464/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0018/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0609/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0139/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0162/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0473/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0641/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0028/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0592/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0492/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0495/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0496/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0058/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA1522/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA1640/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0620/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0147/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA1527/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA1537/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0506/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0782/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0138/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0509/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0079/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0080/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0526/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0527/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA1124/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0528/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0035/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0741/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA0841/Composites/*.out S2/a
-cp $WRK/Library/BI_Pileups/MA1624/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA1632/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0605/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0833/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0834/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0464/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0018/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0609/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0139/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0162/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0473/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0641/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0028/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0592/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0492/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0495/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0496/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0058/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA1522/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA1640/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0620/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0147/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA1527/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA1537/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0506/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0782/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0138/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0509/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0079/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0080/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0526/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0527/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA1124/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0528/Composites/*.out S2/a
+cp $LIBRARY/BI_Pileups/MA0035/Composites/*.out S2/A
+cp  $LIBRARY/BI_Pileups/MA0741/Composites/*.out S2/A
+cp $LIBRARY/BI_Pileups/MA0841/Composites/*.out S2/A
+cp $LIBRARY//BI_Pileups/MA1624/Composites/*.out S2/A
+cp $LIBRARY/BI_Pileups/MA0506/Composites/*.out S2/A
 
 # ===============================================================================================================================
 [ -d S2 ] || mkdir S2
-[ -d S2/b ] || mkdir S2/b
-# ===============================================================================================================================
-[ -d S2 ] || mkdir S2
-[ -d S2/d ] || mkdir S2/b
+[ -d S2/B ] || mkdir S2/B
 
-cat $WRK/../data/RefPT-JASPAR/1000bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile*_1000bp.bed > S2/b/CTCF_MA1929_1000bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 S2/b/CTCF_MA1929_1000bp.bed -o S2/b/CTCF_MA1929_150bp.bed
+cat $WRK/../data/RefPT-JASPAR/1000bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile*_1000bp.bed > S2/B/CTCF_MA1929_1000bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 150 S2/b/CTCF_MA1929_1000bp.bed -o S2/B/CTCF_MA1929_150bp.bed
 SEM_CTCFKO_BX_BAM=$WRK/../data/BAM/SEM-CTCFAID2-1µM5PhIAA_CTCF_BX_rep1_hg38.bam
 SEM_CTCFWT_BX_BAM=$WRK/../data/BAM/SEM-CTCFAID2-DMSO_CTCF_BX_rep1_hg38.bam
 SEM_CTCFKO_BI_BAM=$WRK/../data/BAM/SEM-CTCFAID2-1µM5PhIAA_-_BI_rep1_hg38.bam
@@ -117,60 +115,60 @@ for BAMFILE in $SEM_CTCFKO_BX_BAM $SEM_CTCFWT_BX_BAM  ; do
     BAM=`basename $BAMFILE ".bam"`
     NFFILE=$WRK/../data/BAM/NormalizationFactors/${BAM}_*_ScalingFactors.out
     FACTOR=`grep 'Scaling factor' $NFFILE | awk -F" " '{print $3}'`
-    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/b/CTCF_MA1929_1000bp.bed $BAMFILE -1 --cpu 4 -o  S2/b/${BAM}_CTCF_MA1929_1000bp_read1.out
-    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/b/${BAM}_CTCF_MA1929_1000bp_read1.out  -s $FACTOR -l 1 -r 1 -o S2/b/${BAM}_CTCF_MA1929_1000bp_read1_Normalized.out
-    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/b/CTCF_MA1929_150bp.bed $BAMFILE -1 -s 6 --combined --cpu 4 -o  S2/b/${BAM}_CTCF_MA1929_150bp_read1.out
-    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/b/${BAM}_CTCF_MA1929_150bp_read1.out  -s $FACTOR -l 1 -r 1 -o S2/b/${BAM}_CTCF_MA1929_150bp_read1_Normalized.out
-    java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum S2/b/${BAM}_CTCF_MA1929_150bp_read1_Normalized.out -o S2/b/${BAM}_CTCF_MA1929_150bp_read1_Normalized_SCORES.out
+    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/B/CTCF_MA1929_1000bp.bed $BAMFILE -1 --cpu 4 -o  S2/B/${BAM}_CTCF_MA1929_1000bp_read1.out
+    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/B/${BAM}_CTCF_MA1929_1000bp_read1.out  -s $FACTOR -l 1 -r 1 -o S2/B/${BAM}_CTCF_MA1929_1000bp_read1_Normalized.out
+    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/B/CTCF_MA1929_150bp.bed $BAMFILE -1 -s 6 --combined --cpu 4 -o  S2/B/${BAM}_CTCF_MA1929_150bp_read1.out
+    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/B/${BAM}_CTCF_MA1929_150bp_read1.out  -s $FACTOR -l 1 -r 1 -o S2/B/${BAM}_CTCF_MA1929_150bp_read1_Normalized.out
+    java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum S2/B/${BAM}_CTCF_MA1929_150bp_read1_Normalized.out -o S2/B/${BAM}_CTCF_MA1929_150bp_read1_Normalized_SCORES.out
 done
 
 for BAMFILE in  $SEM_CTCFKO_BI_BAM $SEM_CTCFWT_BI_BAM  ; do
     BAM=`basename $BAMFILE ".bam"`
     NFFILE=$WRK/../data/BAM/NormalizationFactors/${BAM}_*_ScalingFactors.out
     FACTOR=`grep 'Scaling factor' $NFFILE | awk -F" " '{print $3}'`
-    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/b/CTCF_MA1929_1000bp.bed $BAMFILE -m --cpu 4 -o  S2/b/${BAM}_CTCF_MA1929_1000bp_midpoint.out
-    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/b/${BAM}_CTCF_MA1929_1000bp_midpoint.out -s $FACTOR -l 1 -r 1 -o S2/b/${BAM}_CTCF_MA1929_1000bp_midpoint_Normalized.out
-    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/b/CTCF_MA1929_150bp.bed $BAMFILE -m --cpu 4 -o  S2/b/${BAM}_CTCF_MA1929_150bp_midpoint.out
-    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/b/${BAM}_CTCF_MA1929_150bp_midpoint.out -s $FACTOR -l 1 -r 1 -o S2/b/${BAM}_CTCF_MA1929_150bp_midpoint_Normalized.out
-    java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum S2/b/${BAM}_CTCF_MA1929_150bp_midpoint_Normalized.out -o S2/b/${BAM}_CTCF_MA1929_150bp_midpoint_Normalized_SCORES.out
+    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/B/CTCF_MA1929_1000bp.bed $BAMFILE -m --cpu 4 -o  S2/B/${BAM}_CTCF_MA1929_1000bp_midpoint.out
+    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/B/${BAM}_CTCF_MA1929_1000bp_midpoint.out -s $FACTOR -l 1 -r 1 -o S2/B/${BAM}_CTCF_MA1929_1000bp_midpoint_Normalized.out
+    java -jar $SCRIPTMANAGER read-analysis tag-pileup S2/B/CTCF_MA1929_150bp.bed $BAMFILE -m --cpu 4 -o  S2/B/${BAM}_CTCF_MA1929_150bp_midpoint.out
+    java -jar $SCRIPTMANAGER read-analysis scale-matrix S2/B/${BAM}_CTCF_MA1929_150bp_midpoint.out -s $FACTOR -l 1 -r 1 -o S2/B/${BAM}_CTCF_MA1929_150bp_midpoint_Normalized.out
+    java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum S2/B/${BAM}_CTCF_MA1929_150bp_midpoint_Normalized.out -o S2/B/${BAM}_CTCF_MA1929_150bp_midpoint_Normalized_SCORES.out
 done
 
 # ===============================================================================================================================
 [ -d S2 ] || mkdir S2
-[ -d S2/c ] || mkdir S2/c
-cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_1000bp/Composites/*.out S2/c
-cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile2_1000bp/Composites/*.out S2/c
-cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile3_1000bp/Composites/*.out S2/c
-cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_1000bp/Composites/*.out S2/c
-cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category1_1000bp/Composites/*.out S2/c
-cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category2_1000bp/Composites/*.out S2/c
-cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category3_1000bp/Composites/*.out S2/c
-cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category4_1000bp/Composites/*.out S2/c
+[ -d S2/C ] || mkdir S2/C
+cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_1000bp/Composites/*.out S2/C
+cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile2_1000bp/Composites/*.out S2/C
+cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile3_1000bp/Composites/*.out S2/C
+cp $WRK/Library/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_1000bp/Composites/*.out S2/C
+cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category1_1000bp/Composites/*.out S2/C
+cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category2_1000bp/Composites/*.out S2/C
+cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category3_1000bp/Composites/*.out S2/C
+cp $WRK/Library/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category4_1000bp/Composites/*.out S2/C
 
 
 # ===============================================================================================================================
 [ -d S2 ] || mkdir S2
-[ -d S2/d ] || mkdir S2/d
-cp $WRK/Library/ATF2_MA1632.2_K562-specific-Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/ATF2_MA1632.2_Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/CREM_MA0609.3_K562-specific-Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/CREM_MA0609.3_Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/CTCF_MA1929.1_K562-specific-Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/CTCF_MA1929.1_Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/ZNF263_MA0528.1_K562-specific-Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/ZNF263_MA0528.1_Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/ZKSCAN1_MA1585.1_K562-specific-Unbound_1000bp/Composites/*.out S2/d
-cp $WRK/Library/ZKSCAN1_MA1585.1_Unbound_1000bp/Composites/*.out S2/d
+[ -d S2/D ] || mkdir S2/D
+cp $WRK/Library/ATF2_MA1632.2_K562-specific-Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/ATF2_MA1632.2_Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/CREM_MA0609.3_K562-specific-Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/CREM_MA0609.3_Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/CTCF_MA1929.1_K562-specific-Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/CTCF_MA1929.1_Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/ZNF263_MA0528.1_K562-specific-Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/ZNF263_MA0528.1_Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/ZKSCAN1_MA1585.1_K562-specific-Unbound_1000bp/Composites/*.out S2/D
+cp $WRK/Library/ZKSCAN1_MA1585.1_Unbound_1000bp/Composites/*.out S2/D
 	
 # ===============================================================================================================================
-[ -d S2/e ] || mkdir S2/e
+[ -d S2/E ] || mkdir S2/E
 
-cp $LIBRARY/10phase/CTCF_Q1/10xplot/*_-1Nuc_read1_original_phase_*.out S2/e
-cp $LIBRARY/10phase/CTCF_Q1/10xplot/*_+1Nuc_read1_original_phase_*.out S2/e
-cp $LIBRARY/10phase/CTCF_Q1/10xplot/RR*.out S2/e
-cp $LIBRARY/10phase/CTCF_Q1/10xplot/YY*.out S2/e
-cp $LIBRARY/10phase/CTCF_Q1/10xplot/WW*.out S2/e
-cp $LIBRARY/10phase/CTCF_Q1/10xplot/SS*.out S2/e
+cp $LIBRARY/10phase/CTCF_Q1/10xplot/*_nearNuc_read1_original_phase_*.out S2/E
+cp $LIBRARY/10phase/CTCF_Q1/10xplot/*_nearNuc_read1_original_phase_*.out S2/E
+cp $LIBRARY/10phase/CTCF_Q1/10xplot/RR*.out S2/E
+cp $LIBRARY/10phase/CTCF_Q1/10xplot/YY*.out S2/E
+cp $LIBRARY/10phase/CTCF_Q1/10xplot/WW*.out S2/E
+cp $LIBRARY/10phase/CTCF_Q1/10xplot/SS*.out S2/E
 
 
 

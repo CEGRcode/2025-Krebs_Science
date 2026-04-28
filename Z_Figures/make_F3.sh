@@ -16,22 +16,23 @@ SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
 
 [ -d F3 ] || mkdir F3
 
-[ -d F3/A ] || mkdir F3/a
+[ -d F3/A ] || mkdir F3/A
 # ===============================================================================================================================
 
 
 # heatmap
-cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_original_phase_5.out.out F3/a
-cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_original_phase_5.out.out F3/a
-cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_shuffle_phase_1.out.out F3/a
-cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_shuffle_phase_1.out.out F3/a
-cp $LIBRARY/10phase/CTCF_Q4/*original_250bp_phase_sort_merge.svg F3/a
-cp $LIBRARY/10phase/CTCF_Q4/*shuffle_250bp_phase_sort_merge.svg  F3/a
+cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_original_phase_5.out F3/A
+cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_shuffle_phase_5.out F3/A
+cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_original_phase_1.out F3/A
+cp $LIBRARY/10phase/CTCF_Q4/10xplot/*read1_shuffle_phase_1.out F3/A
+cp $LIBRARY/10phase/CTCF_Q4/*original_250bp_phase_sort_merge.svg F3/A
+cp $LIBRARY/10phase/CTCF_Q4/*shuffle_250bp_phase_sort_merge.svg  F3/A
 
 # ===============================================================================================================================
 
-[ -d F3/b ] || mkdir F3/b
-cp $LIBRARY/10phase/CTCF_phase_prefered/*Q4_phase_prefered.out F3/b
+[ -d F3/B ] || mkdir F3/B
+cp $LIBRARY/10phase/CTCF_phase_aligned/*Q4_phase_prefered.out F3/B
+cp $LIBRARY/10phase/CTCF_phase_aligned/*Q1_phase_prefered.out F3/B
 
 
 
