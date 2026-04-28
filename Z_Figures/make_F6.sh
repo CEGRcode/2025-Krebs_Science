@@ -62,7 +62,7 @@ cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint-MIN100_Total
 cp $LIBRARY/$BED/SVG/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS_merge_label.svg F6/B
 # ===============================================================================================================================
 
-[ -d F6/d ] || mkdir F6/d
+[ -d F6/D ] || mkdir F6/D
 
 # Composites
 BED=NFIA_SORT-DistClosestDyad_GROUP-Downstream_1000bp
@@ -78,37 +78,37 @@ cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out
 cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F6/D
 
 # ===============================================================================================================================
+### NOTINUSE
+#[ -d F6/e ] || mkdir F6/e
 
-[ -d F6/e ] || mkdir F6/e
-
-DATAFILE=F6/e/ViolinData.txt
+#DATAFILE=F6/e/ViolinData.txt
 
 # Aggregate data file for violin
-BED=NFIA-u95_SORT-Occupancy_150bp
-BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
-java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Oriented_Upstream.out
-tail -n +2 F6/e/Oriented_Upstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Oriented_Upstream"}' > $DATAFILE
+#BED=NFIA-u95_SORT-Occupancy_150bp
+#BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
+#java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Oriented_Upstream.out
+#tail -n +2 F6/e/Oriented_Upstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Oriented_Upstream"}' > $DATAFILE
 
-BED=NFIA-d95_SORT-Occupancy_150bp
-BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
-java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Oriented_Downstream.out
-tail -n +2 F6/e/Oriented_Downstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Oriented_Downstream"}' >> $DATAFILE
+#BED=NFIA-d95_SORT-Occupancy_150bp
+#BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
+#java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Oriented_Downstream.out
+#tail -n +2 F6/e/Oriented_Downstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Oriented_Downstream"}' >> $DATAFILE
 
-BED=NFIA-u95_REORIENT-Random_SORT-Occupancy_150bp
-BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
-java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Random_Upstream.out
-tail -n +2 F6/e/Random_Upstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Random_Upstream"}' >> $DATAFILE
+#BED=NFIA-u95_REORIENT-Random_SORT-Occupancy_150bp
+#BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
+#java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Random_Upstream.out
+#tail -n +2 F6/e/Random_Upstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Random_Upstream"}' >> $DATAFILE
 
-BED=NFIA-d95_REORIENT-Random_SORT-Occupancy_150bp
-BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
-java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Random_Downstream.out
-tail -n +2 F6/e/Random_Downstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Random_Downstream"}' >> $DATAFILE
+#BED=NFIA-d95_REORIENT-Random_SORT-Occupancy_150bp
+#BASE=$LIBRARY/$BED/CDT/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS
+#java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum -m $BASE\_sense.cdt $BASE\_anti.cdt -o F6/e/Random_Downstream.out
+#tail -n +2 F6/e/Random_Downstream.out | awk 'BEGIN{OFS="\t";FS="\t"}{print $2+$3, "Random_Downstream"}' >> $DATAFILE
 
 # Compress for storage savings
-gzip -f $DATAFILE
+#gzip -f $DATAFILE
 
 # Plot violin data
-python $VIOLIN -i $DATAFILE.gz -o F6/e/ViolinData.svg
+#python $VIOLIN -i $DATAFILE.gz -o F6/e/ViolinData.svg
 
 # Clean-up
-rm F6/e/*.out
+#rm F6/e/*.out

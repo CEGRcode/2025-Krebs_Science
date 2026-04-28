@@ -156,7 +156,7 @@ cp $LIBRARY/$BED/Composites/MNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_T
 
 # ===============================================================================================================================
 
-[ -d F7/d ] || mkdir F7/d
+[ -d F7/D ] || mkdir F7/D
 
 # Heatmaps
 BED=PlusOneDyad_SORT-pHN-dHN_400bp
@@ -166,13 +166,16 @@ cp $LIBRARY/$BED/SVG/BNase-ChIP_H3K27ac_merge_hg38_$BED\_midpoint-MAX80_TotalTag
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatmap $LIBRARY/$BED/PNG/Strand/CoPRO_Capped_merge_hg38_$BED\_5read1_anti_treeview.png \
 	-l -200 -m 0 -r +200 -w 2 -f 18 \
 	-x $BED -y "$BED occurences (NSITES sites)" \
-	-o F7/d/CoPRO_Capped_merge_hg38_$BED\_5read1_anti_treeview_label.svg
+	-o F7/D/CoPRO_Capped_merge_hg38_$BED\_5read1_anti_treeview_label.svg
 
+# ===============================================================================================================================
+
+[ -d F7/E ] || mkdir F7/E
 # Composites
 BED=PlusOneDyad_SORT-pHN-dHN_GROUP-TOP-2500_400bp
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/d/Top-H3K4me3.out
-cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/D/Top-CoPRO.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out
+cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/E
 
 BED=PlusOneDyad_SORT-pHN-dHN_GROUP-BOTTOM-2500_400bp
-cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/d/Bottom-H3K4me3.out
-cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/D/Bottom-CoPRO.out
+cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out F7/E
+cp $LIBRARY/$BED/Composites/CoPRO_Capped_merge_hg38_$BED\_5read1.out F7/E

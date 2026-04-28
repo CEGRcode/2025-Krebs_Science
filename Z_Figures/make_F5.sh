@@ -100,7 +100,7 @@ cp $LIBRARY/$BED/Composites/HepG2_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.o
 
 # ===============================================================================================================================
 
-[ -d F5/e ] || mkdir F5/e
+[ -d F5/E ] || mkdir F5/E
 
 BED=FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp
 cp $LIBRARY/$BED/Composites/nativeK562_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F5/E
@@ -109,6 +109,10 @@ cp $LIBRARY/$BED/Composites/KK_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out 
 cp $LIBRARY/$BED/Composites/KK_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F5/E
 cp $LIBRARY/$BED/Composites/KH_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F5/E
 cp $LIBRARY/$BED/Composites/KH_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F5/E
+cp $LIBRARY/$BED/Composites/SWCK562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out  F5/E
+cp $LIBRARY/$BED/Composites/WCE562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out  F5/E
+cp $LIBRARY/$BED/Composites/nativeK562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/E
+cp $LIBRARY/$BED/Composites/KK_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/E
 
 BED=FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp
 cp $LIBRARY/$BED/Composites/nativeK562_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F5/E
@@ -117,7 +121,8 @@ cp $LIBRARY/$BED/Composites/KK_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out 
 cp $LIBRARY/$BED/Composites/KK_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F5/E
 cp $LIBRARY/$BED/Composites/KH_FOXA1_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F5/E
 cp $LIBRARY/$BED/Composites/KH_FOXA1_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F5/E
-
-cp $LIBRARY/$BED/Composites/KK_FOXA1_BX_rep1_hg38_${BED}_5read2_NCIS.out F5/E
-cp $LIBRARY/$BED/Composites/KH_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/E
+cp $LIBRARY/$BED/Composites/SWCK562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out  F5/E
+cp $LIBRARY/$BED/Composites/WCE562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out  F5/E
+cp $LIBRARY/$BED/Composites/nativeK562_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/E
+cp $LIBRARY/$BED/Composites/KK_FOXA1_BX_rep1_hg38_${BED}_5read1_NCIS.out F5/E
 
