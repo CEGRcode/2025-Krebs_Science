@@ -19,26 +19,26 @@ VIOLIN=$WRK/../bin/make_violin_plot.py
 
 # ===============================================================================================================================
 
-[ -d F6/a ] || mkdir F6/a
+[ -d F6/A ] || mkdir F6/A
 
-cp $LIBRARY/WebLogos/NFIA_M1_logo.eps F6/a/
+cp $LIBRARY/WebLogos/NFIA_M1_logo.eps F6/A/
 
 # Composites
 BED=NFIA_SORT-Occupancy_500bp
-cp $LIBRARY/$BED/Composites/dbSnp153_snv_${BED}.out F6/a
-cp $LIBRARY/$BED/Composites/hg38.phyloP30way_${BED}.out F6/a
+cp $LIBRARY/$BED/Composites/dbSnp153_snv_${BED}.out F6/A
+cp $LIBRARY/$BED/Composites/hg38.phyloP30way_${BED}.out F6/A
 
 # ===============================================================================================================================
 
-[ -d F6/c ] || mkdir F6/c
+[ -d F6/C ] || mkdir F6/C
 
 BED=NFIA_SORT-Occupancy_500bp
-cp $LIBRARY/$BED/FourColor/${BED}_31bp.svg F6/c/
+cp $LIBRARY/$BED/FourColor/${BED}_31bp.svg F6/C/
 
 # Heatmaps
 BED=NFIA_SORT-Occupancy_500bp
-cp $LIBRARY/$BED/SVG/K562_NFIA_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg F6/c/
-cp $LIBRARY/$BED/SVG/K562_IgG_BX_merge_hg38_${BED}_5read1_Raw_merge_label.svg F6/c/
+cp $LIBRARY/$BED/SVG/K562_NFIA_BX_rep1_hg38_${BED}_5read1_NCIS_merge_label.svg F6/C/
+cp $LIBRARY/$BED/SVG/K562_IgG_BX_merge_hg38_${BED}_5read1_Raw_merge_label.svg F6/C/
 
 # Fat heatmap (threshold should match Bulk Processing config file)
 THRESH=1
@@ -54,28 +54,28 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation label-heatma
 
 # ===============================================================================================================================
 
-[ -d F6/b ] || mkdir F6/b
+[ -d F6/B ] || mkdir F6/B
 
 # Heatmaps
 BED=NFIA_SORT-DistClosestDyad_1000bp
-cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint-MIN100_TotalTag_combined.svg F6/b
-cp $LIBRARY/$BED/SVG/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS_merge_label.svg F6/b
+cp $LIBRARY/$BED/SVG/BNase-seq_50U-10min_merge_hg38_${BED}_midpoint-MIN100_TotalTag_combined.svg F6/B
+cp $LIBRARY/$BED/SVG/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS_merge_label.svg F6/B
 # ===============================================================================================================================
 
 [ -d F6/d ] || mkdir F6/d
 
 # Composites
 BED=NFIA_SORT-DistClosestDyad_GROUP-Downstream_1000bp
-cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F6/d
-cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F6/d
+cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F6/D
+cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F6/D
 
 BED=NFIA_SORT-DistClosestDyad_GROUP-Overlap_1000bp
-cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F6/d
-cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F6/d
+cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F6/D
+cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F6/D
 
 BED=NFIA_SORT-DistClosestDyad_GROUP-Upstream_1000bp
-cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F6/d
-cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F6/d
+cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F6/D
+cp $LIBRARY/$BED/Composites/K562_NFIA_BX_rep1_hg38_${BED}_5read2-MIN100_NCIS.out F6/D
 
 # ===============================================================================================================================
 
