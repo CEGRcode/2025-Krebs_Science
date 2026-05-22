@@ -1,3 +1,4 @@
+# 03_Call_JASPAR
 
 Call "lowly bound" motif reference points for motif-centered figures.
 
@@ -53,22 +54,44 @@ data
 </details>
 
 ### 0a_Download_JAPAR_and_ENCODE_data.sh
+
 Download PWMs from JASPAR (`.meme`) and ChIP binding peaks from ENCODE (`.bed.gz`)
-```
+
+```sh
 sh 0_Download_JAPAR_and_ENCODE_data.sh
 ```
+
 For each TF, there should be one of each the following files:
+
 ```
 data/JASPAR/TF_MAXXXX-X.meme
 03_Call_Motifs/narrowPeaks/TF_ENCFFXXXXXX.meme
 ```
 
-### 1_FIMO_Motifs_from_Genome.sbatch
-Run FIMO for each JASPAR motif to get all instances in the genome and filter to keep motifs that are at least 500bp from all blacklisted regions.
+### 0b_Download_nonK562_ENCODE_data.sh
+
+Download non-K562 ChIP binding peaks from ENCODE (`.bed.gz`)
+
+```sh
+sh 0b_Download_nonK562_ENCODE_data.sh
 ```
+
+the downloaded bed file will be stored at:
+
+```
+03_Call_Motifs/NonK562_narrowPeaks/TF_Cellline_ENCFFXXXXXX.bed.gz
+```
+
+### 1_FIMO_Motifs_from_Genome.sbatch
+
+Run FIMO for each JASPAR motif to get all instances in the genome and filter to keep motifs that are at least 500bp from all blacklisted regions.
+
+```sh
 sbatch 1_FIMO_Motifs_from_Genome.sbatch
 ```
+
 Results in four intermediate files for each TF:
+
 ```
 FIMO/TF/fimo.gff
 FIMO/TF/fimo.bed
@@ -77,47 +100,48 @@ FIMO/TF/filtered.bed
 ```
 
 ### 2a_Intersect_Motifs_wENCODE_ChIP-seq_peaks.sbatch
+
 Get "lowly bound" motifs by intersecting the motif occurrences with ENCODE's ChIP-seq peaks and filtering for the bottom half of motifs (sorted by ENCODE binding score),
-```
+
+```sh
 sbatch 2a_Intersect_Motifs_wENCODE_ChIP-seq_peaks.sbatch
 ```
+
 Along with intermediate files, two final motif RefPT files are generated for each TF:
+
 ```
 ../data/RefPT-Motif/TF.bed
 ../data/RefPT-Motif/1000bp/TF_1000bp.bed
 ```
 
-### 0b_Download_nonK562_ENCODE_data.sh
-Download non-K562 ChIP binding peaks from ENCODE (`.bed.gz`)
-```
-sh 0b_Download_nonK562_ENCODE_data.sh
-```
-the downloaded bed file will be stored at 
-```
-03_Call_Motifs/NonK562_narrowPeaks/TF_Cellline_ENCFFXXXXXX.bed.gz
+### 2b_Intersect_Motifs_wENCODE_ChIP-seq_peaks_nonK562.sh
+
+Get unbound motif of CTCF, CREM, ZKSCAN1, ATF2, ZNF263. Here the unbound could be devided into specificly-unbound in K562 and unbound in any cell line.
+
+```sh
+sh 2b_Intersect_Motifs_wENCODE_ChIP-seq_peaks_nonK562.sh
 ```
 
-### 2b_Intersect_Motifs_wENCODE_ChIP-seq_peaks_nonK562.sh
-get unbound motif of CTCF, CREM, ZKSCAN1, ATF2, ZNF263. Here the unbound could be devided into specificly-unbound in K562 and unbound in any cell line.
-```
-sbatch 2b_Intersect_Motifs_wENCODE_ChIP-seq_peaks_nonK562.sh
-```
 Along with intermediate files, two final motif RefPT files are generated for each TF:
+
 ```
 ../data/RefPT-JASPAR-nonK562/TF_K562-specific-Unbound.bed
 ../data/RefPT-JASPAR-nonK562/TF_Unbound.bed
 ../data/RefPT-JASPAR-nonK562/1000bp/TF_K562-specific-Unbound_1000bp.bed
 ../data/RefPT-JASPAR-nonK562/1000bp/TF_Unbound_1000bp.bed
 ```
+
 ### 2c_mm10_CTCF.sh
+
 Get CTCF motif binding sites from mm10,split into 4 categories based on CTCF ChIP and MPE-seq in mouse cell line J1
-```
+
+```sh
 sh 2c_mm10_CTCF.sh
 ```
+
 Along with intermediate files, two final motif RefPT files are generated for each TF:
+
 ```
 ../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category*.bed
 ../data/RefPT-JASPAR-nonK562/1000bp/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category*_1000bp.bed
-```
-
 ```

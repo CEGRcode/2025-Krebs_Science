@@ -3,8 +3,8 @@
 #SBATCH --mem=14gb
 #SBATCH -t 00:10:00
 #SBATCH -A open
-#SBATCH -o logs/2_Intersect_Motifs_wENCODE_ChIP-seq_peaks.log.out-%a
-#SBATCH -e logs/2_Intersect_Motifs_wENCODE_ChIP-seq_peaks.log.err-%a
+#SBATCH -o logs/2a_Intersect_Motifs_wENCODE_ChIP-seq_peaks.log.out-%a
+#SBATCH -e logs/2a_Intersect_Motifs_wENCODE_ChIP-seq_peaks.log.err-%a
 #SBATCH --array 1-89
 
 # FIMO the reference genome for each motif in the PWM directory
@@ -17,34 +17,27 @@
 #   |--<TFNAME>_<JASPARID>_SORT-TFnucRatio_GROUP-Quartile3.bed
 #   |--<TFNAME>_<JASPARID>_SORT-TFnucRatio_GROUP-Quartile4.bed
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/03_Call_JASPAR
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_JASPAR
-#WRK=/scratch/owl5022/2024-Krebs_Science/03_Call_JASPAR
 METADATA=TF_JASPAR_ENCODE_config.txt
-###
 
 # Dependencies
 # - bedtools
 # - java
 
 set -exo
-module load bedtools
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
-MOTIF=$WRK/../data/RefPT-JASPAR
+GENOME=../data/hg38_files/hg38.fa
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+MOTIF=../data/RefPT-JASPAR
 
 # Script shortcuts
-DEDUP=$WRK/../bin/dedup_coord_by_ID.py
-RATIO=$WRK/../bin/calculate_BED_ScoreRatio.pl
-UPDATES=$WRK/../bin/update_BED_score_with_TAB_score.pl
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+DEDUP=../bin/dedup_coord_by_ID.py
+RATIO=../bin/calculate_BED_ScoreRatio.pl
+UPDATES=../bin/update_BED_score_with_TAB_score.pl
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Determine TF name, JASPAR motif name, and ENCODE peak file name
@@ -53,10 +46,10 @@ JASPAR=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
 ENCFF=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $3}'`
 
 # Construct more input output files and directories
-JDIR=$WRK/../data/JASPAR
-PWMFILE=$JDIR/$TF\_$JASPAR.meme
-FIMO=FIMO/$TF\_$JASPAR
-ODIR=Intersect/$TF\_$JASPAR
+JDIR=../data/JASPAR
+PWMFILE=$JDIR/${TF}_$JASPAR.meme
+FIMO=FIMO/${TF}_$JASPAR
+ODIR=Intersect/${TF}_$JASPAR
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
@@ -68,7 +61,7 @@ echo "($SLURM_ARRAY_TASK_ID) $TF"
 ## =====Associate motifs with ENCODE peaks=====
 
 # Parse BED 6 + 3 narroPeak files into summits (1bp)
-gzip -dc narrowPeaks/$TF\_$ENCFF.bed.gz \
+gzip -dc narrowPeaks/${TF}_$ENCFF.bed.gz \
 	| awk '{OFS="\t"}{FS="\t"}{print $1,$2+$10,$2+$10+1,"P-"$1"_"$2"_"$3,$5,$6}' \
 	> $ODIR/ENCODE_summit.bed
 # Read more on narrowPeak format here: https://genome.ucsc.edu/FAQ/FAQformat.html#format12
@@ -79,7 +72,7 @@ bedtools sort -i $ODIR/ENCODE_summit.bed > $ODIR/ENCODE.bed
 
 # Get closest motif for each peak up to 1000bp away
 bedtools closest -d -a $ODIR/ENCODE.bed -b $ODIR/JASPAR.bed \
-	| awk '{OFS="\t"}{FS="\t"}{if ($13<1000) print}' \
+	| awk '{OFS="\t"}{FS="\t"}{if ($13 < 1000 && $8!=-1) print}' \
 	> $ODIR/ENCODE_matchedToJASPAR.tsv
 
 # Select closest peak-motif match when multiple motifs match a peak
@@ -90,6 +83,11 @@ sort -nk13,13 $ODIR/ENCODE_matchedToJASPAR.tsv \
 sort -nk7,7 -nk11,11 $ODIR/UniquePeakMatch.tsv \
 	| sort -uk10,10 \
 	> $ODIR/UniqueMatch.tsv
+
+NUNIQUE=$(wc -l $ODIR/UniqueMatch.tsv | awk '{print $1}')
+# [[ $NUNIQUE -eq 0 ]] && exit
+[[ $NUNIQUE -eq 0 ]] && continue
+
 
 ## =====Sort by TFsignal : Nucleosome occupancy ratios=====
 

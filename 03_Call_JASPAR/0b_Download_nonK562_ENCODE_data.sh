@@ -5,19 +5,17 @@
 # larger analysis so they have been omitted from being saved in the global
 # `../data/` directory.
 
-### CHANGE ME
-WRK=WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/03_Call_JASPAR
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_JASPAR
-#WRK=/scratch/owl5022/2024-Krebs_Science/03_Call_JASPAR
 METADATA=nonK562TF_JASPAR_ENCODE_config.txt
-###
 
 # Dependencies
 # - wget
 
+set -exo
+source activate bx
+
+# Inputs and outputs
 JDIR=../data/JASPAR
 
-set -exo
 [ -d $JDIR ] || mkdir $JDIR
 [ -d NonK562_narrowPeaks ] || mkdir NonK562_narrowPeaks
 
@@ -28,6 +26,6 @@ while read line; do
 	ENCFF=`echo $line | awk '{print $3}'`
 
 	# Download ENCODE peaks
-	wget -c -O NonK562_narrowPeaks/$TF\_$Cell\_$ENCFF.bed.gz https://www.encodeproject.org/files/$ENCFF/@@download/$ENCFF.bed.gz
+	wget -c -O NonK562_narrowPeaks/${TF}_${Cell}_$ENCFF.bed.gz https://www.encodeproject.org/files/$ENCFF/@@download/$ENCFF.bed.gz
 
 done < $METADATA
