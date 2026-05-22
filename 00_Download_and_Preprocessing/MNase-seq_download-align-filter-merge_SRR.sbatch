@@ -3,8 +3,8 @@
 #SBATCH --mem=24gb
 #SBATCH -t 24:00:00
 #SBATCH -A open
-#SBATCH -o logs/MNase-seq-Titrations_download-align-dedup-filter.log.out
-#SBATCH -e logs/MNase-seq-Titrations_download-align-dedup-filter.log.err
+#SBATCH -o logs/MNase-seq_download-align-filter-merge_SRR.log.out
+#SBATCH -e logs/MNase-seq_download-align-filter-merge_SRR.log.err
 
 # Download, align, and dedup MNase sequencing data from an MNase titration.
 # see /storage/group/bfp2/default/wkl2-WillLai/NucleosomeAtlas_Project/230810_MNase_DNase/jobs/b_align_dedup_filter_230815.sh
@@ -15,11 +15,7 @@
 #   |--MNase-seq_79U_rep1_hg38.bam
 #   |--MNase-seq_304U_rep1_hg38.bam
 
-### CHANGE ME
-WRK=WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 THREADS=4
-###
 
 # Dependencies
 # - bwa
@@ -29,16 +25,14 @@ THREADS=4
 # - wget
 
 set -exo
-module load samtools
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/align
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
-GENOME=$WRK/../data/hg38_files/hg38.fa
+BAMDIR=../data/BAM
+GENOME=../data/hg38_files/hg38.fa
 
 # Script shortcuts
-PICARD=$WRK/../bin/picard.jar
+PICARD=../bin/picard.jar
 
 [ -d FQ ] || mkdir FQ
 [ -d BAM ] || mkdir BAM

@@ -3,8 +3,8 @@
 #SBATCH --mem=4gb
 #SBATCH -t 0:10:00
 #SBATCH -A open
-#SBATCH -o logs/DNase-seq_download.log.out
-#SBATCH -e logs/DNase-seq_download.log.err
+#SBATCH -o logs/DNase-seq_download_ENCODE.log.out
+#SBATCH -e logs/DNase-seq_download_ENCODE.log.err
 
 # Download and rename the ENCODE DNase-seq BAM file
 # see /storage/group/bfp2/default/wkl2-WillLai/NucleosomeAtlas_Project/230810_MNase_DNase/jobs/b_align_dedup_filter_230815.sh
@@ -13,20 +13,15 @@
 #   |--DNase-seq_ENCFF425WDA_rep1_hg38.bam
 #   |--DNase-seq_ENCFF518XTC_rep1_hg38.bam
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
-###
-
 # Dependencies
 # - samtools
 # - wget
 
 set -exo
-module load samtools
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
+BAMDIR=../data/BAM
 
 # Low depth (<20 mil) from ENCSR000EOT
 wget -c -O $BAMDIR/DNase-seq_ENCFF425WDA_rep1_hg38.bam https://www.encodeproject.org/files/ENCFF425WDA/@@download/ENCFF425WDA.bam

@@ -21,11 +21,7 @@
 #   |--CUTRUN_H3K27me3_merge_hg38.bam
 #   |--CUTRUN_IgG_merge_hg38.bam
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 THREADS=8
-###
 
 # Dependencies
 # - SRA toolkit (fasterq-dump)
@@ -33,9 +29,7 @@ THREADS=8
 # - samtools
 
 set -exo
-module load anaconda3
-module load samtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/align
+source activate bx
 
 # Downloaded from https://raw.githubusercontent.com/timflutre/trimmomatic
 PEADAPT=Trimmomatic-0.36/adapters/TruSeq3-PE.fa

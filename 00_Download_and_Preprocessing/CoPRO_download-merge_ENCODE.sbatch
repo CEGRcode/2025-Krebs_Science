@@ -3,19 +3,13 @@
 #SBATCH --mem=48gb
 #SBATCH -t 5:00:00
 #SBATCH -A open
-#SBATCH -o logs/CoPRO_download-ENCODE.log.out
-#SBATCH -e logs/CoPRO_download-ENCODE.log.err
+#SBATCH -o logs/CoPRO_download-merge_ENCODE.log.out
+#SBATCH -e logs/CoPRO_download-merge_ENCODE.log.err
 
-# Download capped CoPRO data from ENCODE and merge
+# Download capped CoPRO data from ENCODE and merge reps
 
 # data/BAM
-#   |--MNase-seq_ENCODE_merge_hg38.bam
-
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
-THREADS=8
-###
+#   |--CoPRO_Capped_merge_hg38.bam
 
 # Dependencies
 # - java
@@ -23,14 +17,13 @@ THREADS=8
 # - wget
 
 set -exo
-module load samtools
-cd $WRK
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
+BAMDIR=../data/BAM
 
 # Script shortcuts
-PICARD=$WRK/../bin/picard.jar
+PICARD=../bin/picard.jar
 
 [ -d ENCODE ] || mkdir ENCODE
 

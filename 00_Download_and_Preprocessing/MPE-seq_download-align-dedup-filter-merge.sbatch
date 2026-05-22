@@ -6,8 +6,7 @@
 #SBATCH -o logs/MPE-seq_download-align-dedup-filter-merge.log.out
 #SBATCH -e logs/MPE-seq_download-align-dedup-filter-merge.log.err
 
-# Download MNase ChIP sequencing data (paired-end, Illumina) that targets H3K4me3
-# and align, dedup, filter, and merge the reads.
+# Download MPE-seq and process similar to Benzonase-seq samples
 
 # data/BAM
 #   |--MPE-seq_10min_merge_rep1_mm10.bam
@@ -17,12 +16,7 @@
 #   |--MPE-seq_30min_merge_rep1_mm10.bam
 #   |--MPE-seq_30min_rep2_mm10.bam
 
-
-### CHANGE ME
-WRK=storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 THREADS=4
-###
 
 # Dependencies
 # - bwa
@@ -31,16 +25,14 @@ THREADS=4
 # - SRA toolkit (fasterq-dump)
 
 set -exo
-module load anaconda3
-module load samtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/align
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
-GENOME=$WRK/../data/mm10_files/mm10.fa
+BAMDIR=../data/BAM
+GENOME=../data/mm10_files/mm10.fa
 
 # Script shortcuts
-PICARD=$WRK/../bin/picard.jar
+PICARD=../bin/picard.jar
 
 [ -d FQ ] || mkdir FQ
 [ -d BAM ] || mkdir BAM
@@ -76,22 +68,20 @@ done
 wait
 
 # Merge BAM files
-java -jar $PICARD MergeSamFiles -O $BAMDIR/MPE-seq_10min_merge_rep1_mm10.bam \
+java -jar $PICARD MergeSamFiles -O $BAMDIR/MPE-seq_10min_rep1_mm10.bam \
 	-I BAM/SRR2034484.bam -I BAM/SRR2034485.bam 
 cp  BAM/SRR2034486.bam $BAMDIR/MPE-seq_10min_rep2_mm10.bam
-java -jar $PICARD MergeSamFiles -O $BAMDIR/MPE-seq_20min_merge_rep1_mm10.bam \
+java -jar $PICARD MergeSamFiles -O $BAMDIR/MPE-seq_20min_rep1_mm10.bam \
 	-I BAM/SRR2034487.bam -I BAM/SRR2034488.bam 
 cp  BAM/SRR2034489.bam $BAMDIR/MPE-seq_20min_rep2_mm10.bam
-java -jar $PICARD MergeSamFiles -O $BAMDIR/MPE-seq_30min_merge_rep1_mm10.bam \
+java -jar $PICARD MergeSamFiles -O $BAMDIR/MPE-seq_30min_rep1_mm10.bam \
 	-I BAM/SRR2034490.bam -I BAM/SRR2034491.bam 
 cp  BAM/SRR2034492.bam $BAMDIR/MPE-seq_30min_rep2_mm10.bam
 
-
 # Index
-samtools index $BAMDIR/MPE-seq_10min_merge_rep1_mm10.bam
+samtools index $BAMDIR/MPE-seq_10min_rep1_mm10.bam
 samtools index $BAMDIR/MPE-seq_10min_rep2_mm10.bam
-samtools index $BAMDIR/MPE-seq_20min_merge_rep1_mm10.bam
+samtools index $BAMDIR/MPE-seq_20min_rep1_mm10.bam
 samtools index $BAMDIR/MPE-seq_20min_rep2_mm10.bam
-samtools index $BAMDIR/MPE-seq_30min_merge_rep1_mm10.bam
+samtools index $BAMDIR/MPE-seq_30min_rep1_mm10.bam
 samtools index $BAMDIR/MPE-seq_30min_rep2_mm10.bam
-
