@@ -13,27 +13,33 @@
 #   |--BNase-seq_50U-30min_merge_hg38.bam
 #   |--BNase-seq_50U-10min_merge_hg38.bam
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
-###
-
 # Dependencies
 # - java
 # - samtools
 
 set -exo
-module load samtools
-
-# Script shortcuts
-PICARD=$WRK/../bin/picard.jar
-BAMDIR=$WRK/../data/BAM
+source activate bx
 
 [ -d Benzonase ] || mkdir Benzonase
 
 cd Benzonase
 
+# Script shortcuts
+PICARD=../../bin/picard.jar
+BAMDIR=../../data/BAM
+
 # ===== Standardize bio-rep filenames (merge & markdup as needed) ======
+
+# Naked DNA - 50U titration
+mv 40726_Input_-_K562_-_IMDM_-_BI.bam $BAMDIR/NakedDNA_BNase-seq_0.04U-10min-BI_hg38.bam
+mv 40727_Input_-_K562_-_IMDM_-_BI.bam $BAMDIR/NakedDNA_BNase-seq_0.125U-10min-BI_hg38.bam
+mv 40728_Input_-_K562_-_IMDM_-_BI.bam $BAMDIR/NakedDNA_BNase-seq_0.375U-10min-BI_hg38.bam
+
+# SEM cells (+IAA/+DMSO)
+mv 41859_Input_-_SEM_-_RPMI_-_BI_hg38_hg38.bam $BAMDIR/SEM-CTCFAID2-DMSO_-_BI_rep1_hg38.bam
+mv 41860_Input_-_SEM_-_RPMI_1uM5PhIAA_BI_hg38_hg38.bam $BAMDIR/SEM-CTCFAID2-1uM5PhIAA_-_BI_rep1_hg38.bam
+mv 42076_Input_-_SEM_-_RPMI_-_BI_hg38_hg38.bam $BAMDIR/SEM-CTCFAID2-DMSO_-_BI_rep2_hg38.bam
+mv 42077_Input_-_SEM_-_RPMI_1uM5PhIAA_BI_hg38_hg38.bam $BAMDIR/SEM-CTCFAID2-1uM5PhIAA_-_BI_rep2_hg38.bam
 
 # 50U - 3min
 # Rename non-resequenced replicates to standard naming
@@ -61,9 +67,6 @@ mv 28820_Input_-_K562_-_-_50Unuclease10min-0cycSonic-Super_BI.bam BNase-seq_50U-
 mv 33646_Input_-_K562_-_-_XL-50Unuclease-0cycSonic-super-EndRepair-Atail-ATligation_BI.bam BNase-seq_50U-10min_18_hg38.bam
 mv 33647_Input_-_K562_-_-_XL-50Unuclease-0cycSonic-super-noEndRepair-Atail-ATligation_BI.bam BNase-seq_50U-10min_19_hg38.bam
 mv 33648_Input_-_K562_-_-_XL-50Unuclease-0cycSonic-super-EndRepair-Atail-ATligation_BI.bam BNase-seq_50U-10min_20_hg38.bam
-mv 40726_Input_-_K562_-_IMDM_-_BI.bam NakedDNA_BNase-seq_0.04U-10min_1_hg38.bam
-mv 40727_Input_-_K562_-_IMDM_-_BI.bam NakedDNA_BNase-seq_0.125U-10min_1_hg38.bam
-mv 40728_Input_-_K562_-_IMDM_-_BI.bam NakedDNA_BNase-seq_0.375U-10min_2_hg38.bam
 
 # 50U - 30min (biorep 12-17)
 # Merge and MarkDuplicates on resequencing replicates

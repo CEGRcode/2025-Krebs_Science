@@ -9,11 +9,6 @@
 
 # Script to align samples according to our Galaxy Workflow
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
-###
-
 # Dependencies
 # - BWA
 # - CWpair
@@ -23,9 +18,6 @@ WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessi
 # - samtools
 
 set -exo
-module load bwa
-module load samtools
-module load anaconda
 source activate bx
 
 # Inputs and outputs
@@ -57,7 +49,9 @@ samtools view -f 0x1 -F 0x404 $BAM\_MARKDUP.bam > $BAM.bam
 # Index results
 samtools index $BAM.bam
 
-## ADD MEME MOTIF CALLING HERE
+## For details on MEME motif calling, see our standard processing pipeline:
+# https://github.com/EpiGenomicsCode/ansible-egcGalaxy
+# The workflow used is at ansible-egcGalaxy/ephemeris_tools/workflows/paired_004.ga
 # generate $MEME.meme.txt
 
 # Clean-up

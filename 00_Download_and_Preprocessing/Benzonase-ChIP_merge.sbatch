@@ -7,6 +7,7 @@
 #SBATCH -e logs/Benzonase-ChIP_download-merge-dedup-merge.log.err
 
 # Benzonase-ChIP and ChIP-exo data: script to hardcode the merging/renaming of PEGR BAM files into a standard file naming system
+# These samples correspond to 
 
 # data/BAM
 #   |--ChIP-exo_Pol2_merge_hg38.bam
@@ -22,25 +23,20 @@
 #   |--BNase-ChIP_H3K9ac_merge_hg38.bam
 #   |--BNase-ChIP_H4_merge_hg38.bam
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
-###
-
 # Dependencies
 # - java
 # - samtools
 
 set -exo
-module load samtools
-
-# Script shortcuts
-PICARD=$WRK/../bin/picard.jar
-BAMDIR=$WRK/../data/BAM
+source activate bx
 
 [ -d ChIP ] || mkdir ChIP
 
 cd ChIP
+
+# Script shortcuts
+PICARD=../../bin/picard.jar
+BAMDIR=../../data/BAM
 
 # Merge resequencing replicates
 java -jar $PICARD MarkDuplicates -O H2A.Z_1.bam -M H2A.Z_1.metrics \
