@@ -5,15 +5,11 @@
 #SBATCH -A open
 #SBATCH -o logs/3_Filter_and_Sort_by_occupancy.log.out-%a
 #SBATCH -e logs/3_Filter_and_Sort_by_occupancy.log.err-%a
-#SBATCH --array 1-8
+#SBATCH --array 1-7
 
 # Sort filtered Motif BED Files by the first BX rep1 BAM file occupancy for each TF target (skip scrambled)
 
-### CHANGE ME
 WINDOW=100
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
-#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
-###
 
 # Dependencies
 # - java
@@ -21,8 +17,7 @@ WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Moti
 # - samtools
 
 set -exo
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
 BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
@@ -39,7 +34,6 @@ BAM_LIST=(
     ../data/BAM/K562_NFIA_BX_rep1_hg38.bam
     ../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam
     ../data/BAM/HepG2_FOXA2_BX_rep1_hg38.bam
-    ../data/BAM/K562_ZKSCAN1_BX_rep1_hg38.bam
     ../data/BAM/HepG2_HNF4A_BX_rep1_hg38.bam
 )
 

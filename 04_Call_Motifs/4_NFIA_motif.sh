@@ -36,25 +36,18 @@
 #      |--NFIA_SORT-Occupancy_1bp.bed 
 #      |--NFIA_SORT-Occupancy_GROUP-Q4_1bp.bed 
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
-#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
-cd $WRK
-###
 
 # Dependencies
 # - bedtools
 # - java
 
 set -exo
-module load bedtools
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
 MOTIF=../data/RefPT-Motif
 GENOME=../data/hg38_files/hg38.fa
-GINFO=../data/hg38_files/hg38.chrom.sizes.txt
+GINFO=../data/hg38_files/hg38.chrom.sizes
 BAMFILE=../data/BAM/K562_NFIA_BX_rep1_hg38.bam
 NUCLEOSOME=../data/RefPT-Krebs/1bp/BNase-Nucleosomes_1bp.bed
 BOUND_NFIA=temp-3_Filter_and_Sort_by_occupancy/NFIA_NFIA-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
@@ -70,7 +63,7 @@ BOUND_NFIA=temp-3_Filter_and_Sort_by_occupancy/NFIA_NFIA-K562_M1_100bp_7-Occupan
 SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 SHUFFLE=../bin/shuffle_script.py
 
-TEMP=temp-4_NFIA
+TEMP=temp-4_NFIA_motif
 [ -d $TEMP ] || mkdir $TEMP
 
 ## =====Set orientation for palindromic motif======

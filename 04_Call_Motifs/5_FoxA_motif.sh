@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build FOXA motif-related reference points
+# Build FOXA motif-related reference points including HNF4A-associated and centered RefPTs
 
 # data/RefPT-Motif
 #   |--FOXA_LABEL-K562_SORT-ClosestDyad.bed                                         (see 1000bp)
@@ -51,20 +51,12 @@
 #      |--FOXA_LABEL-uHepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged_1bp.bed                                                                  
 #      
 
-
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
-#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
-###
-
 # Dependencies
 # - bedtools
 # - java
 
 set -exo
-module load bedtools
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
 MOTIF=../data/RefPT-Motif
@@ -88,7 +80,7 @@ HEPG2_FOXA1=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA1-HepG2_M1_100bp_7-Occ
 HEPG2_FOXA2=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA2-HepG2_M1_100bp_7-Occupancy_BOUND.bed
 K562_FOXA1=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA1-K562_M1_100bp_7-Occupancy_BOUND.bed
 K562_FOXA2=temp-3_Filter_and_Sort_by_occupancy/FOXA2_FOXA2-K562_M1_100bp_7-Occupancy_BOUND.bed
-HEPG2_HNF4A=temp-3_Filter_and_Sort_by_occupancy/HNF4A_HN4FA-HepG2_M1_100bp_7-Occupancy_BOUND.bed
+HEPG2_HNF4A=temp-3_Filter_and_Sort_by_occupancy/HNF4A_HNF4A-HepG2_M1_100bp_7-Occupancy_BOUND.bed
 HEPG2_HNF4A_all=FIMO/HNF4A/HNF4A_M1_unsorted.bed
 HEPG2_FOXA_all=FIMO/FOXA2/FOXA2_M1_unsorted.bed
 
@@ -96,14 +88,14 @@ java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $HEPG2_FOXA1 -o
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $HEPG2_FOXA2 -o $TEMP/FOXA2_FOXA2-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $K562_FOXA1 -o $TEMP/FOXA2_FOXA1-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $K562_FOXA2 -o $TEMP/FOXA2_FOXA2-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
-java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $HEPG2_HNF4A -o $TEMP/HNF4A_HN4FA-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
+java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1 $HEPG2_HNF4A -o $TEMP/HNF4A_HNF4A-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
 
 
 HEPG2_FOXA1=$TEMP/FOXA2_FOXA1-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
 HEPG2_FOXA2=$TEMP/FOXA2_FOXA2-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
 K562_FOXA1=$TEMP/FOXA2_FOXA1-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
 K562_FOXA2=$TEMP/FOXA2_FOXA2-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
-HEPG2_HNF4A=$TEMP/HNF4A_HN4FA-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
+HEPG2_HNF4A=$TEMP/HNF4A_HNF4A-HepG2_M1_100bp_7-Occupancy_BOUND_1bp.bed
 
 # Merge and unique HepG2 sites with genomic sort
 cat $HEPG2_FOXA1 $HEPG2_FOXA2 \
@@ -181,7 +173,7 @@ awk -v DIR="$TEMP" '{
 ## expand to 1000bp
 
 cut -f 1-6 $TEMP/FOXA_all_SORT-ClosestDyad_GROUP-NoOverlap.tsv > $MOTIF/FOXA_all_SORT-ClosestDyad_GROUP-NoOverlap.bed
-cut -f 1-6  $TEMP/FOXA_all_SORT-ClosestDyad_GROUP-NFR.bed > $MOTIF/FOXA_all_SORT-ClosestDyad_GROUP-NFR.bed
+cut -f 1-6  $TEMP/FOXA_all_SORT-ClosestDyad_GROUP-NFR.tsv > $MOTIF/FOXA_all_SORT-ClosestDyad_GROUP-NFR.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/FOXA_all_SORT-ClosestDyad_GROUP-NoOverlap.bed -o $MOTIF/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NoOverlap_1000bp.bed
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $MOTIF/FOXA_all_SORT-ClosestDyad_GROUP-NFR.bed -o $MOTIF/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed
 

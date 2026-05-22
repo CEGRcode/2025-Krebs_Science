@@ -17,24 +17,18 @@
 #     |--CTCF_SORT-SMC3Engagement_GROUP-Low_1bp.bed
 #     |--CTCF_SORT-SMC3Engagement_GROUP-High_1bp.bed
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
-#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-GINFO=$WRK/../data/hg38_files/hg38.chrom.sizes
-SMC3BAMFILE=$WRK/../data/BAM/K562_SMC3_BX_rep1_hg38.bam
-###
-
 # Dependencies
 # - java
 
 set -exo
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-MOTIF=$WRK/../data/RefPT-Motif
-CTCF_BOUND=$WRK/temp-3_Filter_and_Sort_by_occupancy/CTCF_CTCF-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
+MOTIF=../data/RefPT-Motif
+CTCF_BOUND=temp-3_Filter_and_Sort_by_occupancy/CTCF_CTCF-K562_M1_100bp_7-Occupancy_BOUND_1bp.bed
+GENOME=../data/hg38_files/hg38.fa
+GINFO=../data/hg38_files/hg38.chrom.sizes
+SMC3BAMFILE=../data/BAM/K562_SMC3_BX_rep1_hg38.bam
 
 [ -d $MOTIF ] || mkdir $MOTIF
 [ -d $MOTIF/1000bp ] || mkdir $MOTIF/1000bp
@@ -43,7 +37,7 @@ CTCF_BOUND=$WRK/temp-3_Filter_and_Sort_by_occupancy/CTCF_CTCF-K562_M1_100bp_7-Oc
 # Script shortcuts
 SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 
-TEMP=temp-5_CTCF
+TEMP=temp-6_CTCF_motif
 [ -d $TEMP ] || mkdir $TEMP
 
 # Reformat BED with SCORE=tag pileup tag count (move 7th column to score column and add K562_CTCF in the seventh)
