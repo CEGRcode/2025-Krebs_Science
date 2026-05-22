@@ -87,9 +87,3 @@ sh 9b_FOXA_phaseallign.sh
 sbatch 10a_10phase_of_NFIA_unbound.sbatch
 sh 10b_NFIA_phaseallign.sh
 ```
-
-## 11_cut-site_nucleotide-content.sh
-
-```
-sh 11_cut-site_nucleotide-content.sh
-```

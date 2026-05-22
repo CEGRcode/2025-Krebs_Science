@@ -2,12 +2,6 @@
 
 # Make PE insert size histogram of BNase-seq 2 replicates at each of three digestion levels (50U-3min, 50U-10min, 50U-30min)
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/Z_Figures
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/Z_Figures
-#WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
-###
-
 # Dependencies
 # - java
 # - pandas
@@ -15,27 +9,75 @@ WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/Z_Figures
 # - seaborn
 
 set -exo
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
+BAMDIR=../data/BAM
+HGENOME=../data/hg38_files/hg38.fa
+MGENOME=../data/mm10_files/mm10.fa
+
+# Index genome if doesnt exist
+[ -f $HGENOME.fai ] || samtools faidx $HGENOME
+[ -f $MGENOME.fai ] || samtools faidx $MGENOME
 
 # Script shortcuts
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-HISTOGRAM=$WRK/../bin/make_fragment_histograms1.py
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+HISTOGRAM=../bin/make_fragment_histograms1.py
+
+UPDOWN_KMER=../bin/updownstream_di-nt_tally.py
+KMER2NT=../bin/dint_to_nt_positional_count_matrix.py
+STACKNT=../bin/make_stack_barchart_TSV.py
+SPLIT_KMER=../bin/split_kmer_to_composite.py
 
 [ -d S1/A ] || mkdir -p S1/A
-#enzyme cut nucleotide analysis
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTally/DNase-seq_ENCFF518XTC_rep1_hg38_SUBSAMPLE_NT-l50r100-R1.svg  S1/A
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTally/MNase-seq_21U_rep1_hg38_SUBSAMPLE_NT-l50r100-R1.svg S1/
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTally/BNase-seq_50U-10min_merge_hg38_SUBSAMPLE_NT-l50r100-R1.svg S1/A
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTallyMPE-seq_20min_rep2_mm10_SUBSAMPLE_NT-l50r100-R1.svg S1/A
 
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTally/*_RR.tsv  S1/A
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTally/*_WW.tsv  S1/A
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTally/*_SS.tsv  S1/A
-cp $WRK/../X_Bulk_Processing/Library/UpstreamKmerAnalysis/DiTally/*_YY.tsv  S1/A
+## Perform sequence content analysis around cut sites
+TEMP=temp-S1A
+[ -d $TEMP ] || mkdir $TEMP
+
+# # Get BAM info
+# samtools flagstat $BAMDIR/BNase-seq_50U-10min_merge_hg38.bam  > $TEMP/BNase-seq_50U-10min_merge_hg38.bam.flagstat
+# samtools flagstat $BAMDIR/DNase-seq_ENCFF518XTC_rep1_hg38.bam > $TEMP/DNase-seq_ENCFF518XTC_rep1_hg38.bam.flagstat
+# samtools flagstat $BAMDIR/MNase-seq_21U_rep1_hg38.bam         > $TEMP/MNase-seq_21U_rep1_hg38.bam.flagstat
+# samtools flagstat $BAMDIR/MPE-seq_20min_rep2_mm10.bam         > $TEMP/MPE-seq_20min_rep2_mm10.bam.flagstat
+
+# Subsample BAM - hardcoded this for different BAM files (Seed=2)
+samtools view -b -s 2.0001 ${BAMDIR}/BNase-seq_50U-10min_merge_hg38.bam  > $TEMP/BNase-seq_50U-10min_merge_hg38_DOWNSAMPLE.bam   # ~1.3B --> ~125K
+samtools view -b -s 2.001  ${BAMDIR}/DNase-seq_ENCFF518XTC_rep1_hg38.bam > $TEMP/DNase-seq_ENCFF518XTC_rep1_hg38_DOWNSAMPLE.bam  # ~100M --> ~100K
+samtools view -b -s 2.001  ${BAMDIR}/MNase-seq_21U_rep1_hg38.bam         > $TEMP/MNase-seq_21U_rep1_hg38_DOWNSAMPLE.bam          # ~170M --> ~170K
+samtools view -b -s 2.002  ${BAMDIR}/MPE-seq_20min_rep2_mm10.bam         > $TEMP/MPE-seq_20min_rep2_mm10_DOWNSAMPLE.bam          #  ~55M --> ~110K
+
+# Index
+samtools index $TEMP/BNase-seq_50U-10min_merge_hg38_DOWNSAMPLE.bam
+samtools index $TEMP/DNase-seq_ENCFF518XTC_rep1_hg38_DOWNSAMPLE.bam
+samtools index $TEMP/MNase-seq_21U_rep1_hg38_DOWNSAMPLE.bam
+samtools index $TEMP/MPE-seq_20min_rep2_mm10_DOWNSAMPLE.bam
+
+# # Get subsample BAM info
+# samtools flagstat $TEMP/BNase-seq_50U-10min_merge_hg38_DOWNSAMPLE.bam  > $TEMP/BNase-seq_50U-10min_merge_hg38_DOWNSAMPLE.bam.flagstat
+# samtools flagstat $TEMP/DNase-seq_ENCFF518XTC_rep1_hg38_DOWNSAMPLE.bam > $TEMP/DNase-seq_ENCFF518XTC_rep1_hg38_DOWNSAMPLE.bam.flagstat
+# samtools flagstat $TEMP/MNase-seq_21U_rep1_hg38_DOWNSAMPLE.bam         > $TEMP/MNase-seq_21U_rep1_hg38_DOWNSAMPLE.bam.flagstat
+# samtools flagstat $TEMP/MPE-seq_20min_rep2_mm10_DOWNSAMPLE.bam         > $TEMP/MPE-seq_20min_rep2_mm10_DOWNSAMPLE.bam.flagstat
+
+# Perform upstream kmer analysis around 5' cut sites (di-nucleotides, -50 to +100)
+python $UPDOWN_KMER -l 50 -r 100 --read1 -p -g $HGENOME -i $TEMP/BNase-seq_50U-10min_merge_hg38_DOWNSAMPLE.bam  -o S1/A/BNase-seq_50U-10min_merge_hg38_DINT-l50r100-R1.tsv
+python $UPDOWN_KMER -l 50 -r 100 --read1 -p -g $HGENOME -i $TEMP/DNase-seq_ENCFF518XTC_rep1_hg38_DOWNSAMPLE.bam -o S1/A/DNase-seq_ENCFF518XTC_rep1_hg38_DINT-l50r100-R1.tsv
+python $UPDOWN_KMER -l 50 -r 100 --read1 -p -g $HGENOME -i $TEMP/MNase-seq_21U_rep1_hg38_DOWNSAMPLE.bam         -o S1/A/MNase-seq_21U_rep1_hg38_DINT-l50r100-R1.tsv
+python $UPDOWN_KMER -l 50 -r 100 --read1 -p -g $MGENOME -i $TEMP/MPE-seq_20min_rep2_mm10_DOWNSAMPLE.bam         -o S1/A/MPE-seq_20min_rep2_mm10_DINT-l50r100-R1.tsv
+
+# Re-tally for single nucleotide counts
+python $KMER2NT -i S1/A/BNase-seq_50U-10min_merge_hg38_DINT-l50r100-R1.tsv  -o S1/A/BNase-seq_50U-10min_merge_hg38_NT-l50r100-R1.tsv
+python $KMER2NT -i S1/A/DNase-seq_ENCFF518XTC_rep1_hg38_DINT-l50r100-R1.tsv -o S1/A/DNase-seq_ENCFF518XTC_rep1_hg38_NT-l50r100-R1.tsv
+python $KMER2NT -i S1/A/MNase-seq_21U_rep1_hg38_DINT-l50r100-R1.tsv         -o S1/A/MNase-seq_21U_rep1_hg38_NT-l50r100-R1.tsv
+python $KMER2NT -i S1/A/MPE-seq_20min_rep2_mm10_DINT-l50r100-R1.tsv         -o S1/A/MPE-seq_20min_rep2_mm10_NT-l50r100-R1.tsv
+
+# Generate Figure: stack single nucleotides (enforce same-frequency)
+python $STACKNT --entropy -i <(cut -f1,40-71 S1/A/BNase-seq_50U-10min_merge_hg38_NT-l50r100-R1.tsv)  --title BNase-seq_50U-10min_merge_hg38  -o S1/A/BNase-seq_50U-10min_merge_hg38_NT-l50r100-R1.svg
+python $STACKNT --entropy -i <(cut -f1,40-71 S1/A/DNase-seq_ENCFF518XTC_rep1_hg38_NT-l50r100-R1.tsv) --title DNase-seq_ENCFF518XTC_rep1_hg38 -o S1/A/DNase-seq_ENCFF518XTC_rep1_hg38_NT-l50r100-R1.svg
+python $STACKNT --entropy -i <(cut -f1,40-71 S1/A/MNase-seq_21U_rep1_hg38_NT-l50r100-R1.tsv)         --title MNase-seq_21U_rep1_hg38         -o S1/A/MNase-seq_21U_rep1_hg38_NT-l50r100-R1.svg
+python $STACKNT --entropy -i <(cut -f1,40-71 S1/A/MPE-seq_20min_rep2_mm10_NT-l50r100-R1.tsv)         --title MPE-seq_20min_rep2_mm10         -o S1/A/MPE-seq_20min_rep2_mm10_NT-l50r100-R1.svg
+
+# ===============================================================================================================================
 
 [ -d S1/B ] || mkdir -p S1/B
 
