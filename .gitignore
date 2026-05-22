@@ -23,6 +23,8 @@ data/sample-MEME/*.txt
 00_Download_and_Preprocessing/ChIP
 00_Download_and_Preprocessing/Benzonase
 00_Download_and_Preprocessing/FASTQ
+00_Download_and_Preprocessing/CUTRUN
+00_Download_and_Preprocessing/Trimmomatic-0.36
 00_Download_and_Preprocessing/BAM
 
 02_Call_Nucleosomes/AllParticles
