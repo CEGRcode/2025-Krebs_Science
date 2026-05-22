@@ -11,19 +11,11 @@
 # tagged.
 # see 02_Genetrack/06_Genetrack_bedfiles.sh
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
-###
-
 # Dependencies
 # - bedtools
 
 set -exo
-module load anaconda3
-module load bedtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
 ALL=AllParticles

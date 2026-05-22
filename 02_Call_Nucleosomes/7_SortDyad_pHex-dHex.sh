@@ -13,12 +13,7 @@
 #     |--PlusOneDyad_SORT-pHex-dHex_GROUP-Nuc-Dyad_GROUP-TOP-1K_500bp.bed
 #     |--PlusOneDyad_SORT-pHex-dHex_GROUP-Nuc-Dyad_GROUP-BOTTOM-1K_500bp.bed
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
 THREADS=4
-###
 
 # Dependencies
 # - bedtools
@@ -26,17 +21,15 @@ THREADS=4
 # - python
 
 set -exo
-module load anaconda3
-module load bedtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-BAMFILE=$WRK/../data/BAM/BNase-ChIP_H3K4me3_merge_hg38.bam
-GENOME=$WRK/../data/hg38_files/hg38.fa.fai
-KREBS=$WRK/../data/RefPT-Krebs
+BAMFILE=../data/BAM/BNase-ChIP_H3K4me3_merge_hg38.bam
+GENOME=../data/hg38_files/hg38.fa.fai
+KREBS=../data/RefPT-Krebs
 
 # Script shortcuts
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 
 TEMP=Make_pHex-dHex
 [ -d $TEMP ] || mkdir $TEMP

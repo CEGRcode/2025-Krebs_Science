@@ -16,30 +16,23 @@
 # data/RefPT-Krebs
 #   |--BNase-Nucleosomes.bed
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
-###
-
 # Dependencies
 # - java
 # - python2
 # - numpy (py2)
+# - bedtools
+
 
 set -exo
-module load anaconda3
-module load bedtools
-# conda create -p /storage/group/bfp2/default/owl5022-OliviaLang/conda/genetrack -c conda-forge -c bioconda python=2.7 numpy
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/genetrack
+source activate genetrack
 
 # Inputs and outputs
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 
 # Script shortcuts
 GENETRACK=../bin/genetrack_v2.py
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
@@ -137,11 +130,11 @@ cat AllParticles/Supraoct.bed AllParticles/Nucleosome.bed \
 	> AllParticles/Merged_Redundant_Nucleosome-Particles.bed #K562_redundant_master_nucleosomal_particles.bed
 wc -l AllParticles/Merged_Redundant_Nucleosome-Particles.bed
 
+# Create a peak file for just the full-length nucleosomes
+KREBS=../data/RefPT-Krebs
 [ -d $KREBS ] || mkdir $KREBS
 [ -d $KREBS/1bp ] || mkdir $KREBS/1bp
 
-# Create a peak file for just the full-length nucleosomes
-KREBS=../data/RefPT-Krebs
 bedtools sort -i AllParticles/Nucleosome.bed > $KREBS/BNase-Nucleosomes.bed
 
 wc -l $KREBS/BNase-Nucleosomes.bed
