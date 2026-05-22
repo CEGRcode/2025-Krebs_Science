@@ -3,19 +3,20 @@
 #SBATCH --mem=24gb
 #SBATCH -t 6:00:00
 #SBATCH -A open
-#SBATCH -o logs/0_Setup_hg38_reffiles.log.out
-#SBATCH -e logs/0_Setup_hg38_reffiles.log.err
+#SBATCH -o logs/0a_Setup_hg38_reffiles.log.out
+#SBATCH -e logs/0a_Setup_hg38_reffiles.log.err
 
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/align
+# Download human (hg38) ref genome with annotations and build alignment indexes
+
+set -exo
+source activate bx
 
 GENOME=../data/hg38_files/hg38.fa
 
-[ -d ../data/hg38_files ] || mkdir ../data/hg38_files
+[ -d ../data/hg38_files ] || mkdir -p ../data/hg38_files
 
 # Download genome FASTA
-wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
-mv hg38.fa.gz $GENOME.gz
+wget -O $GENOME.gz https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 gzip -d $GENOME.gz
 
 # Download hg38 Blacklist from ENCODE
