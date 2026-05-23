@@ -14,13 +14,8 @@
 # - DNA shape
 # - Dinucleotide
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
-#WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-METADATA=$WRK/BI_Pileups.txt
+METADATA=BI_Pileups.txt
 THREADS=4
-###
 
 # Dependencies
 # - java
@@ -29,12 +24,11 @@ THREADS=4
 # - python
 
 set -exo
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
@@ -43,15 +37,15 @@ DINUCLEOTIDE=../bin/scan_FASTA_for_motif_as_binary_string.py
 COMPOSITE=../bin/sum_Col_CDT.pl
 
 # Inputs and outputs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-MOTIF=$WRK/../data/RefPT-JASPAR
-OUTDIR=$WRK/Library/BI_Pileups
+GENOME=../data/hg38_files/hg38.fa
+MOTIF=../data/RefPT-JASPAR
+OUTDIR=Library/BI_Pileups
 
 # Set up output directories
 [ -d logs ] || mkdir logs
 [ -d $OUTDIR ] || mkdir $OUTDIR
 
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
 BAM=`basename $BAMFILE ".bam"`
 
 # Determine BED file for the current job array index
@@ -82,15 +76,16 @@ Rounded_Region_anti=$((Region_anti / 10 * 10))
 sense_end_column=$((Rounded_Region_sense + 2))
 anti_end_column=$((Rounded_Region_anti + 2))
 
-# Count sites
-NSITES=`wc -l $BEDFILE | awk '{print $1}'`
+# # Count sites
+# NSITES=`wc -l $BEDFILE | awk '{print $1}'`
 
 echo "(${SLURM_ARRAY_TASK_ID}) ${RefID} "x" ${BAMFILE} "
 
 DIR=$OUTDIR/${RefID}
-[ -d $DIR ] || mkdir $DIR
+[[ -d $DIR ]] || mkdir $DIR
 [[ -d $DIR/CDT ]] || mkdir $DIR/CDT
 [[ -d $DIR/Composites ]] || mkdir $DIR/Composites
+[[ -d Library/BI_10bp ]] || mkdir -p Library/BI_10bp
 
 
 # ===============================================================================================================================
@@ -106,17 +101,16 @@ java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE1 $BAMFILE --cpu $THRE
 java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE2 $BAMFILE --cpu $THREADS -5 -a -o $DIR/Composites/$BASE2.out -M $DIR/CDT/$BASE2
 java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE3 $BAMFILE --cpu $THREADS -5 -a -o $DIR/Composites/$BASE3.out -M $DIR/CDT/$BASE3
 java -jar $SCRIPTMANAGER read-analysis tag-pileup $BEDFILE4 $BAMFILE --cpu $THREADS -5 -a -o $DIR/Composites/$BASE4.out -M $DIR/CDT/$BASE4
-# Take region 
-cat $DIR/CDT/${BASE1}_sense.cdt | cut -f 1-2,${column1}-${column2}  > $DIR/${RefID}_Q1_sense_final.cdt
-cat $DIR/CDT/${BASE1}_anti.cdt | cut -f 1-2,${column3}-${column4}  > $DIR/${RefID}_Q1_anti_final.cdt
-cat $DIR/CDT/${BASE2}_sense.cdt | cut -f 1-2,${column1}-${column2}  > $DIR/${RefID}_Q2_sense_final.cdt
-cat $DIR/CDT/${BASE2}_anti.cdt | cut -f 1-2,${column3}-${column4}  > $DIR/${RefID}_Q2_anti_final.cdt
-cat $DIR/CDT/${BASE3}_sense.cdt | cut -f 1-2,${column1}-${column2}  > $DIR/${RefID}_Q3_sense_final.cdt
-cat $DIR/CDT/${BASE3}_anti.cdt | cut -f 1-2,${column3}-${column4}  > $DIR/${RefID}_Q3_anti_final.cdt
-cat $DIR/CDT/${BASE4}_sense.cdt | cut -f 1-2,${column1}-${column2}  > $DIR/${RefID}_Q4_sense_final.cdt
-cat $DIR/CDT/${BASE4}_anti.cdt | cut -f 1-2,${column3}-${column4}  > $DIR/${RefID}_Q4_anti_final.cdt
 
-  
+# Take region 
+cut -f 1-2,${column1}-${column2} $DIR/CDT/${BASE1}_sense.cdt  > $DIR/${RefID}_Q1_sense_final.cdt
+cut -f 1-2,${column3}-${column4} $DIR/CDT/${BASE1}_anti.cdt > $DIR/${RefID}_Q1_anti_final.cdt
+cut -f 1-2,${column1}-${column2} $DIR/CDT/${BASE2}_sense.cdt > $DIR/${RefID}_Q2_sense_final.cdt
+cut -f 1-2,${column3}-${column4} $DIR/CDT/${BASE2}_anti.cdt > $DIR/${RefID}_Q2_anti_final.cdt
+cut -f 1-2,${column1}-${column2} $DIR/CDT/${BASE3}_sense.cdt > $DIR/${RefID}_Q3_sense_final.cdt
+cut -f 1-2,${column3}-${column4} $DIR/CDT/${BASE3}_anti.cdt > $DIR/${RefID}_Q3_anti_final.cdt
+cut -f 1-2,${column1}-${column2} $DIR/CDT/${BASE4}_sense.cdt > $DIR/${RefID}_Q4_sense_final.cdt
+cut -f 1-2,${column3}-${column4} $DIR/CDT/${BASE4}_anti.cdt > $DIR/${RefID}_Q4_anti_final.cdt
 
 
 for file in $DIR/*.cdt ; do
@@ -187,7 +181,7 @@ for file in $DIR/*.cdt ; do
 done
 
 
-for folder in $OURDIR/$DIR ; do
+for folder in $OUTDIR/$DIR ; do
     if [ -d "$folder" ]; then
         X=$folder
         for file in $X/*_score_peak.out ; do
@@ -211,14 +205,12 @@ for folder in $OURDIR/$DIR ; do
     fi
 done
 
-mkdir -p $WRK/Library/BI_10bp 
-
-for folder in $OURDIR/$DIR ; do
+for folder in $OUTDIR/$DIR ; do
     
     if [ -d "$folder" ]; then
         X=$folder
         output_file="${X}.out"
         python $chisquare "$X" $output_file
-		mv $output_file $WRK/Library/BI_10bp
+		mv $output_file Library/BI_10bp
     fi
 done

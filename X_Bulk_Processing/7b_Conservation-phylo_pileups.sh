@@ -1,8 +1,5 @@
 
-### CHANGE ME
-WRK=/Path/to/Fox_NFIA_CTCF/
-OUTDIR=$WRK/Library
-###
+
 
 # Dependencies
 # - java
@@ -10,22 +7,21 @@ OUTDIR=$WRK/Library
 # - python
 
 set -exo
-module load anaconda
-#source activate bx
+source activate bx
 
 # Fill in placeholder constants with your directories
-MOTIF=$WRK/data/RefPT-Motif/1000bp
-CDIR=$WRK/data/Conservation-SNP
-#pip install pyBigWig   
+MOTIF=data/RefPT-Motif/1000bp
+CDIR=data/Conservation-SNP
+OUTDIR=Library
 
 # Script shortcuts
-SCRIPTMANAGER=$WRK/bin/scriptmanager-v0.15-dev.jar
-COMPOSITE=$WRK/bin/sum_Col_CDT.pl
-WIGTOBG=$WRK/bin/convert_wig_to_bedgraph.py
-PILEUPBG=$WRK/bin/pileup_BedGraph_on_RefPT.py
-PILEUPBW=$WRK/bin/pileup_BigWig_on_RefPT.py
-SPILEUPBW=$WRK/bin/pileup_BigWig_on_RefPT_stranded.py
-SUMMAT=$WRK/bin/sum_each_CDT.py
+SCRIPTMANAGER=bin/scriptmanager-v0.15-dev.jar
+COMPOSITE=bin/sum_Col_CDT.pl
+WIGTOBG=bin/convert_wig_to_bedgraph.py
+PILEUPBG=bin/pileup_BedGraph_on_RefPT.py
+PILEUPBW=bin/pileup_BigWig_on_RefPT.py
+SPILEUPBW=bin/pileup_BigWig_on_RefPT_stranded.py
+SUMMAT=bin/sum_each_CDT.py
 
 # Set up output directories
 [ -d logs ] || mkdir logs

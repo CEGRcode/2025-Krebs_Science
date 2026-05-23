@@ -1,35 +1,30 @@
 #!/bin/bash
 
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-
 set -exo
-#module load samtools
+source activate bx
 
 # Fill in placeholder constants with your directories
-
-# Fill in placeholder constants with your directories
-GENOME="$WRK/../data/hg38_files/hg38.fa"
-OURDIR=$WRK/Library/Dinucleotide/
-mkdir -p $OURDIR
-cd $OURDIR
+GENOME=../data/hg38_files/hg38.fa
+OUTDIR=Library/Dinucleotide/
+[[ -d $OUTDIR ]] || mkdir -p $OUTDIR
 
 # Script shortcuts
-SCRIPTMANAGER="$WRK/../bin/ScriptManager-v0.15.jar"
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-chisquare=$WRK/../bin/chisquare.py
-MOTIFSCAN=$WRK/../bin/scan_FASTA_for_motif_as_binary_string.py
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+COMPOSITE=../bin/sum_Col_CDT.pl
+chisquare=../bin/chisquare.py
+MOTIFSCAN=../bin/scan_FASTA_for_motif_as_binary_string.py
 
 ## run Dinucleotode scan, make composite plot of dinucleotide
-for file in $WRK/../data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/../data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
+for file in ../data/RefPT-JASPAR/1000bp/*1_1000bp.bed ../data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
      mkdir -p $DIR
      [[ -d $DIR/CDT ]] || mkdir $DIR/CDT
      [[ -d $DIR/Composites ]] || mkdir $DIR/Composites
-     java -jar $SCRIPTMANAGER sequence-analysis fasta-extract $GENOME $WRK/data/RefPT-JASPAR/1000bp/${filename}.bed -o $DIR/${filename}_1000bp.fa
+     java -jar $SCRIPTMANAGER sequence-analysis fasta-extract $GENOME data/RefPT-JASPAR/1000bp/${filename}.bed -o $DIR/${filename}_1000bp.fa
      python $MOTIFSCAN -i  $DIR/${filename}_1000bp.fa -m AA -o $DIR/CDT/AA_${Ref}_${ID}_Q${Sort}_1000bp
      python $MOTIFSCAN -i  $DIR/${filename}_1000bp.fa -m AT -o $DIR/CDT/AT_${Ref}_${ID}_Q${Sort}_1000bp
      python $MOTIFSCAN -i  $DIR/${filename}_1000bp.fa -m AC -o $DIR/CDT/AC_${Ref}_${ID}_Q${Sort}_1000bp
@@ -65,12 +60,12 @@ for file in $WRK/../data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/../data/RefPT-JA
      perl $COMPOSITE $DIR/CDT/GG_${Ref}_${ID}_Q${Sort}_1000bp_sense.cdt $DIR/Composites/GG_${Ref}_${ID}_Q${Sort}_1000bp.out
 done
 
-for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
+for file in data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
      for CDT in $DIR/*_${Ref}_${ID}_Q${Sort}_1000bp_sense.cdt ; do
         Dinuc=`basename $CDT ".cdt" | cut -d "_" -f 1`
         cat $DIR/CDT/${Dinuc}_${Ref}_${ID}_Q${Sort}_1000bp_sense.cdt | cut -f  1-2  > $DIR/${Dinuc}_${Ref}_${ID}_Q${Sort}_1000bp_sense_ref.cdt
@@ -81,12 +76,12 @@ done
      
 done
 
-for file in  $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed  ; do
+for file in  data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed  ; do
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
      for CDT in $DIR/*_${Ref}_${ID}_Q${Sort}_1000bp_sense_*.cdt ; do
         Dinuc=`basename $CDT ".cdt" | cut -d "_" -f 1`
         Region=`basename $CDT ".cdt" | cut -d "_" -f 7`
@@ -123,7 +118,7 @@ for file in  $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/
 done
  
 
-for folder in $OURDIR/*_M  ; do
+for folder in $OUTDIR/*_M  ; do
     if [ -d "$folder" ]; then
         X=$folder
         for file in $X/*_score_peak.out ; do
@@ -147,15 +142,15 @@ for folder in $OURDIR/*_M  ; do
     fi
 done
 
-mkdir -p $WRK/Library/Dinucleotide_10bp
+mkdir -p Library/Dinucleotide_10bp
 
-for folder in $OURDIR/*_M ; do
+for folder in $OUTDIR/*_M ; do
     
     if [ -d "$folder" ]; then
         X=$folder
         output_file="${X}.out"
         python $chisquare "$X" "$output_file"
-        mv "$output_file" $WRK/Library/Dinucleotide_10bp/
+        mv "$output_file" Library/Dinucleotide_10bp/
     fi
 done
 

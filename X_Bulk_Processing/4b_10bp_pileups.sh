@@ -10,41 +10,35 @@
 # Pileup read1 (exo cut sites) for a custom combinations of BAM x BED files.
 # Heatmaps included and all with scaling. 
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-METADATA=$WRK/10bp_region.txt
-GINFO=$WRK/../data/hg38_files/hg38.chrom.sizes
-GENOME=$WRK/../data/hg38_files/hg38.fa
-###
-module load anaconda
-source activate bioinfo
+METADATA=10bp_region.txt
+
 # Dependencies
 # - java
 # - perl
 # - samtools
 
 set -exo
-#module load samtools
+source activate bx
 
-# Fill in placeholder constants with your directories
-BAMDIR=$WRK/data/BAM
-OUTDIR=$WRK/Library/10bp
+# Inputs and outputs
+GINFO=../data/hg38_files/hg38.chrom.sizes
+GENOME=../data/hg38_files/hg38.fa
+BAMDIR=data/BAM
+OUTDIR=Library/10bp
 
 # Setup ScriptManager for job array
-#SCRIPTMANAGER=$WRK/../2023_Chen_PIC3/bin/ScriptManager-v0.15.jar
 ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-chisquare=$WRK/../bin/chisquare.py
+COMPOSITE=../bin/sum_Col_CDT.pl
+chisquare=../bin/chisquare.py
 
 # Set up output directories
 [ -d logs ] || mkdir logs
 [ -d $OUTDIR ] || mkdir $OUTDIR
 
-cd $WRK/
 # Determine BED file for the current job array index
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
 BED=`basename $BEDFILE "_1bp.bed"`
@@ -71,14 +65,11 @@ DIR=$OUTDIR/$BED
 [[ -d $DIR/CDT ]] || mkdir $DIR/CDT
 [[ -d $DIR/SCORES ]] || mkdir $DIR/SCORES
 
-mkdir -p $OUTDIR/BX_10bp
-
 
 BASE=${BAM}_${BED}_read1-MIN${Size}
 echo $BASE
 
-# expand
-
+# Expand 1000bp
 java -jar $SCRIPTMANAGER coordinate-manipulation expand-bed -c 1000 $BEDFILE -o $DIR/${BED}_1000bp.bed
 
 # Pileup (read 1)
@@ -118,29 +109,29 @@ rm $DIR/${BED}_1000bp.bed
 
 
 for file in  $DIR/${BASE}_${Extract}_${Strand}_score_peak.out ; do
-            filename=$(basename "$file" ".out")
-            
-            # Loop through phases 0 to 9 to avoid repetitive code
-            for phase in {0..9}; do
-                # Each phase corresponds to columns 3 to 12
-                awk -v phase="$phase" -v filename="$filename" 'BEGIN {OFS=","} {
-                    print $1, phase, $((phase+3)) > (filename"_"phase".csv");
-                }' $file
-            done
+    filename=$(basename "$file" ".out")
+    
+    # Loop through phases 0 to 9 to avoid repetitive code
+    for phase in {0..9}; do
+        # Each phase corresponds to columns 3 to 12
+        awk -v phase="$phase" -v filename="$filename" 'BEGIN {OFS=","} {
+            print $1, phase, $((phase+3)) > (filename"_"phase".csv");
+        }' $file
+    done
 
-            # Create the final CSV with header and concatenate all phase CSVs
-            echo -e "Region,Nucleosomephase,enrichment" >  $DIR/${filename}.csv
-            cat ${filename}_*.csv >>  $DIR/${filename}.csv
+    # Create the final CSV with header and concatenate all phase CSVs
+    echo -e "Region,Nucleosomephase,enrichment" >  $DIR/${filename}.csv
+    cat ${filename}_*.csv >>  $DIR/${filename}.csv
 
-            # Remove individual phase files
-            rm ${filename}_*.csv
+    # Remove individual phase files
+    rm ${filename}_*.csv
 done
-mkdir -p $WRK/Library/BX_10bp
+mkdir -p Library/BX_10bp
 for folder in $OUTDIR/${BED} ; do
     Target=$(basename "$folder")
     output_file="${Target}.out"
     python $chisquare $folder "$output_file"
-    mv "$output_file" $WRK/Library/BX_10bp
+    mv "$output_file" Library/BX_10bp
 done
 
 

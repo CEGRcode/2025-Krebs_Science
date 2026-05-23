@@ -8,26 +8,19 @@
 
 # Re-expand each BED file in LIST to 32bp and generate a 4-color plot
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-#WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/X_Bulk_Processing
-#WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
-###
-
 # Dependencies
 # - java
 # - opencv
 # - python
 
 set -exo
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Define the source files as LIST
 LIST=(
-    "$WRK/../data/RefPT-Motif/1000bp/CTCF_SORT-Occupancy_1000bp.bed"
-    "$WRK/../data/RefPT-Motif/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed"
-    "$WRK/../data/RefPT-Motif/500bp/NFIA_SORT-Occupancy_500bp.bed"
+    "../data/RefPT-Motif/1000bp/CTCF_SORT-Occupancy_1000bp.bed"
+    "../data/RefPT-Motif/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed"
+    "../data/RefPT-Motif/500bp/NFIA_SORT-Occupancy_500bp.bed"
 )
 
 # Script shortcuts

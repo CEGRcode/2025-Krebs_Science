@@ -1,32 +1,33 @@
 #!/bin/bash
 
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
+
 set -exo
-#module load samtools
+source activate bx
 
 # Fill in placeholder constants with your directories
-GENOME="$WRK/../data/hg38_files/hg38.fa"
-OURDIR=$WRK/Library/DNAshape/
-mkdir -p $OURDIR
-cd $OURDIR
+GENOME=../data/hg38_files/hg38.fa
+OUTDIR=Library/DNAshape
+
+[ -d logs ] || mkdir logs
+[[ -d $OUTDIR ]] || mkdir -p $OUTDIR
 
 # Script shortcuts
-SCRIPTMANAGER="$WRK/../bin/ScriptManager-v0.15.jar"
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-chisquare=$WRK/../bin/chisquare.py
-mid_flank_ttest=$WRK/../bin/mid_flank_t-test.py
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+COMPOSITE=../bin/sum_Col_CDT.pl
+chisquare=../bin/chisquare.py
+mid_flank_ttest=../bin/mid_flank_t-test.py
 
 # run DNA shape analysis, make composite plot of DNA shape
-for file in $WRK/../data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/../data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
+for file in ../data/RefPT-JASPAR/1000bp/*1_1000bp.bed ../data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
      mkdir -p $DIR
      [[ -d $DIR/CDT ]] || mkdir $DIR/CDT
      [[ -d $DIR/Composites ]] || mkdir $DIR/Composites
-     java -jar $SCRIPTMANAGER sequence-analysis dna-shape-bed -p -g -r -l -o $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp $GENOME  $WRK/data/RefPT-JASPAR/1000bp/${filename}.bed
+     java -jar $SCRIPTMANAGER sequence-analysis dna-shape-bed -p -g -r -l -o $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp $GENOME  data/RefPT-JASPAR/1000bp/${filename}.bed
      perl $COMPOSITE $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp_HelT.cdt $DIR/Composites/${Ref}_${ID}_Q${Sort}_1000bp_HelT.out
      perl $COMPOSITE $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp_Roll.cdt $DIR/Composites/${Ref}_${ID}_Q${Sort}_1000bp_Roll.out
      perl $COMPOSITE $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp_PropT.cdt $DIR/Composites/${Ref}_${ID}_Q${Sort}_1000bp_PropT.out
@@ -34,12 +35,12 @@ for file in $WRK/../data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/../data/RefPT-JA
 done
 
 
-for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
+for file in data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
 
      cat $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp_HelT.cdt | cut -f  1-2  > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_ref.cdt
      cat $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp_HelT.cdt | cut -f  522-721  | paste $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_ref.cdt - > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_down.cdt
@@ -60,12 +61,12 @@ for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1
      
 done
 
-for file in $WRK/../data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/../data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
+for file in ../data/RefPT-JASPAR/1000bp/*1_1000bp.bed ../data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
     java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_down.cdt -o $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_down_SCORES.out
     tail -n +2 $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_down_SCORES.out > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_down_score.out    
     rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_down_SCORES.out
@@ -130,12 +131,12 @@ for file in $WRK/../data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/../data/RefPT-JA
         rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_up_score.out
 done 
 
-for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
+for file in data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
     java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $DIR/${Ref}_${ID}_Q${Sort}_1000bp_PropT_down.cdt -o $DIR/${Ref}_${ID}_Q${Sort}_1000bp_PropT_down_SCORES.out
     tail -n +2 $DIR/${Ref}_${ID}_Q${Sort}_1000bp_PropT_down_SCORES.out > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_PropT_down_score.out    
     rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_PropT_down_SCORES.out
@@ -200,12 +201,12 @@ for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1
         rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_PropT_up_score.out
 done 
 
-for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
+for file in data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
     java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $DIR/${Ref}_${ID}_Q${Sort}_1000bp_Roll_down.cdt -o $DIR/${Ref}_${ID}_Q${Sort}_1000bp_Roll_down_SCORES.out
     tail -n +2 $DIR/${Ref}_${ID}_Q${Sort}_1000bp_Roll_down_SCORES.out > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_Roll_down_score.out    
     rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_Roll_down_SCORES.out
@@ -270,12 +271,12 @@ for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1
         rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_Roll_up_score.out
 done
 
-for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
+for file in data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
     java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_down.cdt -o $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_down_SCORES.out
     tail -n +2 $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_down_SCORES.out > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_down_score.out    
     rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_down_SCORES.out
@@ -340,7 +341,7 @@ for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1
         rm $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_up_score.out
 done
 
-for folder in $OURDIR/*_M* ; do
+for folder in $OUTDIR/*_M* ; do
     if [ -d "$folder" ]; then
         X=$folder
         for file in $X/*_score_peak.out ; do
@@ -363,26 +364,26 @@ for folder in $OURDIR/*_M* ; do
         done
     fi
 done
-mkdir -p $OURDIR/DNAshape_10bp
-for folder in $OURDIR/*_M* ; do
+mkdir -p $OUTDIR/DNAshape_10bp
+for folder in $OUTDIR/*_M* ; do
     
     if [ -d "$folder" ]; then
         X=$folder
         output_file="${X}.out"
         python $chisquare "$X" "$output_file" 
-        mv $output_file $OURDIR/DNAshape_10bp
+        mv $output_file $OUTDIR/DNAshape_10bp
     fi
 done
 
 
 
 
-for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
+for file in data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do 
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
 
      cat $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp_HelT.cdt | cut -f  1-2  > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_ref.cdt
      cat $DIR/CDT/${Ref}_${ID}_Q${Sort}_1000bp_HelT.cdt | cut -f  382-481,522-621  | paste $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_ref.cdt - > $DIR/${Ref}_${ID}_Q${Sort}_1000bp_HelT_mid.cdt
@@ -407,12 +408,12 @@ for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1
 done
 
 
-for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
+for file in data/RefPT-JASPAR/1000bp/*1_1000bp.bed data/RefPT-JASPAR/1000bp/*4_1000bp.bed ; do
     filename=$(basename "$file" ".bed")
      Ref=`basename $file ".cdt" | cut -d "_" -f 1`
      ID=`basename $file ".cdt" | cut -d "_" -f 2`
      Sort=$(basename "$file" ".cdt" | cut -d "_" -f 4 | sed 's/[^0-9]*//g')
-     DIR=$OURDIR/${Ref}_${ID}
+     DIR=$OUTDIR/${Ref}_${ID}
     java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_mid.cdt -o $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_mid_SCORES.out
     java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_flank.cdt -o $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_flank_SCORES.out
     java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_total.cdt -o $DIR/${Ref}_${ID}_Q${Sort}_1000bp_MGW_total_SCORES.out
@@ -492,13 +493,13 @@ for file in $WRK/data/RefPT-JASPAR/1000bp/*1_1000bp.bed $WRK/data/RefPT-JASPAR/1
 
 done 
 
-mkdir -p  $WRK/Library/DNAshape_mid_flank 
-for folder in $OURDIR/*_M* ; do
+mkdir -p  Library/DNAshape_mid_flank 
+for folder in $OUTDIR/*_M* ; do
     if [ -d "$folder" ]; then
         X=$folder
         output_file="${X}.out"
         python $mid_flank_ttest "$X" "$output_file" 
-        mv "$output_file"  $WRK/Library/DNAshape_mid_flank/
+        mv "$output_file"  Library/DNAshape_mid_flank/
     fi
 done
 

@@ -7,11 +7,6 @@
 #SBATCH -e logs/8_dbSnp153_pileups.log.err-%a
 #SBATCH --array 1
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
-###
-
 # Dependencies
 # - java
 # - perl
@@ -19,9 +14,7 @@ WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
 # - samtools
 
 set -exo
-module load anaconda
-module load samtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Fill in placeholder constants with your directories
 MOTIF=../data/RefPT-Motif

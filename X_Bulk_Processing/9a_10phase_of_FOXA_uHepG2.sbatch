@@ -3,48 +3,39 @@
 #SBATCH --mem=14gb
 #SBATCH -t 00:10:00
 #SBATCH -A open
-#SBATCH -o logs/3_10phase_of_CTCF_Q1_Q4.log.out-%a
-#SBATCH -e logs/3_10phase_of_CTCF_Q1_Q4.log.err-%a
-#SBATCH --array 1-1
+#SBATCH -o logs/9a_10phase_of_CTCF_Q1_Q4.log.out-%a
+#SBATCH -e logs/9a_10phase_of_CTCF_Q1_Q4.log.err-%a
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/0X_Bulk_Processing
-#WRK=/scratch/owl5022/2024-Krebs_Science/0X_Bulk_Processing
-METADATA=$WRK/10phase_of_FOXA_uHepG2.txt
-###
+METADATA=10phase_of_FOXA_uHepG2.txt
 
 # Dependencies
 # - bedtools
 # - java
 
 set -exo
-module load bedtools
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
-MOTIF=$WRK/../data/RefPT-Motif/1bp/
-OUTDIR=$WRK/Library/10phase
+GENOME=../data/hg38_files/hg38.fa
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+MOTIF=../data/RefPT-Motif/1bp/
+OUTDIR=Library/10phase
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
 [ -d $OUTDIR ] || mkdir $OUTDIR
-# cd to data file
-cd $WRK/
+
 # Script shortcuts
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-SHUFFLE=$WRK/../bin/shuffle_script.py
-chisquare=$WRK/../bin/chisquare.py
-originalshuffleTtest=$WRK/../bin/original-shuffle_t-test.py
-MOTIFSCAN=$WRK/../bin/scan_FASTA_for_motif_as_binary_string.py
-Nucleosomes=$WRK/../04_Call_Motifs/temp-4_NFIA/Nucleosomes_SORT-Genomic.bed
+COMPOSITE=../bin/sum_Col_CDT.pl
+SHUFFLE=../bin/shuffle_script.py
+chisquare=../bin/chisquare.py
+originalshuffleTtest=../bin/original-shuffle_t-test.py
+MOTIFSCAN=../bin/scan_FASTA_for_motif_as_binary_string.py
+Nucleosomes=../04_Call_Motifs/temp-4_NFIA/Nucleosomes_SORT-Genomic.bed
 # Determine BED file for the current job array index
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
 BED=`basename $BEDFILE "_1bp.bed"`
@@ -926,13 +917,13 @@ for file in $DIR/${Ref}_*_original_all.bed ; do
     done
 done
 
-mkdir -p $WRK/Library/10phase_10bp
+mkdir -p Library/10phase_10bp
 for folder in $DIR/${Ref}_BZ ; do
     if [ -d "$folder" ]; then
         X="$folder"
         output_file="${X}.out"
         python "$originalshuffleTtest" "$X" "$output_file"
-        mv "$output_file" $WRK/Library/10phase_10bp
+        mv "$output_file" Library/10phase_10bp
     fi
 done
 
@@ -1019,7 +1010,7 @@ for folder in  $DIR/${Ref}_Dinucleotide ; do
         X="$folder"
         output_file="${X}.out"
         python "$chisquare" "$X" "$output_file"
-        mv "$output_file" $WRK/Library/10phase_10bp
+        mv "$output_file" Library/10phase_10bp
     fi
 done
 
