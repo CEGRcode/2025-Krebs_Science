@@ -7,16 +7,15 @@
 
 # (Not tested, awaiting Jordan's response to questions)
 
-# Determines the total number of full-length nucleosomes at the +1 position, 
-# makes a bedfile and then uses this bedfile to calculate the number of tags 
-# (representing SNs) in the proximal and distal SNs regions (based on 
-# midpoints in Fig. 4). The final files gives the number of rows with 
+# Determines the total number of full-length nucleosomes at the +1 position,
+# makes a bedfile and then uses this bedfile to calculate the number of tags
+# (representing SNs) in the proximal and distal SNs regions (based on
+# midpoints in Fig. 4). The final files gives the number of rows with
 # proximal SNs, distal SNs, or both at +1 positions that are based on full-
 # length nucleosomes.
 
-set -eux
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+set -exo
+source activate bx
 
 PLUSONE=/storage/group/bfp2/default/juk398-JordanKrebs/NucleosomeAtlas_project/230720_plus1_minus1/output_v2_NonRed_Oct_Hex_Tet_230825/K562_Plus1_SORTbyRNAexp_nonRedOct_Hex_Tet.bed
 OTABLE=STable2-2.tsv

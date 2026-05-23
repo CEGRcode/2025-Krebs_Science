@@ -7,14 +7,14 @@
 
 # (Not tested, awaiting Jordan's response to questions)
 
-# Use the +1 bedfile to calculate the number of tags (representing SNs) in the 
-# proximal and distal SNs regions (based on midpoints in Fig. 4). The final 
-# files gives the number of rows with proximal SNs, distal SNs, or both at +1 
-# positions that are based on all +1 nucleosomes (as compared to thus based 
+# Use the +1 bedfile to calculate the number of tags (representing SNs) in the
+# proximal and distal SNs regions (based on midpoints in Fig. 4). The final
+# files gives the number of rows with proximal SNs, distal SNs, or both at +1
+# positions that are based on all +1 nucleosomes (as compared to thus based
 # only on full-length nucleosomes.
 
-module load anaconda
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+set -exo
+source activate bx
 
 PLUSONE=/storage/group/bfp2/default/juk398-JordanKrebs/NucleosomeAtlas_project/230720_plus1_minus1/output_v2_NonRed_Oct_Hex_Tet_230825/K562_Plus1_SORTbyRNAexp_nonRedOct_Hex_Tet.bed
 OTABLE=STable2.tsv
@@ -52,7 +52,7 @@ java -jar $SCRIPTMANAGER read-analysis tag-pileup -m --combined -x 80 -N -p \
 perl $SUMROW $TEMP/Plus1_proximal_$BAM.cdt $TEMP/Plus1_proximal_$BAM.tab
 perl $SUMROW $TEMP/Plus1_distal_$BAM.cdt $TEMP/Plus1_distal_$BAM.tab
 
-# Make a file showing how many of above full-length nucleosomes at +1 position have at 
+# Make a file showing how many of above full-length nucleosomes at +1 position have at
 # least 1 tag in either proximal SN region. First only rows with matching IDs are kept.
 paste $TEMP/Plus1_proximal.bed $TEMP/Plus1_proximal_$BAM.cdt $TEMP/Plus1_distal_$BAM.cdt > $TEMP/Plus1_BED-CDT-proximal-distal.tab
 

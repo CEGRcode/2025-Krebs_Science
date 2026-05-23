@@ -1,13 +1,6 @@
 #!/bin/bash
 
-# Copy over heatmap and composite data for S7 from Library and generate custom figures.
-
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/Z_Figures
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/Z_Figures
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
 THREADS=4
-###
 
 # Dependencies
 # - java
@@ -16,16 +9,15 @@ THREADS=4
 # - seaborn
 
 set -exo
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-LIBRARY=$WRK/../X_Bulk_Processing/Library
+LIBRARY=../X_Bulk_Processing/Library
 
 # Script shortcuts
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-VIOLIN=$WRK/../bin/make_violin-split_plot.py
-SUMCDT=$WRK/../bin/sum_each_CDT.py
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+VIOLIN=../bin/make_violin-split_plot.py
+SUMCDT=../bin/sum_each_CDT.py
 
 [ -d S7 ] || mkdir S7
 
@@ -60,7 +52,6 @@ cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K27me3_merge_hg38_$BED\_midpoint-MIN128
 cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K36me3_merge_hg38_$BED\_midpoint-MIN128-MAX164_TotalTag_combined.out S7/B/H3K36me3.out
 cp $LIBRARY/$BED/Composites/BNase-ChIP_H4_merge_hg38_$BED\_midpoint-MIN128-MAX164_TotalTag_combined.out S7/B/H4.out
 
-
 # ===============================================================================================================================
 
 [ -d S7/C ] || mkdir S7/C
@@ -82,7 +73,6 @@ cp $LIBRARY/$BED/Composites/CUTRUN_H3K27ac_merge_hg38_$BED\_midpoint-MIN128-MAX1
 cp $LIBRARY/$BED/Composites/CUTRUN_H3K27me3_merge_hg38_$BED\_midpoint-MIN128-MAX164_TotalTag_combined.out S7/C
 cp $LIBRARY/$BED/Composites/CUTRUN_IgG_merge_hg38_$BED\_midpoint-MIN128-MAX164_TotalTag_combined.out S7/C
 
-
 # ===============================================================================================================================
 
 [ -d S7/D ] || mkdir S7/D
@@ -100,8 +90,7 @@ cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_$BED\_midpoint-MIN128
 
 [ -d S7/E ] || mkdir S7/E
 
-# (F4d) Calculate density violin plots for active histone mod(s) w/ respepct to their base histone.
-# see 04_Figures/Fig_4d.sh
+# Calculate density violin plots for active histone mod(s) w/ respepct to their base histone.
 
 BED=PlusOneDyad_SORT-Expression_2000bp
 CDIR=../X_Bulk_Processing/Library/$BED/CDT/
@@ -146,17 +135,16 @@ sed '1d' $TEMP/H3K27ac-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/(
 sed '1d' $TEMP/H3K27ac-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3","Distal"}'   > $TEMP/H3K27ac-H3_Distal.density
 
 # Compile density info
-cat $TEMP/*.density | gzip -dc > S7/E/DensityInfo.tab
+cat $TEMP/*.density > S7/E/DensityInfo.tab
 
 # Generate violin plot
-python $VIOLIN -i <(gzip -dc S7/H/DensityInfo.tab.gz | cut -f2,3,4) -o S7/E/DensityInfo.svg \
+python $VIOLIN -i <(cut -f2,3,4 S7/E/DensityInfo.tab) -o S7/E/DensityInfo.svg \
 	--width 4 --height 4 --preset1 \
 	--title "Density at +1 nucleosome" \
 	--xlabel "modification" --ylabel "Density (log2)"
 
 # Clean-up
 rm -r $TEMP
-
 
 # ===============================================================================================================================
 
@@ -176,8 +164,8 @@ cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_$BED\_midpoint_TotalT
 
 # Custom combined matrix Pol2 heatmap
 python $SUMCDT -o S7/F/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_combined.cdt \
-				-1 $LIBRARY/$BED/CDT/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_sense.cdt \
-				-2 $LIBRARY/$BED/CDT/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_anti.cdt
+		-1 $LIBRARY/$BED/CDT/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_sense.cdt \
+		-2 $LIBRARY/$BED/CDT/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_anti.cdt
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER figure-generation heatmap --color 833C0C -p 0.95 \
 		S7/F/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_combined.cdt \
 		-o S7/F/ChIP-exo_Pol2_merge_hg38_$BED\_5read1_TotalTag_combined.png
@@ -205,19 +193,16 @@ cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K27ac_merge_hg38_$BED\_5read1-MAX80_Tot
 cp $LIBRARY/$BED/Composites/BNase-ChIP_H3K4me3_merge_hg38_$BED\_5read1-MAX80_TotalTag.out S7/G/BOTTOM-H3K4me3.out
 cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_$BED\_midpoint-MAX80_TotalTag_combined.out S7/G/BOTTOM-BNase.out
 
-
 # ===============================================================================================================================
 
 [ -d S7/H ] || mkdir S7/H
 
-
-# (F6d) Calculate density violin plots for active histone mod(s) w/ respepct to their base histone.
-# see 04_Figures/Fig_6d.sh
+# Calculate density violin plots for active histone mod(s) w/ respepct to their base histone.
 
 BED=PlusOneDyad_SORT-Expression_2000bp
 CDIR=../X_Bulk_Processing/Library/$BED/CDT
 
-TEMP=temp-S7h
+TEMP=temp-S7H
 [ -d $TEMP ] || mkdir $TEMP
 
 for TARGET in "H3" "H3K4me3" "H3K9ac" "H3K27ac";

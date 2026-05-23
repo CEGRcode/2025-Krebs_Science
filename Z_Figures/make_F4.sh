@@ -1,18 +1,10 @@
 #!/bin/bash
 
-# Organize data from X_Bulk_Processing into Z_Figures for F4
-
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/Z_Figures
-#WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
-###
-
 set -exo
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
-LIBRARY=$WRK/../X_Bulk_Processing/Library
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+LIBRARY=../X_Bulk_Processing/Library
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 
 BED=CTCF_SORT-Occupancy_1000bp
 
@@ -81,5 +73,3 @@ cp $LIBRARY/$BED/Composites/BNase-seq_50U-10min_merge_hg38_${BED}_5read1_TotalTa
 cp $LIBRARY/$BED/Composites/K562_CTCF_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F4/G/
 cp $LIBRARY/$BED/Composites/K562_RAD21_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F4/G/RAD21_K562_RAD21_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out
 cp $LIBRARY/$BED/Composites/K562_SMC3_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out F4/G/SMC3_K562_SMC3_BX_rep1_hg38_${BED}_5read1-MIN100_NCIS.out
-
-

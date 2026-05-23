@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Make PE insert size histogram of BNase-seq 2 replicates at each of three digestion levels (50U-3min, 50U-10min, 50U-30min)
-
 # Dependencies
 # - java
 # - pandas
@@ -29,7 +27,11 @@ KMER2NT=../bin/dint_to_nt_positional_count_matrix.py
 STACKNT=../bin/make_stack_barchart_TSV.py
 SPLIT_KMER=../bin/split_kmer_to_composite.py
 
-[ -d S1/A ] || mkdir -p S1/A
+[ -d S1 ] || mkdir S1
+
+# ===============================================================================================================================
+
+[ -d S1/A ] || mkdir S1/A
 
 ## Perform sequence content analysis around cut sites
 TEMP=temp-S1A
@@ -97,16 +99,20 @@ python $HISTOGRAM --ymax 5100000 --reflines 30 40 50 60 70 80 90 100 110 120 130
 python $HISTOGRAM --ymax 140000 --reflines 30 40 50 60 70 80 90 100 110 120 130 140 150 160  -i S1/B/BNase-seq_50U-30min_1_hg38_InsertHistogram.out -o S1/B/BNase-seq_50U-30min_1_hg38_InsertHistogram_HIST.svg
 python $HISTOGRAM --ymax 140000 --reflines 30 40 50 60 70 80 90 100 110 120 130 140 150 160  -i S1/B/BNase-seq_50U-30min_2_hg38_InsertHistogram.out -o S1/B/BNase-seq_50U-30min_2_hg38_InsertHistogram_HIST.svg
 
+# ===============================================================================================================================
+
 [ -d S1/C ] || mkdir -p S1/C
 
 # Run Paired-end Statistics
-java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.04U_1_hg38.bam -o S1/C/NakedDNA_BNase-seq_0.04U_1_hg38
+java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.04U_1_hg38.bam  -o S1/C/NakedDNA_BNase-seq_0.04U_1_hg38
 java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.125U_2_hg38.bam -o S1/C/NakedDNA_BNase-seq_0.125U_2_hg38
-java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.375U_3_hg38.bam -o S/C/NakedDNA_BNase-seq_0.375U_3_hg38
+java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.375U_3_hg38.bam -o S1/C/NakedDNA_BNase-seq_0.375U_3_hg38
 # Generate insert size frequency histograms
-python $HISTOGRAM --ymax 200000  -i S1/c/NakedDNA_BNase-seq_0.04U_1_hg38_InsertHistogram.out -o S1/C/BNase-seq_50U-3min_1_hg38_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 60000   -i S1/c/NakedDNA_BNase-seq_0.125U_2_hg38_InsertHistogram.out -o S1/C/BNase-seq_50U-3min_2_hg38_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 15000  -i S1/c//NakedDNA_BNase-seq_0.375U_3_hg38_InsertHistogram.out -o S1/C/BNase-seq_50U-10min_1_hg38_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 200000 -i S1/C/NakedDNA_BNase-seq_0.04U_1_hg38_InsertHistogram.out  -o S1/C/BNase-seq_50U-3min_1_hg38_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 60000  -i S1/C/NakedDNA_BNase-seq_0.125U_2_hg38_InsertHistogram.out  -o S1/C/BNase-seq_50U-3min_2_hg38_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 15000  -i S1/C//NakedDNA_BNase-seq_0.375U_3_hg38_InsertHistogram.out -o S1/C/BNase-seq_50U-10min_1_hg38_InsertHistogram_HIST.svg
+
+# ===============================================================================================================================
 
 [ -d S1/D ] || mkdir -p S1/D
 

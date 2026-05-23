@@ -23,6 +23,10 @@ data = data[data["value"] > 0]
 # log10 transform
 data["value"] = np.log10(data["value"])
 
+data[['category','split-category']] = data['group'].str.split('-',expand=True)
+
+print(data)
+
 # -----------------------
 # ORDER + COLORS
 # -----------------------
@@ -32,12 +36,14 @@ order = [
     "BNase-Overlap",
     "BNase-NoOverlap"
 ]
+order = [
+    "MNase",
+    "BNase"
+]
 
 palette = {
-    "MNase-Overlap": "#0000FF",
-    "MNase-NoOverlap": "#FF0000",
-    "BNase-Overlap": "#0000FF",
-    "BNase-NoOverlap": "#FF0000"
+    "Overlap": "#0000FF",
+    "NoOverlap": "#FF0000"
 }
 
 # -----------------------
@@ -47,13 +53,16 @@ plt.figure(figsize=(5, 4))
 
 ax = sns.violinplot(
     data=data,
-    x="group",
+    x="category",
     y="value",
+    hue="split-category",
     order=order,
     palette=palette,
     inner="quartile",
+    linecolor='black',
+    split=True,
     cut=0,
-    linewidth=0.8
+    linewidth=0.5
 )
 
 # -----------------------

@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Make PE insert size histogram of BNase-seq, MNase-seq ([21 U],[304 U]), and DNase-seq
-# (1c) BNase-seq
-# (1e) MNase-seq
-# (1f) DNase-seq
-# see 04_Figures/Fig_1c.sh
-# see 04_Figures/Fig_1e_f.sh
-
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/Z_Figures
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/Z_Figures
-#WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/Z_Figures
-###
-
 # Dependencies
 # - java
 # - pandas
@@ -20,15 +7,22 @@ WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/Z_Figures
 # - seaborn
 
 set -exo
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
+BAMDIR=../data/BAM
 
 # Script shortcuts
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-HISTOGRAM=$WRK/../bin/make_fragment_histograms.py
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+HISTOGRAM=../bin/make_fragment_histograms.py
+
+[ -d F1 ] || mkdir F1
+
+# ===============================================================================================================================
+
+# Figure 1A-B are graphics
+
+# ===============================================================================================================================
 
 [ -d F1/C ] || mkdir -p F1/C
 
