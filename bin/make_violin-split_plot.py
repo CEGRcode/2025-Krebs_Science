@@ -3,6 +3,7 @@ from os.path import splitext
 import sys, argparse
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import seaborn as sns
 
 # Use text, not shapes of text in SVG
@@ -12,7 +13,7 @@ def getParams():
     parser = argparse.ArgumentParser(description='')
 
     parser.add_argument('-i','--input', dest='data_file', required=False, default=None,
-                        help='tab-delimited file: col1=y, col2=category, col3=split group')
+                        help='tab-delimited file: col1=y, col2=category, col3=split-category')
     parser.add_argument('--width', type=int, default=8)
     parser.add_argument('--height', type=int, default=4)
     parser.add_argument('--title', default=None)
@@ -20,23 +21,10 @@ def getParams():
     parser.add_argument('--ylabel', default=None)
     parser.add_argument('--preset1', action='store_true')
     parser.add_argument('--preset2', action='store_true')
+    parser.add_argument('--preset3', action='store_true')
     parser.add_argument('-o','--output', dest='output_svg', default=None)
 
     return parser.parse_args()
-
-
-preset1_order = [
-    "H2AZ-H2B",
-    "H3K4me3-H3",
-    "H3K9ac-H3",
-    "H3K27ac-H3"
-]
-
-preset2_order = [
-    "H3K4me3-H3",
-    "H3K9ac-H3",
-    "H3K27ac-H3"
-]
 
 
 if __name__ == "__main__":
@@ -58,9 +46,15 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(figsize=(args.width, args.height))
 
     # ---- KEY PART: force left = blue, right = red ----
+
+    # Default figure params
+    custom_cut=2
+    custom_x_order=None
+    custom_hue_order=None
+    custom_pal=None
+
     # First in hue_order = LEFT, second = RIGHT
-    custom_hue_order = ["Proximal", "Distal"]
-    custom_pal = {
+    prox_dist_pal = {
         "Proximal": "#0000ff",   # blue (LEFT)
         "Distal": "#ff0000"      # red (RIGHT)
     }
@@ -68,9 +62,32 @@ if __name__ == "__main__":
     # Category order
     custom_order = sorted(list(data['category'].unique()))
     if args.preset1:
-        custom_order = preset1_order
+        custom_x_order = [
+            "H2AZ-H2B",
+            "H3K4me3-H3",
+            "H3K9ac-H3",
+            "H3K27ac-H3"
+        ]
+        custom_pal = prox_dist_pal
+        custom_hue_order = custom_pal.keys()
     elif args.preset2:
-        custom_order = preset2_order
+        custom_x_order = [
+            "H3K4me3-H3",
+            "H3K9ac-H3",
+            "H3K27ac-H3"
+        ]
+        custom_pal = prox_dist_pal
+        custom_hue_order = custom_pal.keys()
+    elif args.preset3:
+        custom_x_order = ["MNase", "BNase"]
+        custom_pal = {
+            "NoOverlap": "#FF0000",
+            "Overlap": "#0000FF"
+        }
+        custom_hue_order = custom_pal.keys()
+        # Log transform data and add a cut
+        data["y"] = np.log10(data["y"])
+        custom_cut=0
 
     # Plot
     ax = sns.violinplot(
@@ -79,10 +96,11 @@ if __name__ == "__main__":
         hue="split-category",
         split=True,
         data=data,
+        cut=custom_cut,
         palette=custom_pal,
-        order=custom_order,
+        order=custom_x_order,
         hue_order=custom_hue_order,
-        inner="quart",
+        inner="quartile",
         linecolor='black',
         linewidth=0.5
     )
@@ -96,6 +114,9 @@ if __name__ == "__main__":
         ax.set_xlabel(args.xlabel)
     if args.ylabel:
         ax.set_ylabel(args.ylabel)
+
+    if args.preset3:
+        ax.set_ylim(0, 4)
 
     # Output
     if args.output_svg is None:

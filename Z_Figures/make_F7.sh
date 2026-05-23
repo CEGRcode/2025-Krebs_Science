@@ -18,7 +18,7 @@ BAMDIR=../data/BAM
 # Script shortcuts
 SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 COMPOSITE=../bin/sum_Col_CDT.pl
-VIOLIN=../bin/make_violin_plot.py
+VIOLIN=../bin/make_violin-split_plot.py
 
 [ -d F7 ] || mkdir F7
 
@@ -107,15 +107,15 @@ do
 	java -jar $SCRIPTMANAGER read-analysis scale-matrix -l 1 -s $BNASE_FACTOR F7/A/BNase_$GROUP.out -o F7/A/BNase_${GROUP}_SCALE.out
 
 	# Append aggregated data into a merged violin data file
-	sed '1d' F7/A/MNase_${GROUP}_SCALE.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"MNase-"GROUP}' >> $DATAFILE
-	sed '1d' F7/A/BNase_${GROUP}_SCALE.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"BNase-"GROUP}' >> $DATAFILE
+	sed '1d' F7/A/MNase_${GROUP}_SCALE.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"MNase",GROUP}' >> $DATAFILE
+	sed '1d' F7/A/BNase_${GROUP}_SCALE.out | awk -v GROUP=$GROUP 'BEGIN{OFS="\t";FS="\t"}{print $2,"BNase",GROUP}' >> $DATAFILE
 done
 
 # Plot violin data (skip zeros)
-python $VIOLIN <(awk 'BEGIN{OFS="\t";FS="-"}{print $1,$2}' $DATAFILE) F7/A/violin_data.svg
-        # --width 4 --height 4 \
-        # --title "Density at +1 nucleosome" \
-        # --xlabel "dataset" --ylabel "Density (log10)"
+python $VIOLIN -i $DATAFILE -o F7/A/violin_data.svg \
+        --width 4 --height 4 --preset3 \
+        --title "Density at +1 nucleosome" \
+        --xlabel "dataset" --ylabel "Tag Occupancy (log10)"
 
 # Stat zeros (all MNase)
 awk '{if ($1==0) print $2}' $DATAFILE | sort | uniq -c

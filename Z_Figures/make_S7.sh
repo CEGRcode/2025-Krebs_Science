@@ -99,7 +99,6 @@ FDIR=../data/BAM/NormalizationFactors
 TEMP=temp-S7e
 [ -d $TEMP ] || mkdir $TEMP
 
-
 for TARGET in "H2AZ" "H2B" "H3" "H3K4me3" "H3K9ac" "H3K27ac";
 do
 	BAM=BNase-ChIP_${TARGET}_merge_hg38
@@ -135,11 +134,11 @@ sed '1d' $TEMP/H3K27ac-H3_Proximal.tab | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/(
 sed '1d' $TEMP/H3K27ac-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/($3+1))/log(2)); print $1,z,"H3K27ac-H3","Distal"}'   > $TEMP/H3K27ac-H3_Distal.density
 
 # Compile density info
-cat $TEMP/*.density > S7/E/DensityInfo.tab
+cat $TEMP/*.density | gzip -c > S7/E/DensityInfo.tab.gz
 
 # Generate violin plot
-python $VIOLIN -i <(cut -f2,3,4 S7/E/DensityInfo.tab) -o S7/E/DensityInfo.svg \
-	--width 4 --height 4 --preset1 \
+python $VIOLIN -i <(gzip -dc S7/E/DensityInfo.tab.gz | cut -f2-4) -o S7/E/DensityInfo.svg \
+	--width 6 --height 4 --preset1 \
 	--title "Density at +1 nucleosome" \
 	--xlabel "modification" --ylabel "Density (log2)"
 
@@ -235,7 +234,7 @@ sed '1d' $TEMP/H3K27ac-H3_Distal.tab   | awk 'BEGIN {OFS="\t"}{z = (log(($2+1)/(
 cat $TEMP/*.density | gzip -c > S7/H/DensityInfo.tab.gz
 
 # Generate violin plot
-python $VIOLIN -i <(gzip -dc S7/H/DensityInfo.tab.gz | cut -f2,3,4) -o S7/H/DensityInfo.svg \
+python $VIOLIN -i <(gzip -dc S7/H/DensityInfo.tab.gz | cut -f2-4) -o S7/H/DensityInfo.svg \
 	--width 3 --height 4 --preset2 \
 	--title "Density at +1 nucleosome" \
 	--xlabel "modification" --ylabel "Density (log2)"
