@@ -20,8 +20,7 @@ MGENOME=../data/mm10_files/mm10.fa
 
 # Script shortcuts
 SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
-HISTOGRAM=../bin/make_fragment_histograms1.py
-
+HISTOGRAM=../bin/make_fragment_histograms.py
 UPDOWN_KMER=../bin/updownstream_di-nt_tally.py
 KMER2NT=../bin/dint_to_nt_positional_count_matrix.py
 STACKNT=../bin/make_stack_barchart_TSV.py
@@ -104,13 +103,13 @@ python $HISTOGRAM --ymax 140000 --reflines 30 40 50 60 70 80 90 100 110 120 130 
 [ -d S1/C ] || mkdir -p S1/C
 
 # Run Paired-end Statistics
-java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.04U_1_hg38.bam  -o S1/C/NakedDNA_BNase-seq_0.04U_1_hg38
-java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.125U_2_hg38.bam -o S1/C/NakedDNA_BNase-seq_0.125U_2_hg38
-java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.375U_3_hg38.bam -o S1/C/NakedDNA_BNase-seq_0.375U_3_hg38
+java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.04U-10min-BI_hg38.bam  -o S1/C/NakedDNA_BNase-seq_0.04U-10min-BI_hg38
+java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.125U-10min-BI_hg38.bam -o S1/C/NakedDNA_BNase-seq_0.125U-10min-BI_hg38
+java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 340 $BAMDIR/NakedDNA_BNase-seq_0.375U-10min-BI_hg38.bam -o S1/C/NakedDNA_BNase-seq_0.375U-10min-BI_hg38
 # Generate insert size frequency histograms
-python $HISTOGRAM --ymax 200000 -i S1/C/NakedDNA_BNase-seq_0.04U_1_hg38_InsertHistogram.out  -o S1/C/BNase-seq_50U-3min_1_hg38_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 60000  -i S1/C/NakedDNA_BNase-seq_0.125U_2_hg38_InsertHistogram.out  -o S1/C/BNase-seq_50U-3min_2_hg38_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 15000  -i S1/C//NakedDNA_BNase-seq_0.375U_3_hg38_InsertHistogram.out -o S1/C/BNase-seq_50U-10min_1_hg38_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 200000 -i S1/C/NakedDNA_BNase-seq_0.04U-10min-BI_hg38_InsertHistogram.out  -o S1/C/NakedDNA_BNase-seq_0.04U-10min-BI_hg38_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 60000  -i S1/C/NakedDNA_BNase-seq_0.125U-10min-BI_hg38_InsertHistogram.out  -o S1/C/NakedDNA_BNase-seq_0.125U-10min-BI_hg38_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 15000  -i S1/C//NakedDNA_BNase-seq_0.375U-10min-BI_hg38_InsertHistogram.out -o S1/C/NakedDNA_BNase-seq_0.375U-10min-BI_hg38_InsertHistogram_HIST.svg
 
 # ===============================================================================================================================
 
@@ -127,11 +126,11 @@ java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 440 $BAMDIR/MPE-se
 java -jar $SCRIPTMANAGER bam-statistics pe-stat --min 0 --max 440 $BAMDIR/MPE-seq_30min_rep2_mm10.bam -o S1/D/MPE-seq_30min_rep2_mm10
 
 # Generate insert size frequency histograms
-python $HISTOGRAM --ymax 1800000 --reflines 30 40 50 60 70 80 90 100 110 120 130  -i S1/D/DNase-FLASH_SRR801880_InsertHistogram.out -o S1/D/DNase-FLASH_SRR801880_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 1400000 --reflines 30 40 50 60 70 80 90 100 110 120 130  -i S1/D/DNase-FLASH_SRR801881_InsertHistogram.out -o S1/D/DNase-FLASH_SRR801881_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 500000 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_10min_merge_rep1_mm10_InsertHistogram.out -o S1/D/MPE-seq_10min_merge_rep1_mm10_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 170000 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_10min_rep2_mm10_InsertHistogram.out -o S1/D/MPE-seq_10min_rep2_mm10_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 500000 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_20min_merge_rep1_mm10_InsertHistogram.out -o S1/D/MPE-seq_20min_merge_rep1_mm10_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 200000 --reflines 60 70 80 90 100 110 120 130 140 150  -i S1/D/MPE-seq_20min_rep2_mm10_InsertHistogram.out -o S1/D/MPE-seq_20min_rep2_mm10_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 400000 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_30min_merge_rep1_mm10_InsertHistogram.out -o S1/D/MPE-seq_30min_merge_rep1_mm10_InsertHistogram_HIST.svg
-python $HISTOGRAM --ymax 120000 --reflines 90 100 110 120 130 140 150 160  -i S1/D/MPE-seq_30min_rep2_mm10_InsertHistogram.out -o S1/D/MPE-seq_30min_rep2_mm10_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 1800000 --xmax-440 --reflines 30 40 50 60 70 80 90 100 110 120 130  -i S1/D/DNase-FLASH_SRR801880_InsertHistogram.out -o S1/D/DNase-FLASH_SRR801880_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 1400000 --xmax-440 --reflines 30 40 50 60 70 80 90 100 110 120 130  -i S1/D/DNase-FLASH_SRR801881_InsertHistogram.out -o S1/D/DNase-FLASH_SRR801881_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 500000  --xmax-440 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_10min_merge_rep1_mm10_InsertHistogram.out -o S1/D/MPE-seq_10min_merge_rep1_mm10_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 170000  --xmax-440 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_10min_rep2_mm10_InsertHistogram.out -o S1/D/MPE-seq_10min_rep2_mm10_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 500000  --xmax-440 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_20min_merge_rep1_mm10_InsertHistogram.out -o S1/D/MPE-seq_20min_merge_rep1_mm10_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 200000  --xmax-440 --reflines 60 70 80 90 100 110 120 130 140 150  -i S1/D/MPE-seq_20min_rep2_mm10_InsertHistogram.out -o S1/D/MPE-seq_20min_rep2_mm10_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 400000  --xmax-440 --reflines 80 90 100 110 120 130  -i S1/D/MPE-seq_30min_merge_rep1_mm10_InsertHistogram.out -o S1/D/MPE-seq_30min_merge_rep1_mm10_InsertHistogram_HIST.svg
+python $HISTOGRAM --ymax 120000  --xmax-440 --reflines 90 100 110 120 130 140 150 160  -i S1/D/MPE-seq_30min_rep2_mm10_InsertHistogram.out -o S1/D/MPE-seq_30min_rep2_mm10_InsertHistogram_HIST.svg
