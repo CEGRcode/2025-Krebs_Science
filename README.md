@@ -1,20 +1,21 @@
-# Genome-wide rotational and translational setting of transcription factors with nucleosomes
+# Genome-wide rotational and translational phasing of nucleosomes with human transcription factors
 
-### Jordan E. Krebs<sup>&#x2020; 1,2</sup>, Haining Chen<sup>&#x2020; 2</sup>, Olivia W. Lang<sup>2</sup>, William K. M. Lai<sup>2</sup>, B. Franklin Pugh<sup>2</sup>
+### Haining Chen<sup>1,4</sup>, Jordan E. Krebs<sup>2,4</sup>, Olivia W. Lang<sup>1</sup>, Jiayi Hu<sup>1</sup>, Devin C. Mellini<sup>1</sup>, Judith Hyle<sup>3</sup>, Chunliang Li<sup>3</sup>, William K. M. Lai<sup>1,5</sup>, B. Franklin Pugh<sup>1,5,6,*</sup>
 
-&#x2020; Co-first author
-
-<sup>1</sup>MD/PhD Medical Scientist Training Program, Penn State College of Medicine, Hershey, PA, USA.
-
-<sup>2</sup>Department of Molecular Biology and Genetics, Cornell University, Ithaca, New York, 14853, USA
-
-### Correspondence:fp265@cornell.edu
+<sup>1</sup>Department of Molecular Biology and Genetics, Cornell University, Ithaca, New York, 14853, USA.
+<sup>2</sup>MD/PhD Medical Scientist Training Program, Penn State College of Medicine, Hershey, PA, USA.
+<sup>3</sup>Department of Tumor Cell Biology, St. Jude Children’s Research Hospital, Memphis, TN 38105, USA
+<sup>4</sup>These authors contributed equally
+<sup>5</sup>Senior author
+<sup>6</sup>Lead contact
+<sup>*</sup>Correspondence: fp265@cornell.edu
 
 ### PMID : [XXXXXXXX](https://pubmed.ncbi.nlm.nih.gov/XXXXXXXX/)
 ### GEO ID : [GSE266547](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE266547) [GSE267711](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE267711)
 
 ## Abstract
-How transcription factors (TFs) access DNA that is packed into chromatin has been challenging to decipher on a genomic scale due to inherent resolution limits of assays. Accessibility differs depending on whether a TF binding site (TFBS) is translationally and/or rotationally phased on or next to a nucleosome. Rotational phasing occurs where a DNA sequence in the DNA helix has a predominant rotational direction on the nucleosome surface, thereby consistently facing outward (accessible) or inward (inaccessible). While rotational phasing is DNA-encoded by dinucleotide periodicities at yeast TFBSs, such encoding has not been found in humans. Here we develop a genome-wide Benzonase nuclease-based assay to measure translational and rotational phasing, and a second assay to measure such phasing on the same DNA molecule to which a TF is bound. The latter uniquely allows phasing to be measured with transient TFs. We show that many types of human TFBSs have distinct translational and/or rotational phasing depending on whether they are bound by specific TFs. For example, unbound CTCF sites are nucleosomal with local but not global translational phasing. They possess DNA-encoded rotational phasing, with the predominant phase being in an accessible orientation. CTCF-bound sites have adjacent nucleosomes possessing a global translational phase and distinct DNA-encoded rotational phases. Similar themes recur for other TFs including NFIA and pioneer factor FoxA, but their activities are highly transient. Our assays further allow subnucleosomal structures to be examined along with their relationship to a transiting RNA polymerase. Together, these findings reveal an intimate relationship between nucleosome phasing and transcription factors.
+
+How transcription factors (TFs) and their binding sites organize and engage nucleosomes at natural genomic locations remains poorly understood. Here we develop Benzonase-seq to measure the rotational phasing of nucleosomes in human cells, and enhance ChIP-exo (v6) to measure rotational phasing on the same DNA molecule bound by a TF. Unbound CTCF sites were found to be rotationally accessible on nucleosomes and this rotational accessibility is encoded by classical dinucleotide periodicities. CTCF binding results in nucleosome displacement to adjacent DNA phasing sequences. Examining 40 TF classes, their unbound sites were phased inward, outward, or lacked phasing. In all examined cases, TF binding (e.g. NFIA and FoxA) results in adjacent rotational and translational phasing, which is not dinucleotide encoded. Benzonase-seq also more robustly maps nucleosome and subnucleosome positions in hard-to-map CpG islands. These findings provide a clearer view of how TFs engage and position nucleosomes to shape the natural chromatin landscape.
 
 
 ## Directions
