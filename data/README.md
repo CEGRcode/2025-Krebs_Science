@@ -1,5 +1,6 @@
-This directory stores large data (FASTQ & BAM files) and globally used data and reference files.
+# data
 
+This directory stores large data (FASTQ & BAM files) and globally used data and reference files.
 
 <details>
 <summary> Full execution summary
@@ -96,48 +97,63 @@ data
 </details>
 
 ### data/BAM/
-merged and renamed BAM files go here
+
+Merged and renamed BAM files go here
 
 #### data/BAM/NormalizationFactors/
+
 Your normalization factors stored in `.txt` files go here.
 
 ### data/MEME/
+
 MEME motif discovery results from BX K562 go here
 
 ### data/RefPT-Other/
+
 Nucleosome and TSS centered reference files with various sorts and expansions
 
 ### data/RefPT-Motif/
+
 Motif-centered reference files with various sorts and expansions.
 
 ### data/RefPT-Krebs/
+
 Nucleosome and TSS RefPTs built for this manuscript.
 
+> [!NOTE]
+> Due to file size limits on Github, we split the `BNase-Nucleosomes.bed` file into two parts:
+>
+> ```sh
+> wc -l BNase-Nucleosomes.bed 
+> # 5607896 BNase-Nucleosomes.bed
+> head -n 2500000 BNase-Nucleosomes.bed | gzip > BNase-Nucleosomes_part1.bed.gz
+> tail -n 3107896 BNase-Nucleosomes.bed | gzip > BNase-Nucleosomes_part2.bed.gz
+> ```
+> 
+> So you will need to reconstruct the file with:
+> 
+> ```sh
+> gzip -d BNase-Nucleosomes_part1.bed.gz
+> gzip -d BNase-Nucleosomes_part2.bed.gz
+> cat BNase-Nucleosomes_part1.bed BNase-Nucleosomes_part2.bed > BNase-Nucleosomes.bed
+> ```
+
 ### data/RefPT-JASPAR/
+
 JASPAR-based motifs for benzonase cut-site analysis.
 
 ### data/RefPT-Other/
+
 Externally retrieved RefPTs.
 
-
 ### data/FASTQ/
+
 Raw sequencing datasets go here.
 
 ### data/hg38_files
-Run the following commands in the terminal from the `data/hg38_files` directory to download and index the reference genome. (Required to run alignments in `00_Download_and_Preprocessing`, strain checks in `01_Run_GenoPipe`, and for running other sequence analyses and figure generation)
-```
-wget http://hgdownload.cse.ucsc.edu/goldenpath/hg19/bigZips/hg38.fa.gz -O hg38.fa.gz
-gzip -d hg38.fa.gz         # hg38.fa
-bwa index hg38.fa          # hg38.fa.amb, hg38.fa.ann, hg38.fa.bwt, hg38.fa.pac, hg38.fa.sa
-samtools faidx hg38.fa     # hg38.fa.fai
-```
 
-...and there are some other reference files already provided for you within this repository.
-```
-hg38.chrom.sizes            # used 04_Call_Motifs/2_FIMO_Motifs_from_Genome.sbatch
-                            # 04_Call_Motifs/4_NFIA_motif.sh 04_Call_Motifs/5_FoxA_motif.sh 04_Call_Motifs/6_CTCF_motif.sh
-hg38_exclude_contig.txt     # used by ChExMix
-human_background_model.txt  # used by ChExMix
-hg38-blacklist.bed          # used by 00_Download_and_Preprocessing/X_get_scaling_factors.sbatch
-                            # and 04_Call_Motifs/2_FIMO_Motifs_from_Genome.sbatch
-```
+The ref genome builds and annotations from the set-up the scripts in `00_Download_and_Preprocessing` populate this directory. It's required for the alignments in `00_Download_and_Preprocessing`, strain checks in `01_Run_GenoPipe`, and for running other sequence analyses and figure generation.
+
+### data/mm10_files
+
+Similar to `data/hg38_files` but for mouse datasets.

@@ -13,32 +13,23 @@
 # data/RefPT-Krebs
 #   |--MNase-Nucleosomes.bed
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
-###
-
 # Dependencies
 # - java
 # - python2
 # - numpy (py2)
 
 set -exo
-module load anaconda3
-module load bedtools
-# conda create -p /storage/group/bfp2/default/owl5022-OliviaLang/conda/genetrack -c conda-forge -c bioconda python=2.7 numpy
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/genetrack
+source activate genetrack
 
 # Inputs and outputs
-BAMFILE=$WRK/../data/BAM/MNase-seq_ENCODE_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
-KREBS=$WRK/../data/RefPT-Krebs
+BAMFILE=../data/BAM/MNase-seq_ENCODE_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+KREBS=../data/RefPT-Krebs
 
 # Script shortcuts
 GENETRACK=../bin/genetrack_v2.py
 PICARD=../bin/picard.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs

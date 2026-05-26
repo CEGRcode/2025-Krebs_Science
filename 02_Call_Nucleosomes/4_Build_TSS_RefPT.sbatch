@@ -20,12 +20,6 @@
 #     |--TSS_GROUP-Unexpressed_2000bp.bed
 #     |--TSS_GROUP-Expressed_SORT-CpG_2000bp.bed
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
-###
-
 # Dependencies
 # - bedtools
 # - java
@@ -33,20 +27,21 @@ WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
 # - wget
 
 set -exo
-module load anaconda3
-module load bedtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+# activate different environments in this script
+# EDIT: the `source activate` lines in this script if you named
+# your environments differently from what was described in /README.md 
+# of this repo
 
 # Inputs and outputs
 UCSCDB=https://hgdownload.soe.ucsc.edu/goldenPath/hg38/
 COPRO=../data/BAM/CoPRO_-_merge_hg38.bam
 CAPPED=../data/BAM/CoPRO_Capped_merge_hg38.bam
 UNCAPPED=../data/BAM/CoPRO_Uncapped_merge_hg38.bam
-CPG=../data/RefPT-Other/CpGIslands.bed
+CPG=../data/RefPT-Other/CpG_Islands.bed
 KREBS=../data/RefPT-Krebs
 
 # Script shortcuts
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 GENETRACK=../bin/genetrack_v2.py
 UNION=../bin/union_peak_by_ID.py
 FILTERL=../bin/filter_BED_by_list_ColumnSelect.pl
@@ -64,9 +59,9 @@ java -jar $SCRIPTMANAGER bam-format-converter bam-to-scidx -2 $CAPPED -o $TEMP/C
 # ~8 min
 
 # Genetrack call peaks
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/genetrack
+source activate genetrack
 python $GENETRACK -s 20 -e 40 -F 1 $TEMP/CoPRO-capped.tab
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 # ~3 min
 
 # Convert to BED

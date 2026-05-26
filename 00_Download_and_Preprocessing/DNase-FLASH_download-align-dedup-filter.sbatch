@@ -3,21 +3,17 @@
 #SBATCH --mem=48gb
 #SBATCH -t 24:00:00
 #SBATCH -A open
-#SBATCH -o logs/DNase-FLASH_download-align-dedup-filter-merge.log.out
-#SBATCH -e logs/DNase-FLASH_download-align-dedup-filter-merge.log.err
+#SBATCH -o logs/DNase-FLASH_download-align-dedup-filter.log.out
+#SBATCH -e logs/DNase-FLASH_download-align-dedup-filter.log.err
 
-# Download MNase ChIP sequencing data (paired-end, Illumina) that targets H3K4me3
-# and align, dedup, filter, and merge the reads.
+# Download DNase FLASH sequencing data (paired-end, Illumina) then
+# align, dedup, and filter the reads.
 
 # data/BAM
-#   |--DNase-FLASH_SRR801881.bam
-#   |--DNase-FLASH_SRR801880.bam
+#   |--DNase-FLASH_SRR801881_hg38.bam
+#   |--DNase-FLASH_SRR801880_hg38.bam
 
-### CHANGE ME
-WRK=storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/00_Download_and_Preprocessing
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
 THREADS=4
-###
 
 # Dependencies
 # - bwa
@@ -26,16 +22,14 @@ THREADS=4
 # - SRA toolkit (fasterq-dump)
 
 set -exo
-module load anaconda3
-module load samtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/align
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
-GENOME=$WRK/../data/hg38_files/hg38.fa
+BAMDIR=../data/BAM
+GENOME=../data/hg38_files/hg38.fa
 
 # Script shortcuts
-PICARD=$WRK/../bin/picard.jar
+PICARD=../bin/picard.jar
 
 [ -d FQ ] || mkdir FQ
 [ -d BAM ] || mkdir BAM
@@ -66,12 +60,12 @@ wait
 # Filter resulting BAM to match PEGR
 for SRR in "SRR801881" "SRR801880";
 do
-	samtools view -h -b -f 0x1 -F 0x404 BAM/${SRR}_dedup.bam -o BAM/$SRR.bam &
+	samtools view -h -b -f 0x1 -F 0x404 BAM/${SRR}_dedup.bam -o BAM/${SRR}_hg38.bam &
 done
 wait
 
 # Index
 for SRR in "SRR801881" "SRR801880";
 do
-	samtools index BAM/DNase-FLASH_${SRR}.bam 
+	samtools index BAM/DNase-FLASH_${SRR}_hg38.bam 
 done

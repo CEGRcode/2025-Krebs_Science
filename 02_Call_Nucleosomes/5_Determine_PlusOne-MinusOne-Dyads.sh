@@ -26,33 +26,25 @@
 #     |--PlusOneDyad_SORT-Expression_WithUnexpressed_2000bp.bed
 
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
-###
-
 # Dependencies
 # - java
 # - perl
 # - python
 
 set -exo
-module load anaconda3
-module load bedtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-OTHER=$WRK/../data/RefPT-Other/
-KREBS=$WRK/../data/RefPT-Krebs/
+OTHER=../data/RefPT-Other/
+KREBS=../data/RefPT-Krebs/
 NUCLEOSOME=$KREBS/BNase-Nucleosomes.bed
-GENOME=$WRK/../data/hg38_files/hg38.fa.fai
-CPG=../data/RefPT-Other/CpGIslands.bed
+GENOME=../data/hg38_files/hg38.fa.fai
+CPG=../data/RefPT-Other/CpG_Islands.bed
 EXPRESSED=$KREBS/TSS_GROUP-Expressed_SORT-Expression.bed
 UNEXPRESSED=$KREBS/TSS_GROUP-Unexpressed.bed
 
 # Script shortcuts
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
 FILTERL=../bin/filter_BED_by_list_ColumnSelect.pl
 
 TEMP=MakePlusMinus

@@ -12,13 +12,7 @@
 
 # Scaling? Color threshold?
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/X_Bulk_Processing
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
-WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
 THREADS=4
-###
 
 LIST=(
 	"../data/RefPT-Krebs/400bp/PlusOneDyad_SORT-pHN-dHN_400bp.bed"
@@ -33,20 +27,20 @@ LIST=(
 # - samtools
 
 set -exo
-module load samtools
+source activate bx
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/../data/BAM
-OUTDIR=$WRK/Library
+BAMDIR=../data/BAM
+OUTDIR=Library
 BAMFILE=$BAMDIR/CoPRO_Capped_merge_hg38.bam
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
+COMPOSITE=../bin/sum_Col_CDT.pl
 
 # Set up output directories
 [ -d logs ] || mkdir logs

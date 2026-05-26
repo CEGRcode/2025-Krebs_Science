@@ -5,16 +5,11 @@
 #SBATCH -A open
 #SBATCH -o logs/1_FIMO_Motifs_from_Genome.log.out-%a
 #SBATCH -e logs/1_FIMO_Motifs_from_Genome.log.err-%a
-#SBATCH --array 1-89
+#SBATCH --array 1-90
 
 # FIMO the reference genome for each motif in the PWM directory
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/03_Call_JASPAR
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/03_Call_JASPAR
-#WRK=/scratch/owl5022/2024-Krebs_Science/03_Call_JASPAR
 METADATA=TF_JASPAR_ENCODE_config.txt
-###
 
 # Dependencies
 # - bedtools
@@ -22,18 +17,16 @@ METADATA=TF_JASPAR_ENCODE_config.txt
 # - MEME suite (FIMO)
 
 set -exo
-module load bedtools
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+GENOME=../data/hg38_files/hg38.fa
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 
 # Script shortcuts
-DEDUP=$WRK/../bin/dedup_coord_by_ID.py
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+DEDUP=../bin/dedup_coord_by_ID.py
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Determine TF name, JASPAR motif name, and ENCODE peak file name
@@ -42,7 +35,7 @@ JASPAR=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $2}'`
 ENCFF=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $3}'`
 
 # Construct input filenames
-JDIR=$WRK/../data/JASPAR
+JDIR=../data/JASPAR
 PWMFILE=$JDIR/$TF\_$JASPAR.meme
 FIMO=FIMO/$TF\_$JASPAR
 

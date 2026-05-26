@@ -5,15 +5,11 @@
 #SBATCH -A open
 #SBATCH -o logs/2_FIMO_Motifs_from_Genome.log.out-%a
 #SBATCH -e logs/2_FIMO_Motifs_from_Genome.log.err-%a
-#SBATCH --array 1-5
+#SBATCH --array 1-4
 
 # FIMO the reference genome for each motif in the PWM directory
 
-### CHANGE ME
 EXCLUSION=100
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Motifs
-#WRK=/scratch/owl5022/2024-Krebs_Science/04_Call_Motifs
-###
 
 # Dependencies
 # - bedtools
@@ -21,17 +17,15 @@ WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/04_Call_Moti
 # - MEME suite (FIMO)
 
 set -exo
-module load bedtools
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
 GENOME=../data/hg38_files/hg38.fa
 BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 
 # Script shortcuts
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 PWM_LIST=(
@@ -77,7 +71,7 @@ java -jar $SCRIPTMANAGER peak-analysis filter-bed FIMO/$TF/M1_unsorted_noproximi
 mv FIMO/$TF/M1_unsorted-FILTER.bed FIMO/$TF/$TF\_M1_unsorted.bed
 
 # Clean-up
-rm FIMO/$TF/M1_uid.bed
+rm FIMO/$TF/fimo_uid.bed
 rm FIMO/$TF/M1_unsorted_noproximity_unfiltered.bed
 rm FIMO/$TF/M1_unsorted_noproximity.bed
 rm FIMO/$TF/M1_unsorted-CLUSTER.bed

@@ -1,36 +1,29 @@
 #!/bin/bash
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/0X_Bulk_Processing
-#WRK=/scratch/owl5022/2024-Krebs_Science/0X_Bulk_Processing
-METADATA=$WRK/10phase_of_CTCF_Q1_Q4.txt
-###
+METADATA=10phase_of_CTCF_Q1_Q4.txt
 
 # Dependencies
 # - bedtools
 # - java
 
-module load bedtools
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+set -exo
+source activate bx
 
 # Inputs and outputs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
-MOTIF=$WRK/../data/RefPT-JASPAR
-OUTDIR=$WRK/../Library/10phase
+GENOME=../data/hg38_files/hg38.fa
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+MOTIF=../data/RefPT-JASPAR
+OUTDIR=../Library/10phase
 
 # Create output directories if they don't exist
 [ -d $OUTDIR ] || mkdir $OUTDIR
-# cd to data file
-cd OUTDIR=$WRK/Library/
+
 # Script shortcuts
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-SHUFFLE=$WRK/../bin/shuffle_script.py
-chisquare=$WRK/../bin/chisquare.py
+SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+COMPOSITE=../bin/sum_Col_CDT.pl
+SHUFFLE=../bin/shuffle_script.py
+chisquare=../bin/chisquare.py
 
 # Determine Input
 DIRQ1=${OUTDIR}/NFIA_SORT-Occupancy_GROUP-Q4
@@ -38,7 +31,6 @@ Ref=NFIA
 # Determine Output
 DIR=${OUTDIR}/NFIA_phase_aligned
 mkdir -p $DIR
-
 
 for  XX in RR YY WW SS ; do
         cat $DIRQ1/10xCDT/${XX}_${Ref}_nearNuc_original_phase_0_sense.cdt | cut -f  1-2,253-752 > $DIR/${XX}_${Ref}_nearNuc_phase_0_sense.cdt
@@ -125,14 +117,14 @@ for folder in $DIR/NFIA_phase_prefered ; do
     fi
 done
 
-mkdir -p $WRK/Library/10phase_10bp
+[[ -d Library/10phase_10bp ]] || mkdir -p Library/10phase_10bp
 for folder in $DIR/NFIA_phase_prefered ; do
     
     if [ -d "$folder" ]; then
         X=$folder
         output_file="${X}.out"
-        python $chisquare "$X" "$output_file" 
-        mv "$output_file" $WRK/Library/10phase_10bp/
+        python $chisquare $X $output_file
+        mv $output_file Library/10phase_10bp/
     fi
 done
 

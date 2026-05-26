@@ -1,3 +1,5 @@
+# 02_Call_Nucleosomes
+
 Perform peak-calling on Benzonase-seq data to infer nucleosomes and build RefPT for various nucleosome particles and nucleosome related RefPT (also TSS RefPT).
 
 <details>
@@ -158,7 +160,9 @@ data
 </details>
 
 ### 0_Download_CpG_reffile.sh
+
 Download CpG reference file and format into BED.
+
 ```
 sh 0_Download_CpG_reffile.sh
 ```
@@ -168,19 +172,25 @@ You can download the reference file from [here](https://genome.ucsc.edu/cgi-bin/
 ![hgTables-img](/img/hgTables-CpG-download.png)
 
 ### 1_Benzonase_Peak_Calling.sbatch
+
 Write scIDX formatted pileups of merged Benzonase-seq data filtered by various sub-nucleosome sized fragments. Format as a BED file expanded to the corresponding particle size and with a uniqueID.
+
 ```
 sbatch 1_Benzonase_Peak_Calling.sbatch
 ```
 
 ### 1b_Check_Shift.sbatch
+
 Perform a positioning check with a subsampled Tag Pileup composite.
+
 ```
 sbatch 1b_Check_Shift.sbatch
 ```
 
 ### 2_Identify_Unique_Peaks.sbatch
+
 Create a non-redundant set of non-overlapping (complete overlap) particle peaks (favoring peaks from larger fragments).
+
 ```
 sbatch 2_Identify_Unique_Peaks.sbatch
 ```
@@ -192,33 +202,49 @@ sbatch 3_Aggregate_Nucleosome_Peaks.sbatch
 ```
 
 ### 4_Build_TSS_RefPT.sbatch
+
 Call TSS reference points, trued up by CoPRO mode signal.
+
 ```
 sbatch 4_Build_TSS_RefPT.sbatch
 ```
 
-```
-../data/RefPT-Krebs/TSS_Sort-CpG.bed
-../data/RefPT-Krebs/2000bp/TSS_Sort-CpG_2000bp.bed
-```
-
-
 ### 5_Determine_PlusOne-MinusOne-Dyads.sh
+
+Determine closest inferred nucleosome to CoPRO-determined TSS.
+
 ```
 sh 5_Determine_PlusOne-MinusOne-Dyads.sh
 ```
 
 ### 6_Match_Dyads_for_NFR.sh
+
+Determine NFRs based on +1 and -1 Nuc calls from previous script.
+
 ```
 sh 6_Match_Dyads_for_NFR.sh
 ```
 
 ### 7_SortDyad_pHex-dHex.sh
+
+Calculate pHex/dHex ratio across full-dyad +1 Nucleosomes and sort. Slice Top/Bottom 1K RefPTs.
+
 ```
 sh 7_SortDyad_pHex-dHex.sh
 ```
 
 ### 8_SortDyad_pHN-dHN.sh
+
+Calculate pHN/dHN ratio across full-dyad +1 Nucleosomes and sort. Slice Top/Bottom 2,500 RefPTs (skip over very bottom ~500 sites).
+
 ```
 sh 8_SortDyad_pHN-dHN.sh
+```
+
+### 9_MNase_Peak_Calling.sbatch
+
+Perform peak calling of various nucleosome particle sized fragment populations. Analogous to `1_Benzonase_Peak_Calling.sbatch` but with MNase-seq dataset from ENCODE.
+
+```
+sbatch 9_MNase_Peak_Calling-dHN.sh
 ```

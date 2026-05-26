@@ -10,24 +10,16 @@
 # see 02_Genetrack/05_Genetrack_bedfiles.sh
 # see 02_Genetrack/06_Genetrack_bedfiles.sh (partial - assign unique ids)
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/02_Call_Nucleosomes
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/02_Call_Nucleosomes
-###
-
 # Dependencies
 # - bedtools
 # - python
 
 set -exo
-module load anaconda3
-module load bedtools
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 KREBS=../data/RefPT-Krebs/
 UNIQUE=UniqueParticles
 
@@ -36,9 +28,6 @@ TETRASOMES=AllParticles/Tetra.bed
 HEXASOMES=AllParticles/Hex.bed
 NUCLEOSOMES=AllParticles/Nucleosome.bed
 SUPRAOCTASOMES=AllParticles/Supraoct.bed
-
-# Script shortcuts
-GENETRACK=../bin/genetrack_v2.py
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs

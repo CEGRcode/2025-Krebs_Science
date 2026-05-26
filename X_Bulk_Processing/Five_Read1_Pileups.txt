@@ -1,3 +1,55 @@
+126	185	NaN	NaN	../data/BAM/MNase-seq_304U_rep1_hg38.bam     ../data/RefPT-JASPAR/1000bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1_1000bp.bed
+126	185	NaN	NaN	../data/BAM/MNase-seq_304U_rep1_hg38.bam      ../data/RefPT-JASPAR/1000bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile2_1000bp.bed
+126	185	NaN	NaN	../data/BAM/MNase-seq_304U_rep1_hg38.bam      ../data/RefPT-JASPAR/1000bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile3_1000bp.bed
+126	185	NaN	NaN	../data/BAM/MNase-seq_304U_rep1_hg38.bam     ../data/RefPT-JASPAR/1000bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4_1000bp.bed
+NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_Q1_1000bp.bed	F2
+NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_Q2_1000bp.bed	F2
+NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_Q3_1000bp.bed	F2
+NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_Q4_1000bp.bed	F2
+
+NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed		F5d
+NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5d
+NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-uHepG2_SORT-ClosestDyad_1000bp.bed	F5b
+NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_1000bp.bed	F5b
+
+100	NaN	1	NCIS	../data/BAM/KH_FOXA1_BX_rep1_hg38.bam      ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/KH_FOXA1_BX_rep1_hg38.bam      ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/KK_FOXA1_BX_rep1_hg38.bam            ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/KK_FOXA1_BX_rep1_hg38.bam            ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/nativeK562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/nativeHepG2_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/nativeK562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/nativeK562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+100	NaN	1	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+
+NaN	NaN	1	NCIS	../data/BAM/nativeHepG2_FOXA1_BX_rep1_hg38.bam   ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/nativeK562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/nativeK562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/SWCK562_FOXA1_BX_rep1_hg38.bam      ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/WCEK562_FOXA1_BX_rep1_hg38.bam      ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/KK_FOXA1_BX_rep1_hg38.bam            ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/SWCK562_FOXA1_BX_rep1_hg38.bam      ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/WCEK562_FOXA1_BX_rep1_hg38.bam      ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/KK_FOXA1_BX_rep1_hg38.bam            ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+
+NaN	NaN	1	NCIS	../data/BAM/K562_IgG_BX_merge_hg38.bam     ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/HepG2_FOXA2_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/HepG2_IgG_BX_merge_hg38.bam     ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/K562_FOXA2_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_K562-uHepG2_SORT-ClosestDyad_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/K562_FOXA2_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5
+NaN	NaN	1	NCIS	../data/BAM/K562_FOXA2_BX_rep1_hg38.bam    ../data/RefPT-Motif/1000bp/FOXA_all_SORT-ClosestDyad_GROUP-NucOverlap_1000bp.bed	F5
+
 NaN	NaN	5	NCIS	../data/BAM/K562_CTCF_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_SORT-Occupancy_1000bp.bed	F4a;F4b;F4d
 100	NaN	NaN	NCIS	../data/BAM/K562_CTCF_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_SORT-Occupancy_1000bp.bed	F4b;F4c;F4e;S4a
 100	NaN	NaN	NCIS	../data/BAM/K562_CTCF_NonXLBX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_SORT-Occupancy_1000bp.bed	S4a
@@ -22,20 +74,13 @@ NaN	NaN	3	NCIS	../data/BAM/K562_FOXA2_BX_rep1_hg38.bam	../data/RefPT-Motif/1000b
 NaN	NaN	3	NaN	../data/BAM/HepG2_IgG_BX_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed	F5a
 NaN	NaN	3	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed	F5a
 NaN	NaN	3	NCIS	../data/BAM/HepG2_FOXA2_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed	F5a
-NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-uHepG2_SORT-ClosestDyad_1000bp.bed	F5b
-NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_1000bp.bed	F5b
-NaN	NaN	3	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap_1000bp.bed	F5c
-NaN	NaN	3	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	F5c
-NaN	NaN	3	NCIS	../data/BAM/K562_FOXA2_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NFR_1000bp.bed	S5b
-NaN	NaN	3	NCIS	../data/BAM/K562_FOXA2_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-ClosestDyad_GROUP-NoOverlap_1000bp.bed	S5b
+
 NaN	NaN	3	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/500bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_500bp.bed	F5d
 100	NaN	NaN	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_1000bp.bed	F5d
 100	NaN	NaN	NCIS	../data/BAM/K562_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_1000bp.bed	F5d
 NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-Engaged_1000bp.bed		F5d
 NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-K562_SORT-NucleosomeEngagement_GROUP-LessEngaged_1000bp.bed	F5d
-NaN	NaN	3	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/500bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_500bp.bed	S5c
-100	NaN	NaN	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_GROUP-Engaged_1000bp.bed	S5c
-100	NaN	NaN	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_LABEL-HepG2_SORT-NucleosomeEngagement_GROUP-LessEngaged_1000bp.bed	S5c
+
 NaN	NaN	3	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_HepG2_SORT-ClosestHNF4A_1000bp.bed	S5d
 NaN	NaN	3	NCIS	../data/BAM/HepG2_HN4FA_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_HepG2_SORT-ClosestHNF4A_1000bp.bed	S5d
 NaN	NaN	3	NCIS	../data/BAM/HepG2_FOXA1_BX_rep1_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_bound-HepG2_SORT-ClosestHNF4A-bound_Group-Proximal_1000bp.bed	 S5e

@@ -12,28 +12,22 @@
 # file specifies insert size filters, contrast threshold, and normalization
 # strategy.
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/X_Bulk_Processing
-#WRK=/storage/group/bfp2/default/owl5022-OliviaLang/2024-Krebs_Science/X_Bulk_Processing
-#WRK=/scratch/owl5022/2024-Krebs_Science/X_Bulk_Processing
-METADATA=$WRK/Unboundsites_otherassay.txt
+METADATA=Unboundsites_otherassay.txt
 THREADS=4
-###
 
 # Dependencies
 # - java
 # - samtools
 
 set -exo
-module load samtools
+source activate bx
 
 # Fill in placeholder constants with your directories
-BAMDIR=$WRK/../data/BAM
+BAMDIR=../data/BAM
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Set up output directories

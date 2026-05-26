@@ -11,26 +11,21 @@
 
 # Calculate normalization factor for every *.bam file in a directory
 
-### CHANGE ME
-WRK=/path/to/2024-Krebs_Science/00_Download_and_Preprocessing/
-WRK=/storage/home/owl5022/scratch/2024-Krebs_Science/00_Download_and_Preprocessing
-###
-
 # Dependencies
 # - java
 # - samtools
 
 set -exo
-module load samtools
+source activate bx
 
 # Inputs and outputs
-BAMDIR=$WRK/../data/BAM
-NDIR=$WRK/../data/BAM/NormalizationFactors
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+BAMDIR=../data/BAM
+NDIR=../data/BAM/NormalizationFactors
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
 
 # Setup ScriptManager for job array
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
 
 # Script shortcuts
@@ -58,6 +53,8 @@ TARGET=`echo $BAM | cut -d "_" -f 2`
 [ "$STRAIN" == "MNase-seq" ] && exit
 [ "$STRAIN" == "MNase-ChIP" ] && exit
 [ "$STRAIN" == "CUTRUN" ] && exit
+[ "$STRAIN" == "CoPRO" ] && exit
+[ "$STRAIN" == "GROcap" ] && exit
 
 # Calculate NCIS normalization factor and Total tag normalization,  Calculate NCIS normalization factor
 
@@ -69,5 +66,3 @@ java -jar -Djava.awt.headless=true $SCRIPTMANAGER read-analysis scaling-factor $
 
 # Calculate fragment size distribution
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER bam-statistics pe-stat -x 500 -d $BAMFILE -o $FDIR/$BAM
-
-

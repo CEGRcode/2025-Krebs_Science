@@ -7,42 +7,34 @@
 #SBATCH -e logs/3_10phase_of_CTCF_Q1_Q4.log.err-%a
 #SBATCH --array 3-4
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/0X_Bulk_Processing
-#WRK=/scratch/owl5022/2024-Krebs_Science/0X_Bulk_Processing
-METADATA=$WRK/10phase_of_CTCF_Q1_Q4.txt
-###
+METADATA=10phase_of_CTCF_Q1_Q4.txt
 
 # Dependencies
 # - bedtools
 # - java
 
 set -exo
-module load bedtools
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
-MOTIF=$WRK/../data/RefPT-JASPAR
-OUTDIR=$WRK/Library/10phase
+GENOME=../data/hg38_files/hg38.fa
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+MOTIF=../data/RefPT-JASPAR
+OUTDIR=Library/10phase
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
 [ -d $OUTDIR ] || mkdir $OUTDIR
-# cd to data file
-cd $WRK/
+
 # Script shortcuts
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-SHUFFLE=$WRK/../bin/shuffle_script.py
-chisquare=$WRK/../bin/chisquare.py
-MOTIFSCAN=$WRK/../bin/scan_FASTA_for_motif_as_binary_string.py
+COMPOSITE=../bin/sum_Col_CDT.pl
+SHUFFLE=../bin/shuffle_script.py
+chisquare=../bin/chisquare.py
+MOTIFSCAN=../bin/scan_FASTA_for_motif_as_binary_string.py
 
 # Determine BED file for the current job array index
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
@@ -269,8 +261,9 @@ for file in $DIR/SCORES/${BASE}_*_sense.cdt ; do
             for (i = 10; i <= (max_col + 9); i += 10) sum10 += $i;
 
             print sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
-        }'  | paste  $DIR/${filename}_sense_4_peak.bed  - | awk '{ OFS="\t"; print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,+$21,$22,$23,$24,$25,$26,$27,$8+$26+$9+$27+$10+$18+$11+$19+$12+$20+$13+$21+$14+$22+$15+$23+$16+$24+$17+$25 }' | \
+        }'  | paste  $DIR/${filename}_sense_4_peak.bed  - | awk '{ OFS="\t"; print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20, +$21,$22,$23,$24,$25,$26,$27,  $8+$26+$9+$27+$10+$18+$11+$19+$12+$20+$13+$21+$14+$22+$15+$23+$16+$24+$17+$25 }' | \
          awk '{ OFS="\t"; print $1, $2, $3, $4, $5, $6, $7, ($8+$26)/($28+1) , ($9+$27)/($28+1) , ($10+$18)/($28+1), ($11+$19)/($28+1), ($12+$20)/($28+1), ($13+$21)/($28+1), ($14+$22)/($28+1), ($15+$23)/($28+1) ,($16+$24)/($28+1),($17+$25)/($28+1) } '  >  $DIR/${filename}_senseanti_4_peak.bed
+# BED7(1-7) phase1-10 (8-17) phase1-10 (18-27)
         rm $DIR/${filename}_sense_4_peak.bed
 done
 
@@ -1190,13 +1183,13 @@ fi
     fi
 done
 
-mkdir -p $WRK/Library/10phase_10bp
+mkdir -p Library/10phase_10bp
 for folder in $DIR/${Ref}_${Nuc}_Q${Sort}_BZ  $DIR/${Ref}_${Nuc}_Q${Sort}_Dinucleotide; do
     if [ -d "$folder" ]; then
         X="$folder"
         output_file="${X}.out"
         python "$chisquare" "$X" "$output_file"
-        mv "$output_file" $WRK/Library/10phase_10bp
+        mv "$output_file" Library/10phase_10bp
     fi
 done
 

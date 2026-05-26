@@ -1,5 +1,6 @@
-../data/RefPT-JASPAR/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile4.bed   ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam 
-../data/RefPT-JASPAR/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1.bed   ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-../data/RefPT-Motif/1bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1.bed 200  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  +1Nuc 523-722 523-622 623-722 573-672
-../data/RefPT-Motif/1bp/CTCF_MA1929.1_SORT-TFnucRatio_GROUP-Quartile1.bed 200  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  -1Nuc  283-482 283-382 383-482 333-432
+../data/RefPT-Motif/CTCF_Q4.bed   ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam 
+../data/RefPT-Motif/CTCF_Q1.bed   ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+../data/RefPT-Motif/Random_Q1.bed   ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+../data/RefPT-Motif/CTCF_Q1.bed 200  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  +1Nuc 523-722 523-622 623-722 573-672
+../data/RefPT-Motif/CTCF_Q1.bed 200  ../data/BAM/BNase-seq_50U-10min_merge_hg38.bam  -1Nuc  283-482 283-382 383-482 333-432
   

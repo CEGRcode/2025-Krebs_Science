@@ -7,45 +7,37 @@
 #SBATCH -e logs/3_10phase_of_CTCF_Q1_Q4.log.err-%a
 #SBATCH --array 1-2
 
-### CHANGE ME
-WRK=/storage/group/bfp2/default/hxc585_HainingChen/2025_Chen_TF-Nuc/X_Bulk_Processing
-#WRK=/ocean/projects/see180003p/owlang/2024-Krebs_Science/0X_Bulk_Processing
-#WRK=/scratch/owl5022/2024-Krebs_Science/0X_Bulk_Processing
-METADATA=$WRK/10phase_of_CTCF_Q1_Q4.txt
-###
+METADATA=10phase_of_CTCF_Q1_Q4.txt
 
 # Dependencies
 # - bedtools
 # - java
 
 set -exo
-module load bedtools
-module load anaconda3
-source activate /storage/group/bfp2/default/owl5022-OliviaLang/conda/bx
+source activate bx
 
 # Inputs and outputs
-GENOME=$WRK/../data/hg38_files/hg38.fa
-Genome=$WRK/../data/hg38_files/hg38.info.txt
-BAMFILE=$WRK/../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
-BLACKLIST=$WRK/../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
-MOTIF=$WRK/../data/RefPT-JASPAR
-OUTDIR=$WRK/Library/10phase
+GENOME=../data/hg38_files/hg38.fa
+Genome=../data/hg38_files/hg38.info.txt
+BAMFILE=../data/BAM/BNase-seq_50U-10min_merge_hg38.bam
+BLACKLIST=../data/hg38_files/ENCFF356LFX_hg38_exclude.bed
+MOTIF=../data/RefPT-JASPAR
+OUTDIR=Library/10phase
 
 # Create output directories if they don't exist
 [ -d logs ] || mkdir logs
 [ -d $OUTDIR ] || mkdir $OUTDIR
-# cd to data file
-cd $WRK/
+
 # Script shortcuts
-ORIGINAL_SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15.jar
-SCRIPTMANAGER=$WRK/../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
+ORIGINAL_SCRIPTMANAGER=../bin/ScriptManager-v0.15.jar
+SCRIPTMANAGER=../bin/ScriptManager-v0.15-$SLURM_ARRAY_TASK_ID.jar
 cp $ORIGINAL_SCRIPTMANAGER $SCRIPTMANAGER
-COMPOSITE=$WRK/../bin/sum_Col_CDT.pl
-SHUFFLE=$WRK/../bin/shuffle_script.py
-chisquare=$WRK/../bin/chisquare.py
-originalshuffleTtest=$WRK/../bin/original-shuffle_t-test.py
-MOTIFSCAN=$WRK/../bin/scan_FASTA_for_motif_as_binary_string.py
-Nucleosomes=$WRK/../04_Call_Motifs/temp-4_NFIA/Nucleosomes_SORT-Genomic.bed
+COMPOSITE=../bin/sum_Col_CDT.pl
+SHUFFLE=../bin/shuffle_script.py
+chisquare=../bin/chisquare.py
+originalshuffleTtest=../bin/original-shuffle_t-test.py
+MOTIFSCAN=../bin/scan_FASTA_for_motif_as_binary_string.py
+Nucleosomes=../04_Call_Motifs/temp-4_NFIA/Nucleosomes_SORT-Genomic.bed
 
 # Determine BED file for the current job array index
 BEDFILE=`sed "${SLURM_ARRAY_TASK_ID}q;d" $METADATA | awk '{print $1}'`
@@ -1015,7 +1007,6 @@ elif [[ "$Sort" == "1" ]]; then
 fi
 
 
-
 if  [[ "$Sort" == "4" ]]; then  
 
     head -n 1  $DIR/SCORES/${BAM}_${BED}_-1Nuc_1000bp_323-482_read1_shuffle_anti.cdt > $DIR/${BAM}_${BED}_read1_shuffle_head.cdt
@@ -1085,10 +1076,6 @@ elif [[  "$Sort" == "1" ]]; then
     done
 fi
     
-
-
-
-
 
 ## make heatmap of adjust nucleosome dyad.
 
@@ -1546,7 +1533,6 @@ done
 
 fi
 
-
 mkdir -p $DIR/10xplot
 
 for file in $DIR/10xCDT/*_sense.cdt ; do
@@ -1590,8 +1576,6 @@ for file in  $DIR/temp/${Ref}*.bed ; do
    perl $COMPOSITE $DIR/10xCDT/SS_${filename}_sense.cdt $DIR/10xplot/SS_${filename}.out
    perl $COMPOSITE $DIR/10xCDT/WW_${filename}_sense.cdt $DIR/10xplot/WW_${filename}.out
 done
-
-
 
 #Statiscal
 mkdir -p $DIR/${Ref}_Q${Sort}_BZ
@@ -1677,51 +1661,51 @@ for file in $DIR/${Ref}_*_Q*_original_all.bed ; do
     done
 done
 
-mkdir -p $WRK/Library/10phase_10bp
+mkdir -p Library/10phase_10bp
 for folder in $DIR/${Ref}_Q${Sort}_BZ ; do
     if [ -d "$folder" ]; then
         X="$folder"
         output_file="${X}.out"
         python "$originalshuffleTtest" "$X" "$output_file"
-        mv "$output_file" $WRK/Library/10phase_10bp
+        mv "$output_file" Library/10phase_10bp
     fi
 done
 
 
 for file in  $DIR/temp/${Ref}_*_Q4_original_phase_*.bed  ; do
-        filename=$(basename "$file" ".bed")
-        cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  1-2  > $DIR/RR_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/RR_${filename}_sense_ref.cdt - > $DIR/RR_${filename}_283-482_sense.cdt
-        cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/RR_${filename}_sense_ref.cdt - > $DIR/RR_${filename}_523-722_sense.cdt
-        rm $DIR/RR_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  1-2  > $DIR/YY_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/YY_${filename}_sense_ref.cdt - > $DIR/YY_${filename}_283-482_sense.cdt
-        cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/YY_${filename}_sense_ref.cdt - > $DIR/YY_${filename}_523-722_sense.cdt
-        rm $DIR/YY_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  1-2  > $DIR/SS_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/SS_${filename}_sense_ref.cdt - > $DIR/SS_${filename}_283-482_sense.cdt
-        cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/SS_${filename}_sense_ref.cdt - > $DIR/SS_${filename}_523-722_sense.cdt
-        rm $DIR/SS_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  1-2  > $DIR/WW_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/WW_${filename}_sense_ref.cdt - > $DIR/WW_${filename}_283-482_sense.cdt
-        cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/WW_${filename}_sense_ref.cdt - > $DIR/WW_${filename}_523-722_sense.cdt
-        rm $DIR/WW_${filename}_sense_ref.cdt
+    filename=$(basename "$file" ".bed")
+    cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  1-2  > $DIR/RR_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/RR_${filename}_sense_ref.cdt - > $DIR/RR_${filename}_283-482_sense.cdt
+    cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/RR_${filename}_sense_ref.cdt - > $DIR/RR_${filename}_523-722_sense.cdt
+    rm $DIR/RR_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  1-2  > $DIR/YY_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/YY_${filename}_sense_ref.cdt - > $DIR/YY_${filename}_283-482_sense.cdt
+    cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/YY_${filename}_sense_ref.cdt - > $DIR/YY_${filename}_523-722_sense.cdt
+    rm $DIR/YY_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  1-2  > $DIR/SS_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/SS_${filename}_sense_ref.cdt - > $DIR/SS_${filename}_283-482_sense.cdt
+    cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/SS_${filename}_sense_ref.cdt - > $DIR/SS_${filename}_523-722_sense.cdt
+    rm $DIR/SS_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  1-2  > $DIR/WW_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  283-482  | paste $DIR/WW_${filename}_sense_ref.cdt - > $DIR/WW_${filename}_283-482_sense.cdt
+    cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  523-722  | paste $DIR/WW_${filename}_sense_ref.cdt - > $DIR/WW_${filename}_523-722_sense.cdt
+    rm $DIR/WW_${filename}_sense_ref.cdt
 done
 
 for file in  $DIR/temp/${Ref}_*_Q1_original_phase_*.bed  ; do
-        filename=$(basename "$file" ".bed")
-        cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  1-2  > $DIR/RR_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/RR_${filename}_sense_ref.cdt - > $DIR/RR_${filename}_383-482-523-622_sense.cdt
-        rm $DIR/RR_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  1-2  > $DIR/YY_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/YY_${filename}_sense_ref.cdt - > $DIR/YY_${filename}_383-482-523-622_sense.cdt
-        rm $DIR/YY_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  1-2  > $DIR/SS_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/SS_${filename}_sense_ref.cdt - > $DIR/SS_${filename}_383-482-523-622_sense.cdt
-        rm $DIR/SS_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  1-2  > $DIR/WW_${filename}_sense_ref.cdt
-        cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/WW_${filename}_sense_ref.cdt - > $DIR/WW_${filename}_383-482-523-622_sense.cdt
-        rm $DIR/WW_${filename}_sense_ref.cdt
+    filename=$(basename "$file" ".bed")
+    cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  1-2  > $DIR/RR_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/RR_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/RR_${filename}_sense_ref.cdt - > $DIR/RR_${filename}_383-482-523-622_sense.cdt
+    rm $DIR/RR_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  1-2  > $DIR/YY_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/YY_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/YY_${filename}_sense_ref.cdt - > $DIR/YY_${filename}_383-482-523-622_sense.cdt
+    rm $DIR/YY_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  1-2  > $DIR/SS_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/SS_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/SS_${filename}_sense_ref.cdt - > $DIR/SS_${filename}_383-482-523-622_sense.cdt
+    rm $DIR/SS_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  1-2  > $DIR/WW_${filename}_sense_ref.cdt
+    cat $DIR/10xCDT/WW_${filename}_sense.cdt | cut -f  383-482,523-622  | paste $DIR/WW_${filename}_sense_ref.cdt - > $DIR/WW_${filename}_383-482-523-622_sense.cdt
+    rm $DIR/WW_${filename}_sense_ref.cdt
 done
 
 mkdir -p $DIR/${Ref}_Q${Sort}_Dinucleotide
@@ -1729,35 +1713,35 @@ mkdir -p $DIR/${Ref}_Q${Sort}_Dinucleotide
 mv $DIR/RR_*.cdt  $DIR/WW_*.cdt $DIR/YY_*.cdt  $DIR/SS_*.cdt $DIR/${Ref}_Q${Sort}_Dinucleotide
 
 for file in $DIR/${Ref}_Q${Sort}_Dinucleotide/*_sense.cdt ; do
-        filename=$(basename "$file" ".cdt")
-        java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $file -o $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_SCORES.out 
-        tail -n +2 $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_SCORES.out  > $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score.out
-      
-        tail -n +2 $file | cut -f 3-202 | \
-        awk  -v max_col=200 '{
-            OFS="\t";
-            # Initialize sums for all 10 columns
-            sum1 = 0; sum2 = 0; sum3 = 0; sum4 = 0; sum5 = 0;
-            sum6 = 0; sum7 = 0; sum8 = 0; sum9 = 0; sum10 = 0;
+    filename=$(basename "$file" ".cdt")
+    java -jar $SCRIPTMANAGER read-analysis aggregate-data --sum $file -o $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_SCORES.out 
+    tail -n +2 $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_SCORES.out  > $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score.out
+    
+    tail -n +2 $file | cut -f 3-202 | \
+    awk  -v max_col=200 '{
+        OFS="\t";
+        # Initialize sums for all 10 columns
+        sum1 = 0; sum2 = 0; sum3 = 0; sum4 = 0; sum5 = 0;
+        sum6 = 0; sum7 = 0; sum8 = 0; sum9 = 0; sum10 = 0;
 
-            # Sum the columns dynamically in steps of 10
-            for (i = 1; i <= max_col; i += 10) sum1 += $i;
-            for (i = 2; i <= (max_col + 1); i += 10) sum2 += $i;
-            for (i = 3; i <= (max_col + 2); i += 10) sum3 += $i;
-            for (i = 4; i <= (max_col + 3); i += 10) sum4 += $i;
-            for (i = 5; i <= (max_col + 4); i += 10) sum5 += $i;
-            for (i = 6; i <= (max_col + 5); i += 10) sum6 += $i;
-            for (i = 7; i <= (max_col + 6); i += 10) sum7 += $i;
-            for (i = 8; i <= (max_col + 7); i += 10) sum8 += $i;
-            for (i = 9; i <= (max_col + 8); i += 10) sum9 += $i;
-            for (i = 10; i <= (max_col + 9); i += 10) sum10 += $i;
+        # Sum the columns dynamically in steps of 10
+        for (i = 1; i <= max_col; i += 10) sum1 += $i;
+        for (i = 2; i <= (max_col + 1); i += 10) sum2 += $i;
+        for (i = 3; i <= (max_col + 2); i += 10) sum3 += $i;
+        for (i = 4; i <= (max_col + 3); i += 10) sum4 += $i;
+        for (i = 5; i <= (max_col + 4); i += 10) sum5 += $i;
+        for (i = 6; i <= (max_col + 5); i += 10) sum6 += $i;
+        for (i = 7; i <= (max_col + 6); i += 10) sum7 += $i;
+        for (i = 8; i <= (max_col + 7); i += 10) sum8 += $i;
+        for (i = 9; i <= (max_col + 8); i += 10) sum9 += $i;
+        for (i = 10; i <= (max_col + 9); i += 10) sum10 += $i;
 
-            print sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
-            }'  | paste $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score.out  - |  awk '{
-            OFS="\t";
-            print $1,$2,$3/($2+1),$4/($2+1),$5/($2+1),$6/($2+1),$7/($2+1),$8/($2+1),$9/($2+1),$10/($2+1),$11/($2+1),$12/($2+1)}' > $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score_peak.out
-        rm $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score.out
-        rm $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_SCORES.out
+        print sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
+        }'  | paste $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score.out  - |  awk '{
+        OFS="\t";
+        print $1,$2,$3/($2+1),$4/($2+1),$5/($2+1),$6/($2+1),$7/($2+1),$8/($2+1),$9/($2+1),$10/($2+1),$11/($2+1),$12/($2+1)}' > $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score_peak.out
+    rm $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_score.out
+    rm $DIR/${Ref}_Q${Sort}_Dinucleotide/${filename}_SCORES.out
 done
 
 for folder in $DIR/${Ref}_Q${Sort}_Dinucleotide ; do
@@ -1790,7 +1774,7 @@ for folder in  $DIR/${Ref}_Q${Sort}_Dinucleotide ; do
         X="$folder"
         output_file="${X}.out"
         python "$chisquare" "$X" "$output_file"
-        mv "$output_file" $WRK/Library/10phase_10bp
+        mv "$output_file" Library/10phase_10bp
     fi
 done
 

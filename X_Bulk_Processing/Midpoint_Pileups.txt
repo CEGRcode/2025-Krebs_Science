@@ -1,3 +1,7 @@
+000000	NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam   ../data/RefPT-Motif/1000bp/FOXA_all_GROUP-NFR_1000bp.bed	F5
+000000	NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam   ../data/RefPT-Motif/1000bp/FOXA_all_GROUP-NucOverlap_1000bp.bed	F5
+000000	NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/500bp/CTCF_Q4_500bp.bed	F2
+78780C	NaN	NaN	NaN	NaN	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/500bp/CTCF_Q1-ClosestDyad_500bp.bed	F2
 000000	NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/CTCF_SORT-Occupancy_1000bp.bed	F4b;F4c;F4e
 000000	NaN	NaN	NaN	TotalTag	../data/BAM/BNase-seq_50U-10min_merge_hg38.bam	../data/RefPT-Motif/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed	F5a
 000000	NaN	NaN	NaN	TotalTag	../data/BAM/ATAC-seq_ENCFF077FBI.bam		../data/RefPT-Motif/1000bp/FOXA_SORT-ClosestDyad_STACK-K562-uHepG2_1000bp.bed	F5a
