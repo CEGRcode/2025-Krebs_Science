@@ -47,11 +47,51 @@ data
       |--TSS_GROUP-Expressed_SORT-Expression_2000bp.bed
       |--TSS_GROUP-Unexpressed_2000bp.bed
   |--RefPT-Motif
-    |--<TF>_Bound-LowerHalf.bed
+    |--<TF>_SORT-Occupancy.bed
     |--...
     |--1000bp
-      |--<TF>_Bound-LowerHalf_1000bp.bed
+      |--<TF>_SORT-Occupancy_1000bp.bed
       |--...
+    |--1bp
+      |--<TF>_SORT-Occupancy_1bp.bed
+      |--...
+    |--250bp
+      |--<TF>_SORT-Occupancy_250bp.bed
+      |--...
+    |--500bp
+      |--<TF>_SORT-Occupancy_500bp.bed
+      |--...
+  |--RefPT-JASPAR
+    |--<TF>_<JASPAR>_SORT-TFnucRatio_GROUP-Quartile*.bed
+    |--...
+    |--1000bp
+      |--<TF>_<JASPAR>_SORT-TFnucRatio_GROUP-Quartile*_1000bp.bed
+      |--...
+  |--JASPAR
+    |--<TF>_<JASPAR>.meme
+  |--RefPT-JASPAR-nonK562
+    |--<TF>_<JASPAR>_K562-specific-Unbound.bed
+    |--<TF>_<JASPAR>_*_KD-*depleted.bed
+    |--...
+    |--1000bp
+      |--<TF>_<JASPAR>_K562-specific-Unbound_1000bp.bed
+      |--<TF>_<JASPAR>_*_KD-*depleted_1000bp.bed
+      |--...
+    |--150bp
+      |--<TF>_<JASPAR>_K562-specific-Unbound_150bp.bed
+      |--<TF>_<JASPAR>_*_KD-*depleted_150bp.bed
+      |--...
+  |--Conservation-SNP
+    |--hg38.phyloP30way.bw
+    |--dbSnp153_snv.bw
+  |--sample-MEME
+    |--<Target>.meme.txt
+  |--BAM
+    |--<Strain>_<Target>_<Assay>_<rep>_hg38.bam
+    |--NormalizationFactors
+      |--<BAMFILE>_NCISb_ScalingFactors.out
+      |--<BAMFILE>_Total_ScalingFactors.out
+ 
 ```
 
 </details>

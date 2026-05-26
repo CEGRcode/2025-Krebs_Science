@@ -43,6 +43,8 @@ java -jar $PICARD MergeSamFiles -O HepG2_IgG_BX_merge_hg38.bam \
 # CTCF
 cp 33924_CTCF_07-729_K562_-_IMDM_-_BX.bam K562_CTCF_BX_rep1_hg38.bam
 cp 34174_CTCF_07-729_K562_-_IMDM_-_BX.bam K562_CTCF_BX_rep2_hg38.bam
+cp 41780_CTCF_07-729_SEM_-_RPMI_-_BX.bam SEM_CTCF_BX_WT_hg38.bam
+cp 41781_CTCF_07-729_SEM_-_RPMI_CTCF depletion_BX.bam SEM_CTCF_BX_CTCTKO_hg38.bam
 
 # CTCF (non-crosslinked)
 cp 29009_CTCF_07-729_K562_-_-_2stepNonXLlysis-50Unuclease-10min-0cycSonic-quenchONLY_BX.bam K562_CTCF_nonXLBX_rep1_hg38.bam
@@ -84,7 +86,6 @@ cp 38478_FoxA1_ab23738_K562_-_IMDM_-_BX_hg38.bam K562_FOXA1_BX_rep2_hg38.bam
 # FOXA2 (HepG2)
 cp 32467_FOXA2_ab256493_HepG2_-_-_-_BX_hg38.bam HepG2_FOXA2_BX_rep2_hg38.bam
 cp 38480_FOXA2_ab256493_HepG2_-_-_-_BX_hg38.bam HepG2_FOXA2_BX_rep1_hg38.bam
-
 
 # HNF4A (HepG2)
 cp 34158_HNF4A_HPA004712_HepG2_-_-_-_BX.bam HepG2_HNF4A_BX_rep1_hg38.bam

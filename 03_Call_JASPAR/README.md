@@ -145,3 +145,22 @@ Along with intermediate files, two final motif RefPT files are generated for eac
 ../data/RefPT-JASPAR-nonK562/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category*.bed
 ../data/RefPT-JASPAR-nonK562/1000bp/MA1929_1_mm10_intersected_MPE-seq10min_164bp_category*_1000bp.bed
 ```
+
+### 2d_SEM_CTCF.sh
+
+Get CTCF motif binding sites from SEM cell treate with DMSO or 1µM 5PhIAA
+
+```
+sh 2d_SEM_CTCF.sh
+```
+
+Along with intermediate files, three final motif RefPT files are generated for CTCF 4 group depleted or undepleted:
+
+```
+../data/RefPT-JASPAR-nonK562/CTCF_MA1929.1_*_KO-nondepleted.bed
+../data/RefPT-JASPAR-nonK562/1000bp/CTCF_MA1929.1_*_KO-nondepleted_1000bp.bed
+../data/RefPT-JASPAR-nonK562/150bp/CTCF_MA1929.1_*_KO-nondepleted_150bp.bed
+../data/RefPT-JASPAR-nonK562/CTCF_MA1929.1_*_KO-depleted.bed
+../data/RefPT-JASPAR-nonK562/1000bp/CTCF_MA1929.1_*_KO-depleted_1000bp.bed
+../data/RefPT-JASPAR-nonK562/150bp/CTCF_MA1929.1_*_KO-depleted_150bp.bed
+```

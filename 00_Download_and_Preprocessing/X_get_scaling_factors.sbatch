@@ -40,6 +40,7 @@ BAMFILE=`ls $BAMDIR/*hg38.bam | head -n $SLURM_ARRAY_TASK_ID | tail -1`
 BAM=`basename $BAMFILE ".bam"`
 [ -f $BAMFILE.bai ] || samtools index $BAMFILE
 
+
 # Use different normalization method depending on target/assay
 echo "Calculate Total Tag normalization factors w/ blacklist"
 java -jar -Djava.awt.headless=true $SCRIPTMANAGER read-analysis scaling-factor $BAMFILE -f $BLACKLIST --total-tag -o $NDIR/${BAM}_TotalTag
@@ -54,6 +55,8 @@ TARGET=`echo $BAM | cut -d "_" -f 2`
 [ "$STRAIN" == "CUTRUN" ] && exit
 [ "$STRAIN" == "CoPRO" ] && exit
 [ "$STRAIN" == "GROcap" ] && exit
+
+# Calculate NCIS normalization factor and Total tag normalization,  Calculate NCIS normalization factor
 
 CONTROL=$BAMDIR/${STRAIN}_IgG_BX_merge_hg38.bam
 echo "Calculate NCIS normalization factors w/ blacklist and control: ${CONTROL}"

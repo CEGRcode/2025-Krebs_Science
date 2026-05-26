@@ -68,7 +68,3 @@ for file in $BICTCFKD  $BICTCFControl ; do
     BAM=`basename $file ".bam"`
     java -jar $SCRIPTMANAGER  bam-statistics se-stat $file -o $DIR/SCORES/${BAM}.out
 done
-
-
-
-
